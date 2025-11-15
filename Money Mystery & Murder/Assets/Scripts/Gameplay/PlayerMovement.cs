@@ -10,11 +10,19 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private InputActionReference moveAction; // Vector2 (x,y)
 #endif
 
+    private Player _player; // for abilities affecting speed
+
+    void Awake()
+    {
+        _player = GetComponent<Player>();
+    }
+
     void Update()
     {
         Vector2 move = ReadMove();
         if (move.sqrMagnitude > 1f) move.Normalize();
-        transform.Translate((Vector3)move * moveSpeed * Time.deltaTime, Space.World);
+        float speedMult = _player != null ? _player.GetSpeedMultiplier() : 1f;
+        transform.Translate((Vector3)move * moveSpeed * speedMult * Time.deltaTime, Space.World);
     }
 
     private Vector2 ReadMove()

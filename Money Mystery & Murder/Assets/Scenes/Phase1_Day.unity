@@ -215,6 +215,7 @@ GameObject:
   - component: {fileID: 1094222158}
   - component: {fileID: 1094222157}
   - component: {fileID: 1094222160}
+  - component: {fileID: 1094222161}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -326,6 +327,26 @@ MonoBehaviour:
   parentCameraToTarget: 1
   smoothFollow: 1
   followSpeed: 8
+--- !u!114 &1094222161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094222156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd0c55b1a4777d740a29a2e9c49cc9c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player
+  maxHealth: 100
+  currentHealth: 100
+  balance: 0
+  role: 0
+  equippedWeapon: {fileID: 0}
+  ownedWeapons: []
+  learnedAbilities: []
+  autoHealToMaxOnStart: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
