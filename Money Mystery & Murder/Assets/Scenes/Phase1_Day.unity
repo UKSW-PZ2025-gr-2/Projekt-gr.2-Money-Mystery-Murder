@@ -233,6 +233,7 @@ MonoBehaviour:
   equippedWeapon: {fileID: 0}
   ownedWeapons: []
   learnedAbilities: []
+  roleAnnouncer: {fileID: 0}
   autoHealToMaxOnStart: 0
 --- !u!114 &42515194
 MonoBehaviour:
@@ -452,6 +453,7 @@ MonoBehaviour:
   equippedWeapon: {fileID: 0}
   ownedWeapons: []
   learnedAbilities: []
+  roleAnnouncer: {fileID: 0}
   autoHealToMaxOnStart: 0
 --- !u!114 &287059692
 MonoBehaviour:
@@ -671,6 +673,7 @@ MonoBehaviour:
   equippedWeapon: {fileID: 0}
   ownedWeapons: []
   learnedAbilities: []
+  roleAnnouncer: {fileID: 0}
   autoHealToMaxOnStart: 0
 --- !u!114 &349355915
 MonoBehaviour:
@@ -890,6 +893,7 @@ MonoBehaviour:
   equippedWeapon: {fileID: 0}
   ownedWeapons: []
   learnedAbilities: []
+  roleAnnouncer: {fileID: 0}
   autoHealToMaxOnStart: 0
 --- !u!114 &592570146
 MonoBehaviour:
@@ -1079,6 +1083,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &772000600
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 772000602}
+  - component: {fileID: 772000601}
+  m_Layer: 0
+  m_Name: RoleAnnouncer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &772000601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 772000600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adba834a63aa6654ba0cf7113ea3f3e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoleAnnouncer
+  uiText: {fileID: 0}
+  showSeconds: 2.5
+  fadeSeconds: 1
+  startColor: {r: 1, g: 1, b: 1, a: 1}
+--- !u!4 &772000602
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 772000600}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.2049, y: 0, z: 10.87736}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &980597588
 GameObject:
   m_ObjectHideFlags: 0
@@ -1193,6 +1245,7 @@ MonoBehaviour:
   equippedWeapon: {fileID: 0}
   ownedWeapons: []
   learnedAbilities: []
+  roleAnnouncer: {fileID: 0}
   autoHealToMaxOnStart: 0
 --- !u!114 &980597592
 MonoBehaviour:
@@ -1443,6 +1496,7 @@ MonoBehaviour:
   equippedWeapon: {fileID: 0}
   ownedWeapons: []
   learnedAbilities: []
+  roleAnnouncer: {fileID: 0}
   autoHealToMaxOnStart: 0
 --- !u!50 &1094222162
 Rigidbody2D:
@@ -1548,6 +1602,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   playerCount: 3
   rolePoolDebugView: 
+  assignUniqueRolesOnStart: 0
 --- !u!4 &1374334435
 Transform:
   m_ObjectHideFlags: 0
@@ -1677,6 +1732,7 @@ MonoBehaviour:
   equippedWeapon: {fileID: 0}
   ownedWeapons: []
   learnedAbilities: []
+  roleAnnouncer: {fileID: 0}
   autoHealToMaxOnStart: 0
 --- !u!114 &1382280932
 MonoBehaviour:
@@ -1896,6 +1952,7 @@ MonoBehaviour:
   equippedWeapon: {fileID: 0}
   ownedWeapons: []
   learnedAbilities: []
+  roleAnnouncer: {fileID: 0}
   autoHealToMaxOnStart: 0
 --- !u!114 &1682552460
 MonoBehaviour:
@@ -2115,6 +2172,7 @@ MonoBehaviour:
   equippedWeapon: {fileID: 0}
   ownedWeapons: []
   learnedAbilities: []
+  roleAnnouncer: {fileID: 0}
   autoHealToMaxOnStart: 0
 --- !u!114 &1846022357
 MonoBehaviour:
@@ -2401,3 +2459,4 @@ SceneRoots:
   - {fileID: 1382280935}
   - {fileID: 1909498429}
   - {fileID: 1374334435}
+  - {fileID: 772000602}

@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private int playerCount = 1; // current number of players
     [SerializeField] private List<PlayerRole> rolePoolDebugView = new(); // debug: shows generated pool
+    [SerializeField] private bool assignUniqueRolesOnStart = false; // enable unique assignment for multiplayer
 
     public int PlayerCount => playerCount;
 
@@ -23,8 +24,15 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        // At game start generate and assign roles to all players present in the scene.
-        AssignRolesToPlayers();
+        if (assignUniqueRolesOnStart)
+        {
+            AssignRolesToPlayers();
+        }
+        else
+        {
+            // Keep a preview of the pool based on current player count
+            rolePoolDebugView = BuildRolePool(Mathf.Max(1, playerCount));
+        }
     }
 
     public void SetPlayerCount(int count)
@@ -59,6 +67,19 @@ public class GameManager : MonoBehaviour
             p.SetRole(pool[index]);
             index++;
         }
+    }   
+
+    // Local testing helper: pick a random role from the pool (does not consume)
+    public PlayerRole PickRandomRoleFromPool()
+    {
+        int count = playerCount;
+        // If not set, base on players in scene.
+        var players = Object.FindObjectsByType<Player>(FindObjectsSortMode.None);
+        if (players != null && players.Length > 0) count = players.Length;
+        var pool = BuildRolePool(Mathf.Max(1, count));
+        if (pool.Count == 0) return PlayerRole.Civilian;
+        int idx = Random.Range(0, pool.Count);
+        return pool[idx];
     }
 
     private List<PlayerRole> BuildRolePool(int totalPlayers)

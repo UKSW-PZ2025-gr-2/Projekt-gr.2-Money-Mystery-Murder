@@ -27,6 +27,9 @@ public class Player : MonoBehaviour
     private AbilityDefinition _activeAbility; // currently running timed ability
     private float _activeAbilityTimeLeft;
 
+    [Header("UI")]
+    [SerializeField] private RoleAnnouncer roleAnnouncer;
+
     [Header("Debug View")] public bool autoHealToMaxOnStart = false;
 
     public int Balance => balance;
@@ -38,9 +41,29 @@ public class Player : MonoBehaviour
     public IReadOnlyList<AbilityDefinition> LearnedAbilities => learnedAbilities;
     public AbilityDefinition ActiveAbility => _activeAbility;
 
+    void Awake()
+    {
+        if (roleAnnouncer == null)
+        {
+            roleAnnouncer = GetComponentInChildren<RoleAnnouncer>(true);
+        }
+    }
+
     void Start()
     {
         if (autoHealToMaxOnStart) currentHealth = maxHealth;
+
+        // If role not preassigned, pick randomly from pool for local testing
+        if (role == PlayerRole.None && GameManager.Instance != null)
+        {
+            role = GameManager.Instance.PickRandomRoleFromPool();
+        }
+
+        // Announce role at start
+        if (roleAnnouncer != null)
+        {
+            roleAnnouncer.ShowRole(role);
+        }
     }
 
     void Update()
