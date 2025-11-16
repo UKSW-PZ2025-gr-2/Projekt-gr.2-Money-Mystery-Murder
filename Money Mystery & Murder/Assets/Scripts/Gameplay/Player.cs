@@ -13,20 +13,19 @@ public class Player : MonoBehaviour
 {
     [Header("Core Stats")]
     [SerializeField] private int maxHealth = 100;
-    [SerializeField] private int currentHealth = 100; // ¿ycie
-    [SerializeField] private int balance = 0; // saldo (currency)
-    [SerializeField] private PlayerRole role = PlayerRole.None; // rola
+    [SerializeField] private int currentHealth = 100; 
+    [SerializeField] private int balance = 0;
+    [SerializeField] private PlayerRole role = PlayerRole.None; 
 
     [Header("Inventory / Progression")]
-    [SerializeField] private WeaponDefinition equippedWeapon; // aktualna bron
-    [SerializeField] private List<WeaponDefinition> ownedWeapons = new(); // przedmioty - bronie
+    [SerializeField] private WeaponDefinition equippedWeapon; // equipped weapon
+    [SerializeField] private List<WeaponDefinition> ownedWeapons = new(); // all owned weapons
 
     [Header("Abilities")]
-    [SerializeField] private List<AbilityDefinition> learnedAbilities = new();
-    private readonly Dictionary<AbilityDefinition, float> _cooldowns = new(); // time left until can use
+    [SerializeField] private List<AbilityDefinition> learnedAbilities = new(); // all learned abilities
+    private readonly Dictionary<AbilityDefinition, float> _cooldowns = new(); // time left until can use again
     private AbilityDefinition _activeAbility; // currently running timed ability
     private float _activeAbilityTimeLeft;
-    private int _previousLayer = -1; // for wall pass revert
 
     [Header("Debug View")] public bool autoHealToMaxOnStart = false;
 

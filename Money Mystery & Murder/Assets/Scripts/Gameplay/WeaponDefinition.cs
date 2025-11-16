@@ -7,7 +7,7 @@ public class WeaponDefinition : ScriptableObject
     public Sprite icon;
 
     [Header("Combat Stats")] public int damage = 10;
-    public float fireRate = 1f; // shots per second
+    public float fireRate = 1f;
     public float range = 10f;
 
     [Header("Ammo")] public bool usesAmmo = false;
