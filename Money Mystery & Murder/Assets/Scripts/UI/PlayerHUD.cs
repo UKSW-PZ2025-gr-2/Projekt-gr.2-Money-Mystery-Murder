@@ -21,8 +21,8 @@ public class PlayerHUD : MonoBehaviour
     void Awake()
     {
         if (player == null)
-        {
-            player = FindObjectOfType<Player>();
+        {   
+            player = Object.FindFirstObjectByType<Player>();
         }
     }
 
