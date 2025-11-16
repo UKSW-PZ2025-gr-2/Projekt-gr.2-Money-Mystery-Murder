@@ -49,7 +49,7 @@ public class Player : MonoBehaviour
         TickCooldowns();
     }
 
-    // ----- Currency (saldo) -----
+    // ----- Currency -----
     public void AddBalance(int amount)
     {
         if (amount <= 0) return;
@@ -64,7 +64,7 @@ public class Player : MonoBehaviour
         return true;
     }
 
-    // ----- Health (¿ycie) -----
+    // ----- Health -----
     public void TakeDamage(int dmg)
     {
         if (dmg <= 0) return;
@@ -82,10 +82,10 @@ public class Player : MonoBehaviour
         currentHealth = Mathf.Min(currentHealth + hp, maxHealth);
     }
 
-    // ----- Role (rola) -----
+    // ----- Role -----
     public void SetRole(PlayerRole newRole) => role = newRole;
 
-    // ----- Weapons (przedmioty) -----
+    // ----- Weapons -----
     public void AcquireWeapon(WeaponDefinition weapon)
     {
         if (weapon == null || ownedWeapons.Contains(weapon)) return;
@@ -125,10 +125,13 @@ public class Player : MonoBehaviour
         _activeAbilityTimeLeft = ability.duration;
         _cooldowns[ability] = ability.cooldown; // start cooldown now
 
-        if (ability.allowWallPass && ability.wallPassLayer >= 0)
+        // Apply effects' activation hooks
+        if (_activeAbility.effects != null)
         {
-            _previousLayer = gameObject.layer;
-            gameObject.layer = ability.wallPassLayer;
+            foreach (var effect in _activeAbility.effects)
+            {
+                if (effect != null) effect.OnActivate(this);
+            }
         }
         return true;
     }
@@ -158,6 +161,15 @@ public class Player : MonoBehaviour
             EndActiveAbility();
             return;
         }
+        // Tick effects
+        if (_activeAbility.effects != null)
+        {
+            foreach (var effect in _activeAbility.effects)
+            {
+                if (effect != null) effect.OnTick(this, Time.deltaTime);
+            }
+        }
+
         _activeAbilityTimeLeft -= Time.deltaTime;
         if (_activeAbilityTimeLeft <= 0f)
         {
@@ -168,13 +180,17 @@ public class Player : MonoBehaviour
     private void EndActiveAbility()
     {
         if (_activeAbility == null) return;
-        if (_activeAbility.allowWallPass && _activeAbility.wallPassLayer >= 0)
+
+        // Call deactivate on effects
+        if (_activeAbility.effects != null)
         {
-            // revert to previous layer if known
-            gameObject.layer = _previousLayer >= 0 ? _previousLayer : 0;
+            foreach (var effect in _activeAbility.effects)
+            {
+                if (effect != null) effect.OnDeactivate(this);
+            }
         }
+
         _activeAbility = null;
-        _previousLayer = -1;
     }
 
     private void TickCooldowns()
@@ -191,9 +207,4 @@ public class Player : MonoBehaviour
         }
     }
 
-    public float GetSpeedMultiplier()
-    {
-        if (_activeAbility == null) return 1f;
-        return _activeAbility.speedMultiplier;
-    }
 }

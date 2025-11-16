@@ -21,8 +21,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector2 move = ReadMove();
         if (move.sqrMagnitude > 1f) move.Normalize();
-        float speedMult = _player != null ? _player.GetSpeedMultiplier() : 1f;
-        transform.Translate((Vector3)move * moveSpeed * speedMult * Time.deltaTime, Space.World);
+        transform.Translate(moveSpeed * Time.deltaTime * (Vector3)move, Space.World);
     }
 
     private Vector2 ReadMove()
