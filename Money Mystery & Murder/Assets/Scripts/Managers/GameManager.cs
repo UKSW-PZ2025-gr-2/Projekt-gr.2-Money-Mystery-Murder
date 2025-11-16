@@ -1,6 +1,16 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+public enum GamePhase
+{
+    None,
+    Lobby,
+    Day,
+    Evening,
+    Night,
+    End
+}
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
@@ -9,7 +19,25 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<PlayerRole> rolePoolDebugView = new(); // debug: shows generated pool
     [SerializeField] private bool assignUniqueRolesOnStart = false; // enable unique assignment for multiplayer
 
+    // --- Game Phase ---
+    [Header("Game Phase")]
+    [SerializeField] private GamePhase currentPhase = GamePhase.Day;
+
+    // --- Time System ---
+    [Header("Game Time")]
+    [SerializeField] private int startHour = 6; // game starts at 06:00 by default
+    [SerializeField] private int startMinute = 0;
+    [SerializeField] private float timeScale = 1f; // in-game minutes progressed per real-time second
+    private float _currentTimeMinutes; // minutes since midnight (0..1439)
+
     public int PlayerCount => playerCount;
+
+    // Exposed time properties
+    public float CurrentTimeMinutes => _currentTimeMinutes; // raw minute counter
+    public int CurrentHour => Mathf.FloorToInt(_currentTimeMinutes / 60f) % 24;
+    public int CurrentMinute => Mathf.FloorToInt(_currentTimeMinutes % 60f);
+    public string CurrentTimeFormatted => $"{CurrentHour:00}:{CurrentMinute:00}";
+    public GamePhase CurrentPhase => currentPhase;
 
     void Awake()
     {
@@ -33,6 +61,51 @@ public class GameManager : MonoBehaviour
             // Keep a preview of the pool based on current player count
             rolePoolDebugView = BuildRolePool(Mathf.Max(1, playerCount));
         }
+
+        // Initialize in-game clock
+        startHour = Mathf.Clamp(startHour, 0, 23);
+        startMinute = Mathf.Clamp(startMinute, 0, 59);
+        _currentTimeMinutes = startHour * 60 + startMinute;
+    }
+
+    void Update()
+    {
+        TickGameTime();
+    }
+
+    private void TickGameTime()
+    {
+        if (timeScale <= 0f) return; // paused
+        _currentTimeMinutes += Time.deltaTime * timeScale;
+        // wrap around after 24h
+        if (_currentTimeMinutes >= 1440f) _currentTimeMinutes %= 1440f;
+    }
+
+    public void SetTime(int hour, int minute)
+    {
+        hour = Mathf.Clamp(hour, 0, 23);
+        minute = Mathf.Clamp(minute, 0, 59);
+        _currentTimeMinutes = hour * 60 + minute;
+    }
+
+    public void SetPhase(GamePhase phase)
+    {
+        currentPhase = phase;
+        Debug.Log($"[GameManager] Phase set to {currentPhase}");
+    }
+
+    public void AdvancePhase()
+    {
+        // Simple cycle: Lobby -> Day -> Night -> End
+        switch (currentPhase)
+        {
+            case GamePhase.Lobby: currentPhase = GamePhase.Day; break;
+            case GamePhase.Day: currentPhase = GamePhase.Night; break;
+            case GamePhase.Night: currentPhase = GamePhase.End; break;
+            case GamePhase.End: currentPhase = GamePhase.Lobby; break; // loop back
+            default: currentPhase = GamePhase.Lobby; break;
+        }
+        Debug.Log($"[GameManager] Phase advanced to {currentPhase}");
     }
 
     public void SetPlayerCount(int count)
