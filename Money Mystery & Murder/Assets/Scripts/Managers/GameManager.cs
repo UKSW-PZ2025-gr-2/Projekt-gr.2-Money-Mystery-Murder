@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public enum GamePhase
 {
@@ -21,7 +22,15 @@ public class GameManager : MonoBehaviour
 
     // --- Game Phase ---
     [Header("Game Phase")]
-    [SerializeField] private GamePhase currentPhase = GamePhase.Day;
+    [SerializeField] private GamePhase currentPhase = GamePhase.Day; // default phase is Day
+
+    [Header("Phase Schedule (Hours)")]
+    [Tooltip("Hour when Day starts (inclusive)")]
+    [Range(0,23)] [SerializeField] private int dayStartHour = 6;
+    [Tooltip("Hour when Evening starts (inclusive). Must be after Day start")]
+    [Range(0,23)] [SerializeField] private int eveningStartHour = 18;
+    [Tooltip("Hour when Night starts (inclusive). Must be after Evening start")]
+    [Range(0,23)] [SerializeField] private int nightStartHour = 21;
 
     // --- Time System ---
     [Header("Game Time")]
@@ -29,6 +38,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int startMinute = 0;
     [SerializeField] private float timeScale = 1f; // in-game minutes progressed per real-time second
     private float _currentTimeMinutes; // minutes since midnight (0..1439)
+
+    [Header("Scene Management")]
+    [SerializeField] private bool autoLoadScenes = true;
+    [SerializeField] private string daySceneName = "Day";
+    [SerializeField] private string eveningSceneName = "Evening";
+    [SerializeField] private string nightSceneName = "Night";
 
     public int PlayerCount => playerCount;
 
@@ -66,11 +81,40 @@ public class GameManager : MonoBehaviour
         startHour = Mathf.Clamp(startHour, 0, 23);
         startMinute = Mathf.Clamp(startMinute, 0, 59);
         _currentTimeMinutes = startHour * 60 + startMinute;
+
+        // Sanitize schedule order
+        eveningStartHour = Mathf.Clamp(eveningStartHour, 0, 23);
+        nightStartHour = Mathf.Clamp(nightStartHour, 0, 23);
+        dayStartHour = Mathf.Clamp(dayStartHour, 0, 23);
+        if (eveningStartHour <= dayStartHour) eveningStartHour = Mathf.Min(23, dayStartHour + 1);
+        if (nightStartHour <= eveningStartHour) nightStartHour = Mathf.Min(23, eveningStartHour + 1);
+
+        // Enforce default phase Day if none or lobby
+        if (currentPhase == GamePhase.None || currentPhase == GamePhase.Lobby)
+        {
+            currentPhase = GamePhase.Day;
+        }
+
+        // Ensure correct initial phase by time
+        var phaseByTime = DeterminePhaseByTime(CurrentHour);
+        if (phaseByTime != currentPhase)
+        {
+            SetPhase(phaseByTime);
+        }
+
+        TryLoadSceneForPhase(currentPhase);
     }
 
     void Update()
     {
         TickGameTime();
+        // After time tick, update phase by schedule
+        var phaseByTime = DeterminePhaseByTime(CurrentHour);
+        if (phaseByTime != currentPhase)
+        {
+            SetPhase(phaseByTime);
+            TryLoadSceneForPhase(currentPhase);
+        }
     }
 
     private void TickGameTime()
@@ -81,11 +125,48 @@ public class GameManager : MonoBehaviour
         if (_currentTimeMinutes >= 1440f) _currentTimeMinutes %= 1440f;
     }
 
+    private GamePhase DeterminePhaseByTime(int hour)
+    {
+        // Night: [nightStart, 24) and [0, dayStart)
+        if (hour >= nightStartHour || hour < dayStartHour)
+            return GamePhase.Night;
+        // Evening: [eveningStart, nightStart)
+        if (hour >= eveningStartHour)
+            return GamePhase.Evening;
+        // Otherwise Day
+        return GamePhase.Day;
+    }
+
+    private void TryLoadSceneForPhase(GamePhase phase)
+    {
+        if (!autoLoadScenes) return;
+        string target = null;
+        switch (phase)
+        {
+            case GamePhase.Day: target = daySceneName; break;
+            case GamePhase.Evening: target = eveningSceneName; break;
+            case GamePhase.Night: target = nightSceneName; break;
+            default: return; // do not auto-load for other phases
+        }
+        if (string.IsNullOrWhiteSpace(target)) return;
+        var active = SceneManager.GetActiveScene().name;
+        if (active == target) return; // already loaded
+        Debug.Log($"[GameManager] Loading scene '{target}' for phase {phase}");
+        SceneManager.LoadScene(target, LoadSceneMode.Single);
+    }
+
     public void SetTime(int hour, int minute)
     {
         hour = Mathf.Clamp(hour, 0, 23);
         minute = Mathf.Clamp(minute, 0, 59);
         _currentTimeMinutes = hour * 60 + minute;
+        // Immediately sync phase after manual change
+        var phaseByTime = DeterminePhaseByTime(hour);
+        if (phaseByTime != currentPhase)
+        {
+            SetPhase(phaseByTime);
+            TryLoadSceneForPhase(currentPhase);
+        }
     }
 
     public void SetPhase(GamePhase phase)
@@ -96,16 +177,17 @@ public class GameManager : MonoBehaviour
 
     public void AdvancePhase()
     {
-        // Simple cycle: Lobby -> Day -> Night -> End
+        // Cycle: Day -> Evening -> Night -> Day (simplified, End can be set manually)
         switch (currentPhase)
         {
-            case GamePhase.Lobby: currentPhase = GamePhase.Day; break;
-            case GamePhase.Day: currentPhase = GamePhase.Night; break;
-            case GamePhase.Night: currentPhase = GamePhase.End; break;
-            case GamePhase.End: currentPhase = GamePhase.Lobby; break; // loop back
-            default: currentPhase = GamePhase.Lobby; break;
+            case GamePhase.Day: currentPhase = GamePhase.Evening; break;
+            case GamePhase.Evening: currentPhase = GamePhase.Night; break;
+            case GamePhase.Night: currentPhase = GamePhase.Day; break;
+            case GamePhase.End: currentPhase = GamePhase.Day; break; // restart after End
+            default: currentPhase = GamePhase.Day; break;
         }
         Debug.Log($"[GameManager] Phase advanced to {currentPhase}");
+        TryLoadSceneForPhase(currentPhase);
     }
 
     public void SetPlayerCount(int count)
