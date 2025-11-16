@@ -1,10 +1,10 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class RoleAnnouncer : MonoBehaviour
 {
-    [SerializeField] private Text uiText; // Legacy Text for simplicity; swap to TMP_Text if needed
+    [SerializeField] private TMP_Text uiText; 
     [SerializeField] private float showSeconds = 2.5f;
     [SerializeField] private float fadeSeconds = 1.0f;
     [SerializeField] private Color startColor = Color.white;
@@ -15,7 +15,7 @@ public class RoleAnnouncer : MonoBehaviour
     {
         if (uiText == null)
         {
-            uiText = GetComponentInChildren<Text>(true);
+            uiText = GetComponentInChildren<TMP_Text>(true);
         }
         if (uiText != null)
         {
