@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement;
 
 public enum GamePhase
 {
@@ -38,12 +37,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int startMinute = 0;
     [SerializeField] private float timeScale = 1f; // in-game minutes progressed per real-time second
     private float _currentTimeMinutes; // minutes since midnight (0..1439)
-
-    [Header("Scene Management")]
-    [SerializeField] private bool autoLoadScenes = true;
-    [SerializeField] private string daySceneName = "Day";
-    [SerializeField] private string eveningSceneName = "Evening";
-    [SerializeField] private string nightSceneName = "Night";
 
     public int PlayerCount => playerCount;
 
@@ -101,8 +94,6 @@ public class GameManager : MonoBehaviour
         {
             SetPhase(phaseByTime);
         }
-
-        TryLoadSceneForPhase(currentPhase);
     }
 
     void Update()
@@ -113,7 +104,6 @@ public class GameManager : MonoBehaviour
         if (phaseByTime != currentPhase)
         {
             SetPhase(phaseByTime);
-            TryLoadSceneForPhase(currentPhase);
         }
     }
 
@@ -137,24 +127,6 @@ public class GameManager : MonoBehaviour
         return GamePhase.Day;
     }
 
-    private void TryLoadSceneForPhase(GamePhase phase)
-    {
-        if (!autoLoadScenes) return;
-        string target = null;
-        switch (phase)
-        {
-            case GamePhase.Day: target = daySceneName; break;
-            case GamePhase.Evening: target = eveningSceneName; break;
-            case GamePhase.Night: target = nightSceneName; break;
-            default: return; // do not auto-load for other phases
-        }
-        if (string.IsNullOrWhiteSpace(target)) return;
-        var active = SceneManager.GetActiveScene().name;
-        if (active == target) return; // already loaded
-        Debug.Log($"[GameManager] Loading scene '{target}' for phase {phase}");
-        SceneManager.LoadScene(target, LoadSceneMode.Single);
-    }
-
     public void SetTime(int hour, int minute)
     {
         hour = Mathf.Clamp(hour, 0, 23);
@@ -165,7 +137,6 @@ public class GameManager : MonoBehaviour
         if (phaseByTime != currentPhase)
         {
             SetPhase(phaseByTime);
-            TryLoadSceneForPhase(currentPhase);
         }
     }
 
@@ -187,7 +158,6 @@ public class GameManager : MonoBehaviour
             default: currentPhase = GamePhase.Day; break;
         }
         Debug.Log($"[GameManager] Phase advanced to {currentPhase}");
-        TryLoadSceneForPhase(currentPhase);
     }
 
     public void SetPlayerCount(int count)
