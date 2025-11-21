@@ -29,6 +29,24 @@ public abstract class MinigameBase : MonoBehaviour
         if (IsRunning) return;
         IsRunning = true;
         ActivatingPlayer = player;
+
+        // Charge start cost, if any
+        if (ActivatingPlayer != null)
+        {
+            int cost = GetStartCost();
+            if (cost > 0)
+            {
+                if (ActivatingPlayer.SpendBalance(cost, AllowNegativeBalanceOnStart()))
+                {
+                    Debug.Log($"[MinigameBase] Charged {cost} balance from player {ActivatingPlayer.name} to start minigame {name} (allowNegative={AllowNegativeBalanceOnStart()})");
+                }
+                else
+                {
+                    Debug.Log($"[MinigameBase] Player {ActivatingPlayer.name} could not pay {cost} to start minigame {name}");
+                }
+            }
+        }
+
         if (ActivatingPlayer != null)
         {
             var mv = ActivatingPlayer.GetComponent<PlayerMovement>();
@@ -73,4 +91,8 @@ public abstract class MinigameBase : MonoBehaviour
     protected virtual void OnEndGame() { }
     // Override to provide reward balance for activating player when minigame ends.
     protected virtual int GetRewardBalance() { return 0; }
+    // Override to provide a start cost that will be deducted when the minigame starts.
+    protected virtual int GetStartCost() { return 0; }
+    // Override to allow a minigame to push the player's balance negative when paying start cost.
+    protected virtual bool AllowNegativeBalanceOnStart() { return false; }
 }

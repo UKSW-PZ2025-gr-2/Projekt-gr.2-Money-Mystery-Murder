@@ -86,16 +86,16 @@ public class Player : MonoBehaviour
         Debug.Log($"[Player] {name} balance increased by {amount}. New balance: {balance}");
     }
 
-    public bool SpendBalance(int amount)
+    public bool SpendBalance(int amount, bool allowNegative = false)
     {
         if (amount <= 0) return true;
-        if (balance < amount)
+        if (!allowNegative && balance < amount)
         {
             Debug.Log($"[Player] {name} cannot spend {amount}. Current balance: {balance}");
             return false;
         }
-        balance -= amount;
-        Debug.Log($"[Player] {name} spent {amount}. New balance: {balance}");
+        balance -= amount; // may go negative if allowNegative
+        Debug.Log($"[Player] {name} spent {amount}. New balance: {balance} (allowNegative={allowNegative})");
         return true;
     }
 

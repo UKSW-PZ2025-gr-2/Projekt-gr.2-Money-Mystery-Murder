@@ -9,6 +9,7 @@ public class DebugMinigame : MinigameBase
 {
     [SerializeField] private float autoEndSeconds = 3f; // <= 0 to disable auto-end
     [SerializeField] private int rewardBalance = 10; // amount of balance granted on successful end
+    [SerializeField] private int startCost = 1; // amount of balance charged at start
     private float _elapsed;
 
     protected override void OnStartGame()
@@ -25,6 +26,16 @@ public class DebugMinigame : MinigameBase
     protected override int GetRewardBalance()
     {
         return rewardBalance; // configurable reward
+    }
+
+    protected override int GetStartCost()
+    {
+        return startCost; // configurable start cost
+    }
+
+    protected override bool AllowNegativeBalanceOnStart()
+    {
+        return true; // debug minigame always allows balance to go negative when starting
     }
 
     void Update()
