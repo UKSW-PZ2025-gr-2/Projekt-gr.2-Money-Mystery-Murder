@@ -38,7 +38,7 @@ public abstract class MinigameBase : MonoBehaviour
                 mv.enabled = false; // block movement input
             }
         }
-        gameObject.SetActive(true);
+        // No automatic enabling/disabling of GameObjects
         OnStartGame();
     }
 
@@ -60,7 +60,7 @@ public abstract class MinigameBase : MonoBehaviour
             }
         }
 
-        gameObject.SetActive(false);
+        // No automatic enabling/disabling of GameObjects
         if (_disabledMovement != null)
         {
             _disabledMovement.enabled = true; // restore movement
