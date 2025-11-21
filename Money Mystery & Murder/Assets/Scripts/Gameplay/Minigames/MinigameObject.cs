@@ -4,25 +4,32 @@ using UnityEngine.InputSystem;
 #endif
 
 // Attach to an object to allow a player to interact and open a minigame.
-// Requires only a reference to a MinigameBase component assigned in the inspector.
+// Automatically finds a MinigameBase component on this GameObject or its children.
 public class MinigameObject : MonoBehaviour
 {
     [Header("Interaction")]
     [SerializeField] private float interactRadius = 2f;
-    [SerializeField] private KeyCode fallbackKey = KeyCode.E; // legacy input interact key
+    private KeyCode fallbackKey = KeyCode.E; // legacy input interact key (hidden from inspector)
 
-    [Header("Minigame Reference")]
-    [SerializeField] private MinigameBase minigame; // existing minigame component (UI / logic)
+    private MinigameBase minigame; // auto-found minigame component (UI / logic)
 
     private Player _nearbyPlayer;
 
     void Start()
     {
-        if (minigame != null)
+        if (minigame == null)
         {
-            minigame.Initialize(this); // host for callbacks
-            minigame.gameObject.SetActive(false); // hidden until started
+            // Prefer local/child component to avoid scene-wide references
+            minigame = GetComponentInChildren<MinigameBase>(true);
+            if (minigame == null)
+            {
+                Debug.LogWarning($"[MinigameObject] No MinigameBase found on '{name}' or its children.");
+                return;
+            }
         }
+
+        minigame.Initialize(this); // host for callbacks
+        // No automatic enabling/disabling of objects here
     }
 
     void Update()
