@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 public class DebugMinigame : MinigameBase
 {
     [SerializeField] private float autoEndSeconds = 3f; // <= 0 to disable auto-end
+    [SerializeField] private int rewardBalance = 10; // amount of balance granted on successful end
     private float _elapsed;
 
     protected override void OnStartGame()
@@ -19,6 +20,11 @@ public class DebugMinigame : MinigameBase
     protected override void OnEndGame()
     {
         Debug.Log("[DebugMinigame] Ended");
+    }
+
+    protected override int GetRewardBalance()
+    {
+        return rewardBalance; // configurable reward
     }
 
     void Update()
