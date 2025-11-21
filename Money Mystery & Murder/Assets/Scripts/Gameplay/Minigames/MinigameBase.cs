@@ -48,6 +48,18 @@ public abstract class MinigameBase : MonoBehaviour
         if (!IsRunning) return;
         IsRunning = false;
         OnEndGame();
+
+        // Grant reward (if any) to activating player before cleanup
+        if (ActivatingPlayer != null)
+        {
+            int reward = GetRewardBalance();
+            if (reward > 0)
+            {
+                ActivatingPlayer.AddBalance(reward);
+                Debug.Log($"[MinigameBase] Granted {reward} balance to player {ActivatingPlayer.name} from minigame {name}");
+            }
+        }
+
         gameObject.SetActive(false);
         if (_disabledMovement != null)
         {
@@ -59,4 +71,6 @@ public abstract class MinigameBase : MonoBehaviour
 
     protected virtual void OnStartGame() { }
     protected virtual void OnEndGame() { }
+    // Override to provide reward balance for activating player when minigame ends.
+    protected virtual int GetRewardBalance() { return 0; }
 }
