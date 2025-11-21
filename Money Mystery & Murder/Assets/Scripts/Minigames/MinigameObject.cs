@@ -10,9 +10,6 @@ public class MinigameObject : MonoBehaviour
     [Header("Interaction")]
     [SerializeField] private float interactRadius = 2f;
     [SerializeField] private KeyCode fallbackKey = KeyCode.E; // legacy input interact key
-#if ENABLE_INPUT_SYSTEM
-    [SerializeField] private InputActionReference interactAction; // optional input action
-#endif
 
     [Header("Minigame Reference")]
     [SerializeField] private MinigameBase minigame; // existing minigame component (UI / logic)
@@ -53,13 +50,18 @@ public class MinigameObject : MonoBehaviour
     private bool WasInteractPressed()
     {
 #if ENABLE_INPUT_SYSTEM
-        if (interactAction != null && interactAction.action != null)
-        {
-            return interactAction.action.WasPressedThisFrame();
-        }
         var k = Keyboard.current;
-        if (k != null && fallbackKey == KeyCode.E && k.eKey.wasPressedThisFrame) return true;
-        return false;
+        if (k == null) return false;
+        // Support a few common keys; extend as needed
+        return fallbackKey switch
+        {
+            KeyCode.E => k.eKey.wasPressedThisFrame,
+            KeyCode.F => k.fKey.wasPressedThisFrame,
+            KeyCode.Space => k.spaceKey.wasPressedThisFrame,
+            KeyCode.Return => k.enterKey.wasPressedThisFrame,
+            KeyCode.Escape => k.escapeKey.wasPressedThisFrame,
+            _ => false
+        };
 #else
         return Input.GetKeyDown(fallbackKey);
 #endif
