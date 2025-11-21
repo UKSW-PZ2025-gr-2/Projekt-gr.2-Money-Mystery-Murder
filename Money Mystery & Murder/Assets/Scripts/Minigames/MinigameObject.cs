@@ -68,7 +68,7 @@ public class MinigameObject : MonoBehaviour
     private void ToggleMinigame()
     {
         if (minigame == null) return;
-        if (minigame.IsRunning) minigame.EndGame(); else minigame.StartGame();
+        if (minigame.IsRunning) minigame.EndGame(); else minigame.StartGame(_nearbyPlayer);
     }
 
     // Public API

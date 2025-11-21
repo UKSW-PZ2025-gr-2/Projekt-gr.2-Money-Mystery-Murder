@@ -7,17 +7,37 @@ public abstract class MinigameBase : MonoBehaviour
     public bool IsRunning { get; private set; }
     public MonoBehaviour Host { get; private set; } // generalized to avoid dependency issues
 
+    // Player that activated / is locked by this minigame
+    public Player ActivatingPlayer { get; private set; }
+    private PlayerMovement _disabledMovement; // cached movement we disabled
+
     // Called by host immediately after creation/assignment
     public void Initialize(MonoBehaviour host)
     {
         Host = host;
     }
 
-    // Open / start the minigame
+    // Open / start the minigame (legacy call without player context)
     public void StartGame()
+    {
+        StartGame(null);
+    }
+
+    // Open / start the minigame with activating player (movement will be disabled)
+    public void StartGame(Player player)
     {
         if (IsRunning) return;
         IsRunning = true;
+        ActivatingPlayer = player;
+        if (ActivatingPlayer != null)
+        {
+            var mv = ActivatingPlayer.GetComponent<PlayerMovement>();
+            if (mv != null && mv.enabled)
+            {
+                _disabledMovement = mv;
+                mv.enabled = false; // block movement input
+            }
+        }
         gameObject.SetActive(true);
         OnStartGame();
     }
@@ -29,6 +49,12 @@ public abstract class MinigameBase : MonoBehaviour
         IsRunning = false;
         OnEndGame();
         gameObject.SetActive(false);
+        if (_disabledMovement != null)
+        {
+            _disabledMovement.enabled = true; // restore movement
+            _disabledMovement = null;
+        }
+        ActivatingPlayer = null;
     }
 
     protected virtual void OnStartGame() { }
