@@ -16,26 +16,44 @@ public class Player : MonoBehaviour
     [SerializeField] private int currentHealth = 100; 
     [SerializeField] private int balance = 0;
     [SerializeField] private PlayerRole role = PlayerRole.None; 
+    [SerializeField] private bool isAlive = true;
+    [SerializeField] private float visionRange = 5f;
 
     [Header("Inventory / Progression")]
-    [SerializeField] private WeaponDefinition equippedWeapon; // equipped weapon
-    [SerializeField] private List<WeaponDefinition> ownedWeapons = new(); // all owned weapons
+    [SerializeField] private WeaponDefinition equippedWeapon; 
+    [SerializeField] private List<WeaponDefinition> ownedWeapons = new(); 
+    [SerializeField] private List<ShopItem> hotbarItems = new(); // snapshot of items relevant to hotbar usage
 
     [Header("Abilities")]
-    [SerializeField] private List<AbilityDefinition> learnedAbilities = new(); // all learned abilities
-    private readonly Dictionary<AbilityDefinition, float> _cooldowns = new(); // time left until can use again
-    private AbilityDefinition _activeAbility; // currently running timed ability
+    [SerializeField] private List<AbilityDefinition> learnedAbilities = new(); 
+    private readonly Dictionary<AbilityDefinition, float> _cooldowns = new(); 
+    private AbilityDefinition _activeAbility; 
     private float _activeAbilityTimeLeft;
 
     [Header("UI")]
     [SerializeField] private RoleAnnouncer roleAnnouncer;
 
-    [Header("Debug View")] public bool autoHealToMaxOnStart = false;
+    [Header("Effects & Animation")]
+    [SerializeField] private PlayerEffectsController effectsController;
+    [SerializeField] private PlayerAnimator playerAnimator;
+
+    [Header("Weapon Controller")]
+    [SerializeField] private WeaponController currentWeapon;
+
+    [Header("Events / Flags")]
+    [SerializeField] private bool autoHealToMaxOnStart = false;
 
     public int Balance => balance;
     public int CurrentHealth => currentHealth;
     public int MaxHealth => maxHealth;
     public PlayerRole Role => role;
+    public bool IsAlive => isAlive;
+    public float VisionRange => visionRange;
+
+    public PlayerRole CurrentRole => role;
+    public int Money => balance;
+    public int CurrentHP => currentHealth;
+
     public WeaponDefinition EquippedWeapon => equippedWeapon;
     public IReadOnlyList<WeaponDefinition> OwnedWeapons => ownedWeapons;
     public IReadOnlyList<AbilityDefinition> LearnedAbilities => learnedAbilities;
@@ -47,162 +65,169 @@ public class Player : MonoBehaviour
         {
             roleAnnouncer = GetComponentInChildren<RoleAnnouncer>(true);
         }
+        if (effectsController == null) effectsController = GetComponent<PlayerEffectsController>();
+        if (playerAnimator == null) playerAnimator = GetComponent<PlayerAnimator>();
+    }
+
+    void OnEnable()
+    {
+        // Subscribe to global events (e.g., AchievementManager.NotifyEvent callbacks) if needed
+    }
+
+    void OnDisable()
+    {
+        // Unsubscribe from events
     }
 
     void Start()
     {
         if (autoHealToMaxOnStart) currentHealth = maxHealth;
-
-        // If role not preassigned, pick randomly from pool for local testing
         if (role == PlayerRole.None && GameManager.Instance != null)
         {
             role = GameManager.Instance.PickRandomRoleFromPool();
-            Debug.Log($"[Player] Random role assigned to {name}: {role}");
         }
-        else
-        {
-            Debug.Log($"[Player] Existing role for {name}: {role}");
-        }
-
-        // Announce role at start
         if (roleAnnouncer != null)
         {
-            Debug.Log($"[Player] Announcing role {role} for {name}");
             roleAnnouncer.ShowRole(role);
         }
+        // Initialize hotbarItems list if needed (could be fixed size or dynamic)
     }
 
     void Update()
     {
         TickActiveAbility();
         TickCooldowns();
+        if (effectsController != null)
+        {
+            effectsController.UpdateEffects();
+        }
     }
 
     // ----- Currency -----
     public void AddBalance(int amount)
     {
+        // 1. Validate amount > 0
+        // 2. Add to balance
+        // 3. Optionally notify UI / achievements
         if (amount <= 0) return;
         balance += amount;
-        Debug.Log($"[Player] {name} balance increased by {amount}. New balance: {balance}");
+    }
+
+    public void AddMoney(int amount)
+    {
+        // 1. Alias for AddBalance (for external calls)
+        // 2. Could trigger money-specific events
+        throw new System.NotImplementedException();
     }
 
     public bool SpendBalance(int amount, bool allowNegative = false)
     {
+        // 1. Validate amount
+        // 2. Check funds if !allowNegative
+        // 3. Deduct and return true on success
         if (amount <= 0) return true;
-        if (!allowNegative && balance < amount)
-        {
-            Debug.Log($"[Player] {name} cannot spend {amount}. Current balance: {balance}");
-            return false;
-        }
-        balance -= amount; // may go negative if allowNegative
-        Debug.Log($"[Player] {name} spent {amount}. New balance: {balance} (allowNegative={allowNegative})");
+        if (!allowNegative && balance < amount) return false;
+        balance -= amount;
         return true;
     }
 
     // ----- Health -----
     public void TakeDamage(int dmg)
     {
+        // 1. Ignore non-positive damage
+        // 2. Subtract from currentHealth
+        // 3. If <=0 -> Die()
         if (dmg <= 0) return;
         currentHealth -= dmg;
-        Debug.Log($"[Player] {name} took {dmg} damage. HP: {currentHealth}/{maxHealth}");
         if (currentHealth <= 0)
         {
             currentHealth = 0;
-            Debug.Log($"[Player] {name} died.");
-            // TODO: death handling
+            Die();
         }
+        // 4. Trigger hit animation or blood VFX through animator/VFXManager
+    }
+
+    public void Die()
+    {
+        // 1. Set isAlive=false
+        // 2. Trigger death animation
+        // 3. Disable movement/input components
+        // 4. Notify GameManager for win condition check
+        throw new System.NotImplementedException();
     }
 
     public void Heal(int hp)
     {
+        // 1. Validate positive hp
+        // 2. Add and clamp to maxHealth
+        // 3. Play heal VFX if available
         if (hp <= 0) return;
         currentHealth = Mathf.Min(currentHealth + hp, maxHealth);
-        Debug.Log($"[Player] {name} healed {hp}. HP: {currentHealth}/{maxHealth}");
     }
 
     // ----- Role -----
     public void SetRole(PlayerRole newRole)
     {
+        // 1. Assign role
+        // 2. Optionally update UI / achievements
         role = newRole;
-        Debug.Log($"[Player] Role set manually for {name}: {role}");
     }
 
-    // ----- Weapons -----
+    // ----- Weapons (Simple Definition-based Inventory) -----
     public void AcquireWeapon(WeaponDefinition weapon)
     {
+        // 1. Null/duplicate check
+        // 2. Add to ownedWeapons
+        // 3. Auto-equip if none equipped
         if (weapon == null || ownedWeapons.Contains(weapon)) return;    
         ownedWeapons.Add(weapon);
-        Debug.Log($"[Player] {name} acquired weapon {weapon.name}");
-        if (equippedWeapon == null)
-        {
-            equippedWeapon = weapon;
-            Debug.Log($"[Player] {name} auto-equipped weapon {weapon.name}");
-        }
+        if (equippedWeapon == null) equippedWeapon = weapon;
     }
 
     public void EquipWeapon(WeaponDefinition weapon)
     {
+        // 1. Validate in ownedWeapons
+        // 2. Assign equippedWeapon
+        // 3. Update active WeaponController if present
         if (weapon == null || !ownedWeapons.Contains(weapon)) return;
         equippedWeapon = weapon;
-        Debug.Log($"[Player] {name} equipped weapon {weapon.name}");
     }
 
     // ----- Abilities API -----
     public bool LearnAbility(AbilityDefinition ability)
     {
+        // 1. Validate ability
+        // 2. Check cost & spend
+        // 3. Add to learnedAbilities and initialize cooldown entry
         if (ability == null || learnedAbilities.Contains(ability)) return false;
         if (!SpendBalance(ability.cost)) return false;
         learnedAbilities.Add(ability);
-        _cooldowns[ability] = 0f; // ready to use
-        Debug.Log($"[Player] {name} learned ability {ability.displayName}");
+        _cooldowns[ability] = 0f;
         return true;
     }
 
     public bool ActivateAbility(AbilityDefinition ability)
     {
-        if (ability == null) return false;
-        if (!learnedAbilities.Contains(ability)) return false;
-        if (!_cooldowns.ContainsKey(ability)) _cooldowns[ability] = 0f;
-        if (_cooldowns[ability] > 0f)
-        {
-            Debug.Log($"[Player] {name} tried to activate {ability.displayName} but it's on cooldown: {_cooldowns[ability]:F2}s left");
-            return false; // still cooling down
-        }
-
-        if (_activeAbility != null)
-        {
-            Debug.Log($"[Player] {name} ending active ability {_activeAbility.displayName} early to start {ability.displayName}");
-            EndActiveAbility();
-        }
-
-        _activeAbility = ability;
-        _activeAbilityTimeLeft = ability.duration;
-        _cooldowns[ability] = ability.cooldown; // start cooldown now
-        Debug.Log($"[Player] {name} activated ability {ability.displayName} (duration: {ability.duration}s, cooldown: {ability.cooldown}s)");
-
-        // Apply effects' activation hooks
-        if (_activeAbility.effects != null)
-        {
-            foreach (var effect in _activeAbility.effects)
-            {
-                if (effect != null)
-                {
-                    Debug.Log($"[Player] {name} activating effect {effect.name} for ability {ability.displayName}");
-                    effect.OnActivate(this);
-                }
-            }
-        }
-        return true;
+        // 1. Validate ownership
+        // 2. Check cooldown
+        // 3. End existing active ability if needed
+        // 4. Set active ability + timers
+        // 5. Trigger effect activation
+        // 6. Start cooldown
+        throw new System.NotImplementedException();
     }
 
     public bool ActivateAbilityByIndex(int index)
     {
+        // 1. Index bounds check
+        // 2. Retrieve ability and call ActivateAbility
         if (index < 0 || index >= learnedAbilities.Count) return false;
         return ActivateAbility(learnedAbilities[index]);
     }
 
     public float GetCooldownRemaining(AbilityDefinition ability)
     {
+        // 1. Look up dictionary; return clamped value
         if (ability == null) return 0f;
         return _cooldowns.TryGetValue(ability, out var t) ? Mathf.Max(0f, t) : 0f;
     }
@@ -214,69 +239,68 @@ public class Player : MonoBehaviour
 
     private void TickActiveAbility()
     {
+        // 1. Early return if none
+        // 2. Tick duration
+        // 3. Tick effects OnTick
+        // 4. If expired call EndActiveAbility
         if (_activeAbility == null) return;
-        if (_activeAbility.duration <= 0f)
-        {
-            EndActiveAbility();
-            return;
-        }
-        // Tick effects
-        if (_activeAbility.effects != null)
-        {
-            foreach (var effect in _activeAbility.effects)
-            {
-                if (effect != null)
-                {
-                    effect.OnTick(this, Time.deltaTime);
-                }
-            }
-        }
-
-        _activeAbilityTimeLeft -= Time.deltaTime;
-        if (_activeAbilityTimeLeft <= 0f)
-        {
-            Debug.Log($"[Player] {name} ability {_activeAbility.displayName} ended (duration elapsed)");
-            EndActiveAbility();
-        }
+        throw new System.NotImplementedException();
     }
 
     private void EndActiveAbility()
     {
-        if (_activeAbility == null) return;
-
-        // Call deactivate on effects
-        if (_activeAbility.effects != null)
-        {
-            foreach (var effect in _activeAbility.effects)
-            {
-                if (effect != null)
-                {
-                    Debug.Log($"[Player] {name} deactivating effect {effect.name} from ability {_activeAbility.displayName}");
-                    effect.OnDeactivate(this);
-                }
-            }
-        }
-
-        Debug.Log($"[Player] {name} ability {_activeAbility.displayName} fully deactivated");
-        _activeAbility = null;
+        // 1. Deactivate effects
+        // 2. Clear active ability
+        throw new System.NotImplementedException();
     }
 
     private void TickCooldowns()
     {
+        // 1. Iterate keys
+        // 2. Decrement >0 entries
+        // 3. Clamp at 0
         if (_cooldowns.Count == 0) return;
-        var keys = new List<AbilityDefinition>(_cooldowns.Keys);
-        foreach (var ability in keys)
-        {
-            if (_cooldowns[ability] > 0f)
-            {
-                _cooldowns[ability] -= Time.deltaTime;
-                if (_cooldowns[ability] < 0f)
-                {
-                    _cooldowns[ability] = 0f;
-                    Debug.Log($"[Player] {name} cooldown finished for ability {ability.displayName}");
-                }
-            }
-        }
+        throw new System.NotImplementedException();
     }
 
+    // ----- Effects Convenience -----
+    public void ApplySpeedEffect(float duration, float multiplier)
+    {
+        // 1. Forward to effectsController.ApplyEffect(EffectType.Speed,...)
+        throw new System.NotImplementedException();
+    }
+
+    public void ApplyInvisibilityEffect(float duration)
+    {
+        // 1. Forward to effectsController.ApplyEffect(EffectType.Invisibility,...)
+        throw new System.NotImplementedException();
+    }
+
+    // ----- Weapon Controller Integration -----
+    public void SetCurrentWeapon(WeaponController weapon)
+    {
+        // 1. Assign currentWeapon
+        // 2. Initialize weapon with this player
+        // 3. Update animator state
+        throw new System.NotImplementedException();
+    }
+
+    public void PerformAttack()
+    {
+        // 1. Check currentWeapon not null
+        // 2. Call currentWeapon.Attack()
+        // 3. Trigger animator attack
+        throw new System.NotImplementedException();
+    }
+
+    // ----- Hotbar Item Usage -----
+    public void UseItem(ShopItem item)
+    {
+        // 1. Null check
+        // 2. If Weapon -> Equip or SetCurrentWeapon
+        // 3. If Upgrade/Consumable -> apply corresponding effect (speed/invisibility etc.)
+        // 4. Deduct charges if consumable
+        // 5. Trigger UI update
+        throw new System.NotImplementedException();
+    }
 }

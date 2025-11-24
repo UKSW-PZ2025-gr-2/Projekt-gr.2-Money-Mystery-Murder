@@ -42,6 +42,25 @@ public class PlayerHUD : MonoBehaviour
         Refresh();
     }
 
+    // MVP API for UI bindings
+    public void UpdatePhaseLabel(string phase)
+    {
+        // TODO: Logic
+        throw new System.NotImplementedException();
+    }
+
+    public void UpdateMoney(int amount)
+    {
+        // TODO: Logic
+        throw new System.NotImplementedException();
+    }
+
+    public void UpdateHealth(float ratio)
+    {
+        // TODO: Logic
+        throw new System.NotImplementedException();
+    }
+
     private void Refresh()
     {
         if (phaseText != null)
