@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
+#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem;
+#endif
 
 public enum PlayerRole
 {
@@ -39,6 +42,15 @@ public class Player : MonoBehaviour
 
     [Header("Weapon Controller")]
     [SerializeField] private WeaponController currentWeapon;
+    [Header("Weapon Socket")]
+    [Tooltip("Optional transform to parent equipped weapons to (e.g. HipSocket or Hand). If null, weapon will be parented to the player root.")]
+    [SerializeField] private Transform weaponSocket;
+    [Tooltip("Local position applied to an equipped weapon when parented (used if no socket or to offset inside socket).")]
+    [SerializeField] private Vector3 weaponLocalPosition = new Vector3(1.2f, 0.6f, 0.2f);
+    [Tooltip("Local Euler angles applied to an equipped weapon when parented.")]
+    [SerializeField] private Vector3 weaponLocalEuler = new Vector3(0f, 90f, 0f);
+    // If we instantiate a runtime copy of a prefab assigned in inspector, track it here so we can clean it up later
+    private WeaponController _runtimeWeaponInstance;
 
     [Header("Events / Flags")]
     [SerializeField] private bool autoHealToMaxOnStart = false;
@@ -91,6 +103,12 @@ public class Player : MonoBehaviour
             roleAnnouncer.ShowRole(role);
         }
         // Initialize hotbarItems list if needed (could be fixed size or dynamic)
+
+        // If a WeaponController is already assigned in the inspector, initialize it now
+        if (currentWeapon != null)
+        {
+            SetCurrentWeapon(currentWeapon);
+        }
     }
 
     void Update()
@@ -101,6 +119,45 @@ public class Player : MonoBehaviour
         {
             effectsController.UpdateEffects();
         }
+
+        // Keep weapon transform synced with current position/rotation (so it moves with player and changes in inspector take effect immediately)
+        if (currentWeapon != null)
+        {
+            var weaponGO = currentWeapon.gameObject;
+            var parent = (weaponSocket != null) ? weaponSocket : this.transform;
+            // Only update parent position if parent reference changed
+            if (weaponGO.transform.parent != parent)
+            {
+                weaponGO.transform.SetParent(parent, false);
+            }
+            // Update base position/rotation. Animation can offset from this base position.
+            weaponGO.transform.localPosition = weaponLocalPosition;
+            weaponGO.transform.localRotation = Quaternion.Euler(weaponLocalEuler);
+        }
+
+        // Input: support both the old Input Manager and the new Input System
+#if ENABLE_INPUT_SYSTEM
+        bool pressed = false;
+        if (Mouse.current != null)
+        {
+            pressed = Mouse.current.leftButton.wasPressedThisFrame;
+        }
+        else
+        {
+            // Fallback to old input if Mouse.current is unexpectedly null
+            pressed = Input.GetMouseButtonDown(0);
+        }
+        if (pressed)
+        {
+            PerformAttack();
+        }
+#else
+        // Old Input Manager
+        if (Input.GetMouseButtonDown(0))
+        {
+            PerformAttack();
+        }
+#endif
     }
 
     // ----- Currency -----
@@ -244,14 +301,22 @@ public class Player : MonoBehaviour
         // 3. Tick effects OnTick
         // 4. If expired call EndActiveAbility
         if (_activeAbility == null) return;
-        throw new System.NotImplementedException();
+
+        // Decrease remaining time and end ability when it expires
+        _activeAbilityTimeLeft -= Time.deltaTime;
+        if (_activeAbilityTimeLeft <= 0f)
+        {
+            EndActiveAbility();
+        }
     }
 
     private void EndActiveAbility()
     {
         // 1. Deactivate effects
         // 2. Clear active ability
-        throw new System.NotImplementedException();
+        // Basic cleanup for active ability
+        _activeAbility = null;
+        _activeAbilityTimeLeft = 0f;
     }
 
     private void TickCooldowns()
@@ -260,7 +325,15 @@ public class Player : MonoBehaviour
         // 2. Decrement >0 entries
         // 3. Clamp at 0
         if (_cooldowns.Count == 0) return;
-        throw new System.NotImplementedException();
+
+        var keys = new List<AbilityDefinition>(_cooldowns.Keys);
+        foreach (var k in keys)
+        {
+            if (_cooldowns[k] > 0f)
+            {
+                _cooldowns[k] = Mathf.Max(0f, _cooldowns[k] - Time.deltaTime);
+            }
+        }
     }
 
     // ----- Effects Convenience -----
@@ -279,18 +352,66 @@ public class Player : MonoBehaviour
     // ----- Weapon Controller Integration -----
     public void SetCurrentWeapon(WeaponController weapon)
     {
-        // 1. Assign currentWeapon
-        // 2. Initialize weapon with this player
-        // 3. Update animator state
-        throw new System.NotImplementedException();
+        // Clean up previously instantiated runtime weapon if any
+        if (_runtimeWeaponInstance != null)
+        {
+            try { Destroy(_runtimeWeaponInstance.gameObject); }
+            catch { }
+            _runtimeWeaponInstance = null;
+        }
+
+        if (weapon == null)
+        {
+            currentWeapon = null;
+            return;
+        }
+
+        // Always instantiate the weapon to ensure we get a scene instance (not a prefab asset).
+        // This prevents "Setting the parent of a transform which resides in a Prefab Asset" errors.
+        var weaponGO = weapon.gameObject;
+        var instantiatedGO = Instantiate(weaponGO);
+        var instance = instantiatedGO.GetComponent<WeaponController>();
+        _runtimeWeaponInstance = instance;
+
+        if (instance == null)
+        {
+            Debug.LogError("SetCurrentWeapon: instantiated weapon GameObject has no WeaponController component");
+            Destroy(instantiatedGO);
+            currentWeapon = null;
+            return;
+        }
+
+        currentWeapon = instance;
+        currentWeapon.Initialize(this);
+
+        // Parent the weapon GameObject to the player so it's visible and moves with the player.
+        try
+        {
+            var go = currentWeapon.gameObject;
+            var parent = (weaponSocket != null) ? weaponSocket : this.transform;
+            go.transform.SetParent(parent, false);
+            // apply configurable local transform so you can move the knife further from center in the Inspector
+            go.transform.localPosition = weaponLocalPosition;
+            go.transform.localRotation = Quaternion.Euler(weaponLocalEuler);
+        }
+        catch (System.Exception)
+        {
+            // ignore any parenting errors in editor/runtime
+        }
+
     }
 
     public void PerformAttack()
     {
-        // 1. Check currentWeapon not null
-        // 2. Call currentWeapon.Attack()
-        // 3. Trigger animator attack
-        throw new System.NotImplementedException();
+        if (currentWeapon == null) return;
+
+        currentWeapon.Attack();
+
+        // Trigger player attack animation if available
+        if (playerAnimator != null)
+        {
+            playerAnimator.TriggerAttack();
+        }
     }
 
     // ----- Hotbar Item Usage -----

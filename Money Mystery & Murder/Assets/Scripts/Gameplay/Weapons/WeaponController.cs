@@ -15,8 +15,12 @@ public abstract class WeaponController : MonoBehaviour
 
     public void Initialize(Player player)
     {
-        // TODO: Logic - set owner
-        throw new System.NotImplementedException();
+        // Set the owning player for this weapon so attacks can reference position/direction
+        owner = player;
+
+        // Allow immediate attack after initialization (optional): set lastAttackTime
+        // so Time.time - lastAttackTime >= cooldown.
+        lastAttackTime = Time.time - cooldown;
     }
 
     public abstract void Attack();

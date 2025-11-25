@@ -228,10 +228,19 @@ MonoBehaviour:
   currentHealth: 100
   balance: 0
   role: 0
+  isAlive: 1
+  visionRange: 5
   equippedWeapon: {fileID: 0}
   ownedWeapons: []
+  hotbarItems: []
   learnedAbilities: []
   roleAnnouncer: {fileID: 0}
+  effectsController: {fileID: 0}
+  playerAnimator: {fileID: 0}
+  currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 0.5, y: 0.9, z: 0.3}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &406391878
 SpriteRenderer:
@@ -589,10 +598,19 @@ MonoBehaviour:
   currentHealth: 100
   balance: 0
   role: 0
+  isAlive: 1
+  visionRange: 5
   equippedWeapon: {fileID: 0}
   ownedWeapons: []
+  hotbarItems: []
   learnedAbilities: []
   roleAnnouncer: {fileID: 0}
+  effectsController: {fileID: 0}
+  playerAnimator: {fileID: 0}
+  currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 0.5, y: 0.9, z: 0.3}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &754025178
 SpriteRenderer:
@@ -973,10 +991,19 @@ MonoBehaviour:
   currentHealth: 100
   balance: 0
   role: 0
+  isAlive: 1
+  visionRange: 5
   equippedWeapon: {fileID: 0}
   ownedWeapons: []
+  hotbarItems: []
   learnedAbilities: []
   roleAnnouncer: {fileID: 772000601}
+  effectsController: {fileID: 0}
+  playerAnimator: {fileID: 0}
+  currentWeapon: {fileID: 5161151897604081413, guid: 3ce7ab51df4afdb43abd3cfe7b455fa3, type: 3}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 0.7, y: 0, z: 0}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!50 &1094222162
 Rigidbody2D:
@@ -1179,10 +1206,19 @@ MonoBehaviour:
   currentHealth: 100
   balance: 0
   role: 0
+  isAlive: 1
+  visionRange: 5
   equippedWeapon: {fileID: 0}
   ownedWeapons: []
+  hotbarItems: []
   learnedAbilities: []
   roleAnnouncer: {fileID: 0}
+  effectsController: {fileID: 0}
+  playerAnimator: {fileID: 0}
+  currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 0.5, y: 0.9, z: 0.3}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1227111868
 SpriteRenderer:
@@ -1377,10 +1413,19 @@ MonoBehaviour:
   currentHealth: 100
   balance: 0
   role: 0
+  isAlive: 1
+  visionRange: 5
   equippedWeapon: {fileID: 0}
   ownedWeapons: []
+  hotbarItems: []
   learnedAbilities: []
   roleAnnouncer: {fileID: 0}
+  effectsController: {fileID: 0}
+  playerAnimator: {fileID: 0}
+  currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 0.5, y: 0.9, z: 0.3}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1241132265
 SpriteRenderer:
@@ -1487,6 +1532,8 @@ MonoBehaviour:
   playerCount: 3
   rolePoolDebugView: 
   assignUniqueRolesOnStart: 0
+  roleManager: {fileID: 0}
+  phaseManager: {fileID: 0}
   currentPhase: 1
   dayStartHour: 6
   eveningStartHour: 7
@@ -1776,10 +1823,19 @@ MonoBehaviour:
   currentHealth: 100
   balance: 0
   role: 0
+  isAlive: 1
+  visionRange: 5
   equippedWeapon: {fileID: 0}
   ownedWeapons: []
+  hotbarItems: []
   learnedAbilities: []
   roleAnnouncer: {fileID: 0}
+  effectsController: {fileID: 0}
+  playerAnimator: {fileID: 0}
+  currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 0.5, y: 0.9, z: 0.3}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1507806627
 SpriteRenderer:
@@ -1963,10 +2019,19 @@ MonoBehaviour:
   currentHealth: 100
   balance: 0
   role: 0
+  isAlive: 1
+  visionRange: 5
   equippedWeapon: {fileID: 0}
   ownedWeapons: []
+  hotbarItems: []
   learnedAbilities: []
   roleAnnouncer: {fileID: 0}
+  effectsController: {fileID: 0}
+  playerAnimator: {fileID: 0}
+  currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 0.5, y: 0.9, z: 0.3}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &2058313254
 SpriteRenderer:
