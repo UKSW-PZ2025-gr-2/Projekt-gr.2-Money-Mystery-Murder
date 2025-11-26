@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 // Attach to an object to allow a player to interact and open a minigame.
 // Automatically finds a MinigameBase component on this GameObject or its children.
-public class MinigameObject : MonoBehaviour
+public class MinigameActivator : MonoBehaviour
 {
     [Header("Interaction")]
     [SerializeField] private float interactRadius = 2f;
