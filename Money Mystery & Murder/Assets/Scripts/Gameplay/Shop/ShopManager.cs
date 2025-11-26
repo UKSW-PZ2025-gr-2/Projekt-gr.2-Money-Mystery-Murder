@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-public class ShopManager : MonoBehaviour
+public class Shop : MonoBehaviour
 {
     public event Action<ShopItem> OnItemPurchased; // event-based notification
 
