@@ -23,8 +23,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float visionRange = 5f;
 
     [Header("Inventory / Progression")]
-    [SerializeField] private WeaponDefinition equippedWeapon; 
-    [SerializeField] private List<WeaponDefinition> ownedWeapons = new(); 
+    [SerializeField] private Weapon equippedWeapon; 
+    [SerializeField] private List<Weapon> ownedWeapons = new(); 
     [SerializeField] private List<ShopItem> hotbarItems = new(); // snapshot of items relevant to hotbar usage
 
     [Header("Abilities")]
@@ -66,8 +66,8 @@ public class Player : MonoBehaviour
     public int Money => balance;
     public int CurrentHP => currentHealth;
 
-    public WeaponDefinition EquippedWeapon => equippedWeapon;
-    public IReadOnlyList<WeaponDefinition> OwnedWeapons => ownedWeapons;
+    public Weapon EquippedWeapon => equippedWeapon;
+    public IReadOnlyList<Weapon> OwnedWeapons => ownedWeapons;
     public IReadOnlyList<AbilityDefinition> LearnedAbilities => learnedAbilities;
     public AbilityDefinition ActiveAbility => _activeAbility;
 
@@ -231,7 +231,7 @@ public class Player : MonoBehaviour
     }
 
     // ----- Weapons (Simple Definition-based Inventory) -----
-    public void AcquireWeapon(WeaponDefinition weapon)
+    public void AcquireWeapon(Weapon weapon)
     {
         // 1. Null/duplicate check
         // 2. Add to ownedWeapons
@@ -241,7 +241,7 @@ public class Player : MonoBehaviour
         if (equippedWeapon == null) equippedWeapon = weapon;
     }
 
-    public void EquipWeapon(WeaponDefinition weapon)
+    public void EquipWeapon(Weapon weapon)
     {
         // 1. Validate in ownedWeapons
         // 2. Assign equippedWeapon

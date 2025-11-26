@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Weapon", menuName = "Game/Weapon", order = 10)]
-public class WeaponDefinition : ScriptableObject
+public class Weapon : ScriptableObject
 {
     [Header("General")] public string displayName = "Weapon";
     public Sprite icon;
