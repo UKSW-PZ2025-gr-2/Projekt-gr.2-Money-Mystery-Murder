@@ -42,7 +42,7 @@ public abstract class MinigameBase : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log($"[MinigameBase] Player {ActivatingPlayer.name} could not pay {cost} to start minigame {name}");
+                    Debug.Log($"[MinigameBase] Player {ActivatingPlayer.name} went into the negatives paying {cost} to start minigame {name}");
                 }
             }
         }
