@@ -1,49 +1,96 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+/// <summary>
+/// Enum defining the different phases of gameplay.
+/// </summary>
 public enum GamePhase
 {
+    /// <summary>No phase set.</summary>
     None,
+    /// <summary>Lobby/waiting phase before game starts.</summary>
     Lobby,
+    /// <summary>Daytime phase.</summary>
     Day,
+    /// <summary>Evening phase.</summary>
     Evening,
+    /// <summary>Nighttime phase.</summary>
     Night,
+    /// <summary>Game end phase.</summary>
     End
 }
 
+/// <summary>
+/// Singleton manager that controls game state, phase transitions, player roles, and time progression.
+/// Manages role assignment to <see cref="Player"/> instances and integrates with <see cref="RoleManager"/> and <see cref="PhaseManager"/>.
+/// </summary>
 public class GameManager : MonoBehaviour
 {
+    /// <summary>Singleton instance of the <see cref="GameManager"/>.</summary>
     public static GameManager Instance { get; private set; }
 
-    [SerializeField] private int playerCount = 1; // current number of players
-    [SerializeField] private List<PlayerRole> rolePoolDebugView = new(); // debug: shows generated pool
-    [SerializeField] private bool assignUniqueRolesOnStart = false; // enable unique assignment for multiplayer
+    /// <summary>Current number of players in the game. Set this in the Unity Inspector.</summary>
+    [SerializeField] private int playerCount = 1;
+    
+    /// <summary>Debug view of the generated role pool. Set this in the Unity Inspector.</summary>
+    [SerializeField] private List<PlayerRole> rolePoolDebugView = new();
+    
+    /// <summary>When enabled, assigns unique roles to all <see cref="Player"/> instances on Start. Set this in the Unity Inspector.</summary>
+    [SerializeField] private bool assignUniqueRolesOnStart = false;
 
+    /// <summary>Reference to the <see cref="RoleManager"/> system. Set this in the Unity Inspector.</summary>
     [Header("Systems")]
     [SerializeField] private RoleManager roleManager;
+    
+    /// <summary>Reference to the <see cref="PhaseManager"/> system. Set this in the Unity Inspector.</summary>
     [SerializeField] private PhaseManager phaseManager;
 
+    /// <summary>Current game phase (Day, Evening, Night, etc.). Set this in the Unity Inspector.</summary>
     [Header("Game Phase")]
-    [SerializeField] private GamePhase currentPhase = GamePhase.Day; // default phase is Day
+    [SerializeField] private GamePhase currentPhase = GamePhase.Day;
 
+    /// <summary>Hour (0-23) when Day phase begins. Set this in the Unity Inspector.</summary>
     [Header("Phase Schedule (Hours)")]
     [Range(0,23)] [SerializeField] private int dayStartHour = 6;
+    
+    /// <summary>Hour (0-23) when Evening phase begins. Set this in the Unity Inspector.</summary>
     [Range(0,23)] [SerializeField] private int eveningStartHour = 18;
+    
+    /// <summary>Hour (0-23) when Night phase begins. Set this in the Unity Inspector.</summary>
     [Range(0,23)] [SerializeField] private int nightStartHour = 21;
 
+    /// <summary>Starting hour (0-23) when game begins. Set this in the Unity Inspector.</summary>
     [Header("Game Time")]
-    [SerializeField] private int startHour = 6; // game starts at 06:00 by default
+    [SerializeField] private int startHour = 6;
+    
+    /// <summary>Starting minute (0-59) when game begins. Set this in the Unity Inspector.</summary>
     [SerializeField] private int startMinute = 0;
-    [SerializeField] private float timeScale = 1f; // in-game minutes progressed per real-time second
-    private float _currentTimeMinutes; // minutes since midnight (0..1439)
+    
+    /// <summary>In-game minutes progressed per real-time second. Set this in the Unity Inspector.</summary>
+    [SerializeField] private float timeScale = 1f;
+    
+    /// <summary>Internal time counter in minutes since midnight (0-1439).</summary>
+    private float _currentTimeMinutes;
 
+    /// <summary>Gets the current player count.</summary>
     public int PlayerCount => playerCount;
+    
+    /// <summary>Gets the current time in minutes since midnight.</summary>
     public float CurrentTimeMinutes => _currentTimeMinutes;
+    
+    /// <summary>Gets the current hour (0-23).</summary>
     public int CurrentHour => Mathf.FloorToInt(_currentTimeMinutes / 60f) % 24;
+    
+    /// <summary>Gets the current minute (0-59).</summary>
     public int CurrentMinute => Mathf.FloorToInt(_currentTimeMinutes % 60f);
+    
+    /// <summary>Gets the current time formatted as HH:MM.</summary>
     public string CurrentTimeFormatted => $"{CurrentHour:00}:{CurrentMinute:00}";
+    
+    /// <summary>Gets the current game phase.</summary>
     public GamePhase CurrentPhase => currentPhase;
 
+    /// <summary>Initializes the singleton instance and ensures persistence across scenes.</summary>
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -55,6 +102,7 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    /// <summary>Initializes game time, phase schedule, and optionally assigns roles to all <see cref="Player"/> instances.</summary>
     void Start()
     {
         if (assignUniqueRolesOnStart)
@@ -88,6 +136,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>Updates game time and checks for phase transitions each frame.</summary>
     void Update()
     {
         TickGameTime();
@@ -98,6 +147,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>Advances the in-game time based on the time scale.</summary>
     private void TickGameTime()
     {
         if (timeScale <= 0f) return;
@@ -105,6 +155,11 @@ public class GameManager : MonoBehaviour
         if (_currentTimeMinutes >= 1440f) _currentTimeMinutes %= 1440f;
     }
 
+    /// <summary>
+    /// Determines the appropriate game phase based on the given hour.
+    /// </summary>
+    /// <param name="hour">The hour (0-23) to evaluate.</param>
+    /// <returns>The corresponding <see cref="GamePhase"/>.</returns>
     private GamePhase DeterminePhaseByTime(int hour)
     {
         if (hour >= nightStartHour || hour < dayStartHour) return GamePhase.Night;
@@ -112,6 +167,11 @@ public class GameManager : MonoBehaviour
         return GamePhase.Day;
     }
 
+    /// <summary>
+    /// Sets the game time to the specified hour and minute, and updates phase if necessary.
+    /// </summary>
+    /// <param name="hour">Target hour (0-23).</param>
+    /// <param name="minute">Target minute (0-59).</param>
     public void SetTime(int hour, int minute)
     {
         hour = Mathf.Clamp(hour, 0, 23);
@@ -124,30 +184,41 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets the current game phase.
+    /// </summary>
+    /// <param name="phase">The <see cref="GamePhase"/> to set.</param>
     public void SetPhase(GamePhase phase)
     {
         currentPhase = phase;
         Debug.Log($"[GameManager] Phase set to {currentPhase}");
     }
 
+    /// <summary>Starts the game. Logic not yet implemented.</summary>
     public void StartGame()
     {
         // TODO: Logic
         throw new System.NotImplementedException();
     }
 
+    /// <summary>Checks win condition logic. Not yet implemented.</summary>
     public void CheckWinCondition()
     {
         // TODO: Logic
         throw new System.NotImplementedException();
     }
 
+    /// <summary>
+    /// Changes the current game phase to a new state. Not yet implemented.
+    /// </summary>
+    /// <param name="newState">The new <see cref="GamePhase"/> to transition to.</param>
     public void ChangePhase(GamePhase newState)
     {
         // TODO: Logic
         throw new System.NotImplementedException();
     }
 
+    /// <summary>Advances the game phase to the next sequential phase.</summary>
     public void AdvancePhase()
     {
         switch (currentPhase)
@@ -161,15 +232,23 @@ public class GameManager : MonoBehaviour
         Debug.Log($"[GameManager] Phase advanced to {currentPhase}");
     }
 
+    /// <summary>
+    /// Sets the player count to the specified value.
+    /// </summary>
+    /// <param name="count">Number of players (clamped to non-negative).</param>
     public void SetPlayerCount(int count)
     {
         if (count < 0) count = 0;
         playerCount = count;
     }
 
+    /// <summary>Increments the player count by one.</summary>
     public void IncrementPlayerCount() => playerCount++;
+    
+    /// <summary>Decrements the player count by one if greater than zero.</summary>
     public void DecrementPlayerCount() { if (playerCount > 0) playerCount--; }
 
+    /// <summary>Assigns unique roles from a generated pool to all <see cref="Player"/> instances in the scene.</summary>
     public void AssignRolesToPlayers()
     {
         var players = Object.FindObjectsByType<Player>(FindObjectsSortMode.None);
@@ -187,6 +266,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Picks a random role from the role pool based on the current player count.
+    /// </summary>
+    /// <returns>A random <see cref="PlayerRole"/>.</returns>
     public PlayerRole PickRandomRoleFromPool()
     {
         int count = playerCount;
@@ -198,6 +281,11 @@ public class GameManager : MonoBehaviour
         return pool[idx];
     }
 
+    /// <summary>
+    /// Builds a role pool with balanced distribution (25% Murderer, 1 Detective if >= 6 players, rest Civilian).
+    /// </summary>
+    /// <param name="totalPlayers">Total number of players.</param>
+    /// <returns>A list of <see cref="PlayerRole"/> representing the role pool.</returns>
     private List<PlayerRole> BuildRolePool(int totalPlayers)
     {
         var result = new List<PlayerRole>(totalPlayers);
@@ -221,6 +309,11 @@ public class GameManager : MonoBehaviour
         return result;
     }
 
+    /// <summary>
+    /// Shuffles the given list using Fisher-Yates algorithm.
+    /// </summary>
+    /// <typeparam name="T">The type of elements in the list.</typeparam>
+    /// <param name="list">The list to shuffle.</param>
     private void Shuffle<T>(IList<T> list)
     {
         for (int i = list.Count - 1; i > 0; i--)

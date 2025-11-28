@@ -4,73 +4,144 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 #endif
 
+/// <summary>
+/// Enum defining the different player roles.
+/// </summary>
 public enum PlayerRole
 {
+    /// <summary>No role assigned.</summary>
     None,
+    /// <summary>Civilian role.</summary>
     Civilian,
+    /// <summary>Detective role.</summary>
     Detective,
+    /// <summary>Murderer role.</summary>
     Murderer
 }
 
+/// <summary>
+/// Core player controller managing health, balance, inventory, abilities, and combat.
+/// Integrates with <see cref="WeaponController"/>, <see cref="RoleAnnouncer"/>, and <see cref="GameManager"/>.
+/// </summary>
 public class Player : MonoBehaviour
 {
+    /// <summary>Maximum health points. Set this in the Unity Inspector.</summary>
     [Header("Core Stats")]
     [SerializeField] private int maxHealth = 100;
-    [SerializeField] private int currentHealth = 100; 
+    
+    /// <summary>Current health points. Set this in the Unity Inspector.</summary>
+    [SerializeField] private int currentHealth = 100;
+    
+    /// <summary>Player's currency balance. Set this in the Unity Inspector.</summary>
     [SerializeField] private int balance = 0;
-    [SerializeField] private PlayerRole role = PlayerRole.None; 
+    
+    /// <summary>Player's assigned role (Civilian, Detective, or Murderer). Set this in the Unity Inspector.</summary>
+    [SerializeField] private PlayerRole role = PlayerRole.None;
+    
+    /// <summary>Whether the player is alive. Set this in the Unity Inspector.</summary>
     [SerializeField] private bool isAlive = true;
+    
+    /// <summary>Vision range for detecting other players. Set this in the Unity Inspector.</summary>
     [SerializeField] private float visionRange = 5f;
 
+    /// <summary>Currently equipped <see cref="Weapon"/> definition. Set this in the Unity Inspector.</summary>
     [Header("Inventory / Progression")]
-    [SerializeField] private Weapon equippedWeapon; 
-    [SerializeField] private List<Weapon> ownedWeapons = new(); 
-    [SerializeField] private List<ShopItem> hotbarItems = new(); // snapshot of items relevant to hotbar usage
+    [SerializeField] private Weapon equippedWeapon;
+    
+    /// <summary>List of owned <see cref="Weapon"/> definitions. Set this in the Unity Inspector.</summary>
+    [SerializeField] private List<Weapon> ownedWeapons = new();
+    
+    /// <summary>Snapshot of items relevant to hotbar usage. Set this in the Unity Inspector.</summary>
+    [SerializeField] private List<ShopItem> hotbarItems = new();
 
+    /// <summary>List of learned abilities. Set this in the Unity Inspector.</summary>
     [Header("Abilities")]
-    [SerializeField] private List<AbilityDefinition> learnedAbilities = new(); 
-    private readonly Dictionary<AbilityDefinition, float> _cooldowns = new(); 
-    private AbilityDefinition _activeAbility; 
+    [SerializeField] private List<AbilityDefinition> learnedAbilities = new();
+    
+    /// <summary>Dictionary tracking cooldown times for learned abilities.</summary>
+    private readonly Dictionary<AbilityDefinition, float> _cooldowns = new();
+    
+    /// <summary>The currently active ability, if any.</summary>
+    private AbilityDefinition _activeAbility;
+    
+    /// <summary>Remaining time for the active ability.</summary>
     private float _activeAbilityTimeLeft;
 
+    /// <summary>Reference to the <see cref="RoleAnnouncer"/> UI component. Set this in the Unity Inspector.</summary>
     [Header("UI")]
     [SerializeField] private RoleAnnouncer roleAnnouncer;
 
+    /// <summary>Reference to the player effects controller. Set this in the Unity Inspector.</summary>
     [Header("Effects & Animation")]
     [SerializeField] private PlayerEffectsController effectsController;
+    
+    /// <summary>Reference to the player animator. Set this in the Unity Inspector.</summary>
     [SerializeField] private PlayerAnimator playerAnimator;
 
+    /// <summary>Current <see cref="WeaponController"/> instance. Set this in the Unity Inspector.</summary>
     [Header("Weapon Controller")]
     [SerializeField] private WeaponController currentWeapon;
+    
+    /// <summary>Optional transform to parent equipped weapons to (e.g. HipSocket or Hand). If null, weapon will be parented to the player root. Set this in the Unity Inspector.</summary>
     [Header("Weapon Socket")]
     [Tooltip("Optional transform to parent equipped weapons to (e.g. HipSocket or Hand). If null, weapon will be parented to the player root.")]
     [SerializeField] private Transform weaponSocket;
+    
+    /// <summary>Local position applied to an equipped weapon when parented. Set this in the Unity Inspector.</summary>
     [Tooltip("Local position applied to an equipped weapon when parented (used if no socket or to offset inside socket).")]
     [SerializeField] private Vector3 weaponLocalPosition = new Vector3(1.2f, 0.6f, 0.2f);
+    
+    /// <summary>Local Euler angles applied to an equipped weapon when parented. Set this in the Unity Inspector.</summary>
     [Tooltip("Local Euler angles applied to an equipped weapon when parented.")]
     [SerializeField] private Vector3 weaponLocalEuler = new Vector3(0f, 90f, 0f);
-    // If we instantiate a runtime copy of a prefab assigned in inspector, track it here so we can clean it up later
+    
+    /// <summary>Runtime instance of the weapon prefab, tracked for cleanup.</summary>
     private WeaponController _runtimeWeaponInstance;
 
+    /// <summary>Automatically heal to max health on Start. Set this in the Unity Inspector.</summary>
     [Header("Events / Flags")]
     [SerializeField] private bool autoHealToMaxOnStart = false;
 
+    /// <summary>Gets the player's current balance.</summary>
     public int Balance => balance;
+    
+    /// <summary>Gets the player's current health.</summary>
     public int CurrentHealth => currentHealth;
+    
+    /// <summary>Gets the player's maximum health.</summary>
     public int MaxHealth => maxHealth;
+    
+    /// <summary>Gets the player's assigned role.</summary>
     public PlayerRole Role => role;
+    
+    /// <summary>Gets whether the player is alive.</summary>
     public bool IsAlive => isAlive;
+    
+    /// <summary>Gets the player's vision range.</summary>
     public float VisionRange => visionRange;
 
+    /// <summary>Gets the player's current role.</summary>
     public PlayerRole CurrentRole => role;
+    
+    /// <summary>Gets the player's money (alias for Balance).</summary>
     public int Money => balance;
+    
+    /// <summary>Gets the player's current HP (alias for CurrentHealth).</summary>
     public int CurrentHP => currentHealth;
 
+    /// <summary>Gets the currently equipped <see cref="Weapon"/>.</summary>
     public Weapon EquippedWeapon => equippedWeapon;
+    
+    /// <summary>Gets a read-only list of owned <see cref="Weapon"/> definitions.</summary>
     public IReadOnlyList<Weapon> OwnedWeapons => ownedWeapons;
+    
+    /// <summary>Gets a read-only list of learned abilities.</summary>
     public IReadOnlyList<AbilityDefinition> LearnedAbilities => learnedAbilities;
+    
+    /// <summary>Gets the currently active ability.</summary>
     public AbilityDefinition ActiveAbility => _activeAbility;
 
+    /// <summary>Initializes component references.</summary>
     void Awake()
     {
         if (roleAnnouncer == null)
@@ -81,16 +152,19 @@ public class Player : MonoBehaviour
         if (playerAnimator == null) playerAnimator = GetComponent<PlayerAnimator>();
     }
 
+    /// <summary>Subscribes to global events.</summary>
     void OnEnable()
     {
         // Subscribe to global events (e.g., AchievementManager.NotifyEvent callbacks) if needed
     }
 
+    /// <summary>Unsubscribes from events.</summary>
     void OnDisable()
     {
         // Unsubscribe from events
     }
 
+    /// <summary>Initializes player state, assigns role from <see cref="GameManager"/>, and shows role via <see cref="RoleAnnouncer"/>.</summary>
     void Start()
     {
         if (autoHealToMaxOnStart) currentHealth = maxHealth;
@@ -111,6 +185,7 @@ public class Player : MonoBehaviour
         }
     }
 
+    /// <summary>Updates abilities, effects, weapon positioning, and handles attack input.</summary>
     void Update()
     {
         TickActiveAbility();
@@ -160,7 +235,10 @@ public class Player : MonoBehaviour
 #endif
     }
 
-    // ----- Currency -----
+    /// <summary>
+    /// Adds balance to the player.
+    /// </summary>
+    /// <param name="amount">Amount to add (must be positive).</param>
     public void AddBalance(int amount)
     {
         // 1. Validate amount > 0
@@ -170,6 +248,10 @@ public class Player : MonoBehaviour
         balance += amount;
     }
 
+    /// <summary>
+    /// Alias for <see cref="AddBalance"/> (for external calls).
+    /// </summary>
+    /// <param name="amount">Amount to add.</param>
     public void AddMoney(int amount)
     {
         // 1. Alias for AddBalance (for external calls)
@@ -177,6 +259,12 @@ public class Player : MonoBehaviour
         throw new System.NotImplementedException();
     }
 
+    /// <summary>
+    /// Attempts to spend balance.
+    /// </summary>
+    /// <param name="amount">Amount to spend.</param>
+    /// <param name="allowNegative">Whether to allow negative balance.</param>
+    /// <returns>True if transaction succeeded.</returns>
     public bool SpendBalance(int amount, bool allowNegative = false)
     {
         // 1. Validate amount
@@ -188,7 +276,10 @@ public class Player : MonoBehaviour
         return true;
     }
 
-    // ----- Health -----
+    /// <summary>
+    /// Applies damage to the player. Calls <see cref="Die"/> if health reaches zero.
+    /// </summary>
+    /// <param name="dmg">Damage amount.</param>
     public void TakeDamage(int dmg)
     {
         // 1. Ignore non-positive damage
@@ -204,6 +295,9 @@ public class Player : MonoBehaviour
         // 4. Trigger hit animation or blood VFX through animator/VFXManager
     }
 
+    /// <summary>
+    /// Handles player death. Not yet fully implemented.
+    /// </summary>
     public void Die()
     {
         // 1. Set isAlive=false
@@ -213,6 +307,10 @@ public class Player : MonoBehaviour
         throw new System.NotImplementedException();
     }
 
+    /// <summary>
+    /// Heals the player by the specified amount (clamped to max health).
+    /// </summary>
+    /// <param name="hp">Health points to restore.</param>
     public void Heal(int hp)
     {
         // 1. Validate positive hp
@@ -222,7 +320,10 @@ public class Player : MonoBehaviour
         currentHealth = Mathf.Min(currentHealth + hp, maxHealth);
     }
 
-    // ----- Role -----
+    /// <summary>
+    /// Sets the player's role.
+    /// </summary>
+    /// <param name="newRole">The new <see cref="PlayerRole"/>.</param>
     public void SetRole(PlayerRole newRole)
     {
         // 1. Assign role
@@ -230,7 +331,10 @@ public class Player : MonoBehaviour
         role = newRole;
     }
 
-    // ----- Weapons (Simple Definition-based Inventory) -----
+    /// <summary>
+    /// Adds a <see cref="Weapon"/> to the player's inventory and auto-equips if none equipped.
+    /// </summary>
+    /// <param name="weapon">The weapon to acquire.</param>
     public void AcquireWeapon(Weapon weapon)
     {
         // 1. Null/duplicate check
@@ -241,6 +345,10 @@ public class Player : MonoBehaviour
         if (equippedWeapon == null) equippedWeapon = weapon;
     }
 
+    /// <summary>
+    /// Equips a <see cref="Weapon"/> from the player's inventory.
+    /// </summary>
+    /// <param name="weapon">The weapon to equip.</param>
     public void EquipWeapon(Weapon weapon)
     {
         // 1. Validate in ownedWeapons
@@ -250,7 +358,11 @@ public class Player : MonoBehaviour
         equippedWeapon = weapon;
     }
 
-    // ----- Abilities API -----
+    /// <summary>
+    /// Learns a new ability if affordable.
+    /// </summary>
+    /// <param name="ability">The ability to learn.</param>
+    /// <returns>True if the ability was successfully learned.</returns>
     public bool LearnAbility(AbilityDefinition ability)
     {
         // 1. Validate ability
@@ -263,6 +375,11 @@ public class Player : MonoBehaviour
         return true;
     }
 
+    /// <summary>
+    /// Activates an ability. Not yet fully implemented.
+    /// </summary>
+    /// <param name="ability">The ability to activate.</param>
+    /// <returns>True if activation succeeded.</returns>
     public bool ActivateAbility(AbilityDefinition ability)
     {
         // 1. Validate ownership
@@ -274,6 +391,11 @@ public class Player : MonoBehaviour
         throw new System.NotImplementedException();
     }
 
+    /// <summary>
+    /// Activates an ability by its index in the learned abilities list.
+    /// </summary>
+    /// <param name="index">The index of the ability.</param>
+    /// <returns>True if activation succeeded.</returns>
     public bool ActivateAbilityByIndex(int index)
     {
         // 1. Index bounds check
@@ -282,6 +404,11 @@ public class Player : MonoBehaviour
         return ActivateAbility(learnedAbilities[index]);
     }
 
+    /// <summary>
+    /// Gets the remaining cooldown time for an ability.
+    /// </summary>
+    /// <param name="ability">The ability to check.</param>
+    /// <returns>Remaining cooldown in seconds.</returns>
     public float GetCooldownRemaining(AbilityDefinition ability)
     {
         // 1. Look up dictionary; return clamped value
@@ -289,11 +416,17 @@ public class Player : MonoBehaviour
         return _cooldowns.TryGetValue(ability, out var t) ? Mathf.Max(0f, t) : 0f;
     }
 
+    /// <summary>
+    /// Checks if an ability is currently active.
+    /// </summary>
+    /// <param name="ability">The ability to check.</param>
+    /// <returns>True if the ability is active.</returns>
     public bool IsAbilityActive(AbilityDefinition ability)
     {
         return _activeAbility == ability;
     }
 
+    /// <summary>Ticks the active ability duration and ends it when expired.</summary>
     private void TickActiveAbility()
     {
         // 1. Early return if none
@@ -310,6 +443,7 @@ public class Player : MonoBehaviour
         }
     }
 
+    /// <summary>Ends the currently active ability.</summary>
     private void EndActiveAbility()
     {
         // 1. Deactivate effects
@@ -319,6 +453,7 @@ public class Player : MonoBehaviour
         _activeAbilityTimeLeft = 0f;
     }
 
+    /// <summary>Ticks down all ability cooldowns.</summary>
     private void TickCooldowns()
     {
         // 1. Iterate keys
@@ -336,20 +471,31 @@ public class Player : MonoBehaviour
         }
     }
 
-    // ----- Effects Convenience -----
+    /// <summary>
+    /// Applies a speed effect. Not yet fully implemented.
+    /// </summary>
+    /// <param name="duration">Duration in seconds.</param>
+    /// <param name="multiplier">Speed multiplier.</param>
     public void ApplySpeedEffect(float duration, float multiplier)
     {
         // 1. Forward to effectsController.ApplyEffect(EffectType.Speed,...)
         throw new System.NotImplementedException();
     }
 
+    /// <summary>
+    /// Applies an invisibility effect. Not yet fully implemented.
+    /// </summary>
+    /// <param name="duration">Duration in seconds.</param>
     public void ApplyInvisibilityEffect(float duration)
     {
         // 1. Forward to effectsController.ApplyEffect(EffectType.Invisibility,...)
         throw new System.NotImplementedException();
     }
 
-    // ----- Weapon Controller Integration -----
+    /// <summary>
+    /// Sets the current <see cref="WeaponController"/> and initializes it.
+    /// </summary>
+    /// <param name="weapon">The weapon controller to set.</param>
     public void SetCurrentWeapon(WeaponController weapon)
     {
         // Clean up previously instantiated runtime weapon if any
@@ -401,6 +547,7 @@ public class Player : MonoBehaviour
 
     }
 
+    /// <summary>Performs an attack using the current <see cref="WeaponController"/>.</summary>
     public void PerformAttack()
     {
         if (currentWeapon == null) return;
@@ -414,7 +561,10 @@ public class Player : MonoBehaviour
         }
     }
 
-    // ----- Hotbar Item Usage -----
+    /// <summary>
+    /// Uses an item from the hotbar. Not yet fully implemented.
+    /// </summary>
+    /// <param name="item">The item to use.</param>
     public void UseItem(ShopItem item)
     {
         // 1. Null check

@@ -2,15 +2,46 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 
+using System.Collections;
+using UnityEngine;
+using TMPro;
+
+/// <summary>
+/// UI component that displays the player's role temporarily with fade-in/fade-out effects.
+/// Used by <see cref="Player"/> to announce assigned roles at game start.
+/// </summary>
 public class RoleAnnouncer : MonoBehaviour
 {
-    [SerializeField] private TMP_Text uiText; 
+    /// <summary>
+    /// TextMeshPro text component for displaying the role.
+    /// Set this in the Unity Inspector.
+    /// </summary>
+    [SerializeField] private TMP_Text uiText;
+    
+    /// <summary>
+    /// Duration in seconds to show the role before fading out.
+    /// Set this in the Unity Inspector.
+    /// </summary>
     [SerializeField] private float showSeconds = 2.5f;
+    
+    /// <summary>
+    /// Duration in seconds for the fade-out transition.
+    /// Set this in the Unity Inspector.
+    /// </summary>
     [SerializeField] private float fadeSeconds = 1.0f;
+    
+    /// <summary>
+    /// Starting color for the text (alpha will be animated).
+    /// Set this in the Unity Inspector.
+    /// </summary>
     [SerializeField] private Color startColor = Color.white;
 
+    /// <summary>Currently running coroutine reference.</summary>
     private Coroutine _routine;
 
+    /// <summary>
+    /// Initializes the UI text component and sets initial alpha to zero.
+    /// </summary>
     void Awake()
     {
         if (uiText == null)
@@ -24,6 +55,10 @@ public class RoleAnnouncer : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Shows the specified <see cref="PlayerRole"/> with fade-in/fade-out animation.
+    /// </summary>
+    /// <param name="role">The role to display.</param>
     public void ShowRole(PlayerRole role)
     {
         if (uiText == null) return;
@@ -31,6 +66,11 @@ public class RoleAnnouncer : MonoBehaviour
         _routine = StartCoroutine(ShowAndFade(role.ToString()));
     }
 
+    /// <summary>
+    /// Coroutine that fades in the text instantly, waits, then fades out.
+    /// </summary>
+    /// <param name="text">The text to display.</param>
+    /// <returns>Coroutine enumerator.</returns>
     private IEnumerator ShowAndFade(string text)
     {
         uiText.text = text;

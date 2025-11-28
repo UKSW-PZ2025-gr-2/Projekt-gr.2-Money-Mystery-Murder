@@ -3,20 +3,41 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 #endif
 
+/// <summary>
+/// Handles player movement input and translation.
+/// Supports both Unity's new Input System and legacy Input Manager.
+/// Used by <see cref="Player"/> and can be disabled by <see cref="MinigameBase"/> during minigames.
+/// </summary>
 public class PlayerMovement : MonoBehaviour
 {
+    /// <summary>
+    /// Movement speed in units per second.
+    /// Set this in the Unity Inspector.
+    /// </summary>
     [SerializeField] private float moveSpeed = 5f;
+    
 #if ENABLE_INPUT_SYSTEM
-    [SerializeField] private InputActionReference moveAction; // Vector2 (x,y)
+    /// <summary>
+    /// Input Action Reference for reading Vector2 move input (x,y).
+    /// Set this in the Unity Inspector.
+    /// </summary>
+    [SerializeField] private InputActionReference moveAction;
 #endif
 
-    private Player _player; // for abilities affecting speed
+    /// <summary>Reference to the <see cref="Player"/> component for abilities affecting speed.</summary>
+    private Player _player;
 
+    /// <summary>
+    /// Initializes the <see cref="Player"/> reference.
+    /// </summary>
     void Awake()
     {
         _player = GetComponent<Player>();
     }
 
+    /// <summary>
+    /// Reads movement input and translates the player each frame.
+    /// </summary>
     void Update()
     {
         Vector2 move = ReadMove();
@@ -24,6 +45,10 @@ public class PlayerMovement : MonoBehaviour
         transform.Translate(moveSpeed * Time.deltaTime * (Vector3)move, Space.World);
     }
 
+    /// <summary>
+    /// Reads movement input from the Input System or legacy Input Manager.
+    /// </summary>
+    /// <returns>A normalized Vector2 representing movement direction.</returns>
     private Vector2 ReadMove()
     {
 #if ENABLE_INPUT_SYSTEM

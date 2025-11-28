@@ -1,28 +1,62 @@
 using UnityEngine;
-using UnityEngine.UI; // still needed for Canvas / CanvasScaler / GraphicRaycaster
-using TMPro; // TextMeshPro
+using UnityEngine.UI;
+using TMPro;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
 
-// Classic slot machine minigame with weighted symbols and payout logic.
-// Costs startCost balance to start. Generates 3 random symbols and displays them.
-// UI (Canvas + 3 TMP objects) is created dynamically on start and destroyed on end.
+/// <summary>
+/// Classic slot machine minigame with weighted symbols and payout logic.
+/// Costs a fixed balance amount to start. Generates 3 random symbols and displays them.
+/// UI (Canvas + 3 TextMeshPro objects) is created dynamically on start and destroyed on end.
+/// Inherits from <see cref="MinigameBase"/> and integrates with <see cref="Player"/>.
+/// </summary>
 public class SlotMachineMinigame : MinigameBase
 {
+    /// <summary>
+    /// Fixed cost to play the slot machine.
+    /// Set this in the Unity Inspector.
+    /// </summary>
     [Header("Slot Machine Settings")]
-    [SerializeField] private int startCost = 10; // fixed play cost
+    [SerializeField] private int startCost = 10;
+    
+    /// <summary>
+    /// Color of the slot display text.
+    /// Set this in the Unity Inspector.
+    /// </summary>
     [SerializeField] private Color textColor = Color.yellow;
+    
+    /// <summary>
+    /// Font size for the slot display text.
+    /// Set this in the Unity Inspector.
+    /// </summary>
     [SerializeField] private int fontSize = 64;
-    [SerializeField] private Vector2 spacing = new(160f, 0f); // horizontal spacing between numbers
-    [SerializeField] private float autoEndSeconds = 3f; // auto end after this duration
+    
+    /// <summary>
+    /// Horizontal spacing between slot display numbers.
+    /// Set this in the Unity Inspector.
+    /// </summary>
+    [SerializeField] private Vector2 spacing = new(160f, 0f);
+    
+    /// <summary>
+    /// Auto-end duration in seconds after game starts.
+    /// Set this in the Unity Inspector.
+    /// </summary>
+    [SerializeField] private float autoEndSeconds = 3f;
 
+    /// <summary>Root GameObject for the dynamically created UI.</summary>
     private GameObject _uiRoot;
-    private TextMeshProUGUI[] _texts; // switched to TMP
+    
+    /// <summary>Array of TextMeshPro components displaying the slot symbols.</summary>
+    private TextMeshProUGUI[] _texts;
+    
+    /// <summary>Array storing the generated symbol strings.</summary>
     private string[] _values = new string[3];
+    
+    /// <summary>Elapsed time since game started.</summary>
     private float _elapsed;
 
-    // Weighted symbol definitions (total weights sum to 100)
+    /// <summary>Weighted symbol definitions with weights summing to 100.</summary>
     private static readonly (string symbol, int weight)[] _symbolWeights = new (string, int)[]
     {
         ("CHERRY", 40),
@@ -33,6 +67,9 @@ public class SlotMachineMinigame : MinigameBase
         ("7", 1)
     };
 
+    /// <summary>
+    /// Called when the minigame starts. Generates symbols, builds UI, calculates payout, and credits the <see cref="Player"/>.
+    /// </summary>
     protected override void OnStartGame()
     {
         _elapsed = 0f;
@@ -51,15 +88,28 @@ public class SlotMachineMinigame : MinigameBase
         Debug.Log($"[SlotMachineMinigame] Started. Symbols: {_values[0]}, {_values[1]}, {_values[2]} (autoEnd={autoEndSeconds}s)");
     }
 
+    /// <summary>
+    /// Called when the minigame ends. Cleans up the dynamically created UI.
+    /// </summary>
     protected override void OnEndGame()
     {
         CleanupUI();
         Debug.Log("[SlotMachineMinigame] Ended.");
     }
 
+    /// <summary>
+    /// Returns the cost required to start the minigame.
+    /// </summary>
+    /// <returns>The start cost in balance.</returns>
     protected override int GetStartCost() => startCost;
-    protected override bool AllowNegativeBalanceOnStart() => false; // do not allow going negative
+    
+    /// <summary>
+    /// Returns whether to allow the player's balance to go negative when paying start cost.
+    /// </summary>
+    /// <returns>False (does not allow negative balance).</returns>
+    protected override bool AllowNegativeBalanceOnStart() => false;
 
+    /// <summary>Generates three random weighted symbols for the slot machine.</summary>
     private void GenerateSymbols()
     {
         for (int i = 0; i < _values.Length; i++)
@@ -68,6 +118,10 @@ public class SlotMachineMinigame : MinigameBase
         }
     }
 
+    /// <summary>
+    /// Picks a single weighted symbol using random roll.
+    /// </summary>
+    /// <returns>A symbol string.</returns>
     private string PickWeightedSymbol()
     {
         int total = 0;
@@ -82,6 +136,10 @@ public class SlotMachineMinigame : MinigameBase
         return _symbolWeights[_symbolWeights.Length - 1].symbol; // fallback safety
     }
 
+    /// <summary>
+    /// Calculates the payout based on the generated symbols.
+    /// </summary>
+    /// <returns>Payout amount in balance.</returns>
     private int CalculatePayout()
     {
         string a = _values[0];
@@ -113,6 +171,7 @@ public class SlotMachineMinigame : MinigameBase
         return 0;
     }
 
+    /// <summary>Builds the UI Canvas and TextMeshPro components for displaying slot symbols.</summary>
     private void BuildUI()
     {
         CleanupUI();
@@ -155,6 +214,7 @@ public class SlotMachineMinigame : MinigameBase
         }
     }
 
+    /// <summary>Updates the UI text components with the current symbol values.</summary>
     private void UpdateUI()
     {
         if (_texts == null) return;
@@ -167,6 +227,7 @@ public class SlotMachineMinigame : MinigameBase
         }
     }
 
+    /// <summary>Destroys the UI root GameObject and clears references.</summary>
     private void CleanupUI()
     {
         if (_uiRoot != null)
@@ -178,6 +239,9 @@ public class SlotMachineMinigame : MinigameBase
     }
 
 #if ENABLE_INPUT_SYSTEM
+    /// <summary>
+    /// Updates the minigame timer and handles Escape key to end the game (Input System version).
+    /// </summary>
     void Update()
     {
         if (!IsRunning) return;
@@ -194,6 +258,9 @@ public class SlotMachineMinigame : MinigameBase
         }
     }
 #else
+    /// <summary>
+    /// Updates the minigame timer and handles Escape key to end the game (Legacy Input version).
+    /// </summary>
     void Update()
     {
         if (!IsRunning) return;
