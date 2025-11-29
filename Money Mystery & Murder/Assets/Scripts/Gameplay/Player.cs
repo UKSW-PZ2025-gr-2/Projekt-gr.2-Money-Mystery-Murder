@@ -164,13 +164,13 @@ public class Player : MonoBehaviour
         // Unsubscribe from events
     }
 
-    /// <summary>Initializes player state, assigns role from <see cref="GameManager"/>, and shows role via <see cref="RoleAnnouncer"/>.</summary>
+    /// <summary>Initializes player state, assigns role from <see cref="RoleManager"/>, and shows role via <see cref="RoleAnnouncer"/>.</summary>
     protected virtual void Start()
     {
         if (autoHealToMaxOnStart) currentHealth = maxHealth;
-        if (role == PlayerRole.None && GameManager.Instance != null)
+        if (role == PlayerRole.None && GameManager.Instance != null && GameManager.Instance.RoleManager != null)
         {
-            role = GameManager.Instance.PickRandomRoleFromPool();
+            role = GameManager.Instance.RoleManager.PickRandomRoleFromPool();
         }
         if (roleAnnouncer != null)
         {

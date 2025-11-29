@@ -7,7 +7,7 @@ using UnityEngine;
 public class Bot : Player
 {
     /// <summary>
-    /// Initializes bot state, assigns role from <see cref="GameManager"/>.
+    /// Initializes bot state, assigns role from <see cref="RoleManager"/>.
     /// Overrides <see cref="Player.Start"/> to skip role announcement.
     /// </summary>
     protected override void Start()
@@ -18,10 +18,10 @@ public class Bot : Player
             Heal(MaxHealth - CurrentHealth);
         }
         
-        // Assign role from GameManager if no role is set
-        if (Role == PlayerRole.None && GameManager.Instance != null)
+        // Assign role from RoleManager if no role is set
+        if (Role == PlayerRole.None && GameManager.Instance != null && GameManager.Instance.RoleManager != null)
         {
-            SetRole(GameManager.Instance.PickRandomRoleFromPool());
+            SetRole(GameManager.Instance.RoleManager.PickRandomRoleFromPool());
         }
         
         // Skip roleAnnouncer.ShowRole() - bots don't announce their role
