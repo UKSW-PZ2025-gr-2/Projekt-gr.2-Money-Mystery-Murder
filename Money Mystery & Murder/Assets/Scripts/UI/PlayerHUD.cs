@@ -56,13 +56,13 @@ public class PlayerHUD : MonoBehaviour
     private float _timer;
 
     /// <summary>
-    /// Finds the <see cref="Player"/> if not assigned.
+    /// Finds the <see cref="Player"/> on the same GameObject if not assigned.
     /// </summary>
     void Awake()
     {
         if (player == null)
         {   
-            player = Object.FindFirstObjectByType<Player>();
+            player = GetComponent<Player>();
         }
     }
 
