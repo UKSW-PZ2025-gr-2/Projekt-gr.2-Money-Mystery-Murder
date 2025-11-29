@@ -296,15 +296,31 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles player death. Not yet fully implemented.
+    /// Handles player death.
     /// </summary>
     public void Die()
     {
-        // 1. Set isAlive=false
-        // 2. Trigger death animation
-        // 3. Disable movement/input components
-        // 4. Notify GameManager for win condition check
-        throw new System.NotImplementedException();
+        if (!isAlive) return;
+        
+        isAlive = false;
+        
+        if (playerAnimator != null)
+        {
+            playerAnimator.TriggerDeath();
+        }
+        
+        var movement = GetComponent<PlayerMovement>();
+        if (movement != null)
+        {
+            movement.enabled = false;
+        }
+        
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.CheckWinCondition();
+        }
+        
+        gameObject.SetActive(false);
     }
 
     /// <summary>
