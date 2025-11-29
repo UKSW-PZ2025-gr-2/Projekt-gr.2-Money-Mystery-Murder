@@ -12,11 +12,20 @@ public class RoleManager : MonoBehaviour
     /// <summary>List of all players being managed. Set this in the Unity Inspector.</summary>
     [SerializeField] private List<Player> players = new();
 
+    /// <summary>The active role pool that gets depleted as roles are assigned.</summary>
+    private List<PlayerRole> activeRolePool = new();
+    
+    /// <summary>Whether the role pool has been initialized.</summary>
+    private bool isPoolInitialized = false;
+
     /// <summary>Gets the current player count.</summary>
     public int PlayerCount => playerCount;
     
     /// <summary>Gets a read-only list of all managed players.</summary>
     public IReadOnlyList<Player> Players => players;
+    
+    /// <summary>Gets the number of roles remaining in the active pool.</summary>
+    public int RemainingRolesInPool => activeRolePool.Count;
 
     /// <summary>
     /// Sets the player count to the specified value.
@@ -38,85 +47,180 @@ public class RoleManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Assigns unique roles from a generated pool to all <see cref="Player"/> instances in the scene.
+    /// Initializes the role pool based on the current number of players in the scene.
+    /// This should be called once at the start of the game.
     /// </summary>
-    public void AssignRolesToPlayers()
+    public void InitializeRolePool()
     {
         var foundPlayers = Object.FindObjectsByType<Player>(FindObjectsSortMode.None);
-        if (foundPlayers == null || foundPlayers.Length == 0) return;
+        if (foundPlayers == null || foundPlayers.Length == 0)
+        {
+            Debug.LogWarning("[RoleManager] No players found to initialize role pool");
+            return;
+        }
         
         players.Clear();
         players.AddRange(foundPlayers);
         playerCount = players.Count;
         
-        var pool = BuildRolePool(playerCount);
-        rolePoolDebugView = new List<PlayerRole>(pool);
-        Shuffle(pool);
+        activeRolePool = BuildRolePool(playerCount);
+        rolePoolDebugView = new List<PlayerRole>(activeRolePool);
+        Shuffle(activeRolePool);
         
-        int index = 0;
-        foreach (var p in players)
-        {
-            if (index >= pool.Count) 
-            { 
-                p.SetRole(PlayerRole.Civilian); 
-                continue; 
-            }
-            p.SetRole(pool[index]);
-            index++;
-        }
+        isPoolInitialized = true;
         
-        Debug.Log($"[RoleManager] Assigned roles to {players.Count} players");
+        Debug.Log($"[RoleManager] Initialized role pool for {playerCount} players with {activeRolePool.Count} roles");
     }
 
     /// <summary>
-    /// Assigns roles to a specific list of players.
+    /// Initializes the role pool for a specific list of players.
     /// </summary>
-    /// <param name="playerList">The list of players to assign roles to.</param>
-    public void AssignRoles(List<Player> playerList)
+    /// <param name="playerList">The list of players to initialize the pool for.</param>
+    public void InitializeRolePool(List<Player> playerList)
     {
-        if (playerList == null || playerList.Count == 0) return;
+        if (playerList == null || playerList.Count == 0)
+        {
+            Debug.LogWarning("[RoleManager] No players provided to initialize role pool");
+            return;
+        }
         
         players.Clear();
         players.AddRange(playerList);
         playerCount = players.Count;
         
-        var pool = BuildRolePool(playerCount);
-        rolePoolDebugView = new List<PlayerRole>(pool);
-        Shuffle(pool);
+        activeRolePool = BuildRolePool(playerCount);
+        rolePoolDebugView = new List<PlayerRole>(activeRolePool);
+        Shuffle(activeRolePool);
         
-        int index = 0;
-        foreach (var p in players)
+        isPoolInitialized = true;
+        
+        Debug.Log($"[RoleManager] Initialized role pool for {playerCount} players with {activeRolePool.Count} roles");
+    }
+
+    /// <summary>
+    /// Assigns unique roles from the active pool to all <see cref="Player"/> instances in the scene.
+    /// The pool must be initialized first using <see cref="InitializeRolePool"/>.
+    /// </summary>
+    public void AssignRolesToPlayers()
+    {
+        if (!isPoolInitialized)
         {
-            if (index >= pool.Count) 
-            { 
-                p.SetRole(PlayerRole.Civilian); 
-                continue; 
-            }
-            p.SetRole(pool[index]);
-            index++;
+            Debug.LogWarning("[RoleManager] Role pool not initialized. Call InitializeRolePool first.");
+            InitializeRolePool();
         }
         
-        Debug.Log($"[RoleManager] Assigned roles to {players.Count} players");
+        if (players == null || players.Count == 0)
+        {
+            Debug.LogWarning("[RoleManager] No players to assign roles to");
+            return;
+        }
+        
+        foreach (var p in players)
+        {
+            if (p == null) continue;
+            
+            PlayerRole assignedRole = TakeRoleFromPool();
+            p.SetRole(assignedRole);
+        }
+        
+        Debug.Log($"[RoleManager] Assigned roles to {players.Count} players. {activeRolePool.Count} roles remaining in pool");
+    }
+
+    /// <summary>
+    /// Assigns roles to a specific list of players from the active pool.
+    /// The pool must be initialized first using <see cref="InitializeRolePool"/>.
+    /// </summary>
+    /// <param name="playerList">The list of players to assign roles to.</param>
+    public void AssignRoles(List<Player> playerList)
+    {
+        if (!isPoolInitialized)
+        {
+            Debug.LogWarning("[RoleManager] Role pool not initialized. Initializing with provided player list.");
+            InitializeRolePool(playerList);
+        }
+        
+        if (playerList == null || playerList.Count == 0)
+        {
+            Debug.LogWarning("[RoleManager] No players to assign roles to");
+            return;
+        }
+        
+        foreach (var p in playerList)
+        {
+            if (p == null) continue;
+            
+            PlayerRole assignedRole = TakeRoleFromPool();
+            p.SetRole(assignedRole);
+        }
+        
+        Debug.Log($"[RoleManager] Assigned roles to {playerList.Count} players. {activeRolePool.Count} roles remaining in pool");
+    }
+
+    /// <summary>
+    /// Takes and removes a role from the active pool.
+    /// If the pool is empty, returns Civilian as a fallback.
+    /// </summary>
+    /// <returns>A <see cref="PlayerRole"/> from the pool.</returns>
+    private PlayerRole TakeRoleFromPool()
+    {
+        if (activeRolePool.Count == 0)
+        {
+            Debug.LogWarning("[RoleManager] Role pool is empty, assigning Civilian as fallback");
+            return PlayerRole.Civilian;
+        }
+        
+        PlayerRole role = activeRolePool[0];
+        activeRolePool.RemoveAt(0);
+        return role;
     }
 
     /// <summary>
     /// Picks a random role from the role pool based on the current player count.
+    /// This method takes a role from the active pool and does not return it.
     /// </summary>
     /// <returns>A random <see cref="PlayerRole"/>.</returns>
     public PlayerRole PickRandomRoleFromPool()
     {
-        int count = playerCount;
-        var foundPlayers = Object.FindObjectsByType<Player>(FindObjectsSortMode.None);
-        if (foundPlayers != null && foundPlayers.Length > 0) 
+        if (!isPoolInitialized)
         {
-            count = foundPlayers.Length;
+            Debug.LogWarning("[RoleManager] Role pool not initialized. Initializing based on scene players.");
+            InitializeRolePool();
         }
         
-        var pool = BuildRolePool(Mathf.Max(1, count));
-        if (pool.Count == 0) return PlayerRole.Civilian;
+        if (activeRolePool.Count == 0)
+        {
+            Debug.LogWarning("[RoleManager] Role pool is empty, returning Civilian as fallback");
+            return PlayerRole.Civilian;
+        }
         
-        int idx = Random.Range(0, pool.Count);
-        return pool[idx];
+        int idx = Random.Range(0, activeRolePool.Count);
+        PlayerRole role = activeRolePool[idx];
+        activeRolePool.RemoveAt(idx);
+        
+        Debug.Log($"[RoleManager] Picked {role} from pool. {activeRolePool.Count} roles remaining");
+        return role;
+    }
+
+    /// <summary>
+    /// Resets the role pool, allowing roles to be reassigned.
+    /// This rebuilds the pool based on current player count.
+    /// </summary>
+    public void ResetRolePool()
+    {
+        if (players.Count > 0)
+        {
+            activeRolePool = BuildRolePool(players.Count);
+        }
+        else
+        {
+            activeRolePool = BuildRolePool(playerCount);
+        }
+        
+        rolePoolDebugView = new List<PlayerRole>(activeRolePool);
+        Shuffle(activeRolePool);
+        isPoolInitialized = true;
+        
+        Debug.Log($"[RoleManager] Reset role pool with {activeRolePool.Count} roles");
     }
 
     /// <summary>

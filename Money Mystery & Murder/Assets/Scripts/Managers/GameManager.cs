@@ -76,6 +76,7 @@ public class GameManager : MonoBehaviour
     {
         if (assignUniqueRolesOnStart && roleManager != null)
         {
+            roleManager.InitializeRolePool();
             roleManager.AssignRolesToPlayers();
         }
 
