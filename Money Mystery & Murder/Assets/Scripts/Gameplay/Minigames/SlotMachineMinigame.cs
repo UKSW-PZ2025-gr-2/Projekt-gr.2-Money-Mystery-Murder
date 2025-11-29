@@ -8,8 +8,9 @@ using UnityEngine.InputSystem;
 /// <summary>
 /// Classic slot machine minigame with weighted symbols and payout logic.
 /// Costs a fixed balance amount to start. Generates 3 random symbols and displays them.
-/// UI (Canvas + 3 TextMeshPro objects) is created dynamically on start and destroyed on end.
+/// Sprites are created dynamically in world space on start and destroyed on end.
 /// Inherits from <see cref="MinigameBase"/> and integrates with <see cref="Player"/>.
+/// Can award a rare Golden Knife weapon on jackpot (triple 7s).
 /// </summary>
 public class SlotMachineMinigame : MinigameBase
 {
@@ -21,22 +22,22 @@ public class SlotMachineMinigame : MinigameBase
     [SerializeField] private int startCost = 10;
     
     /// <summary>
-    /// Color of the slot display text.
+    /// Horizontal spacing between slot display sprites in world units.
     /// Set this in the Unity Inspector.
     /// </summary>
-    [SerializeField] private Color textColor = Color.yellow;
+    [SerializeField] private float spacing = 1.5f;
     
     /// <summary>
-    /// Font size for the slot display text.
+    /// Vertical offset from the slot machine position for the sprites.
     /// Set this in the Unity Inspector.
     /// </summary>
-    [SerializeField] private int fontSize = 64;
+    [SerializeField] private float verticalOffset = 2f;
     
     /// <summary>
-    /// Horizontal spacing between slot display numbers.
+    /// Scale for the sprite renderers.
     /// Set this in the Unity Inspector.
     /// </summary>
-    [SerializeField] private Vector2 spacing = new(160f, 0f);
+    [SerializeField] private Vector3 spriteScale = new Vector3(5f, 5f, 5f);
     
     /// <summary>
     /// Auto-end duration in seconds after game starts.
@@ -44,11 +45,50 @@ public class SlotMachineMinigame : MinigameBase
     /// </summary>
     [SerializeField] private float autoEndSeconds = 3f;
 
-    /// <summary>Root GameObject for the dynamically created UI.</summary>
-    private GameObject _uiRoot;
+    /// <summary>
+    /// Sorting layer name for the slot sprites.
+    /// Set this in the Unity Inspector.
+    /// </summary>
+    [SerializeField] private string sortingLayerName = "Default";
     
-    /// <summary>Array of TextMeshPro components displaying the slot symbols.</summary>
-    private TextMeshProUGUI[] _texts;
+    /// <summary>
+    /// Sorting order for the slot sprites.
+    /// Set this in the Unity Inspector.
+    /// </summary>
+    [SerializeField] private int sortingOrder = 10;
+
+    [Header("Symbol Sprites")]
+    [Tooltip("Sprite for CHERRY symbol")]
+    [SerializeField] private Sprite cherrySprite;
+    
+    [Tooltip("Sprite for LEMON symbol")]
+    [SerializeField] private Sprite lemonSprite;
+    
+    [Tooltip("Sprite for ORANGE symbol")]
+    [SerializeField] private Sprite orangeSprite;
+    
+    [Tooltip("Sprite for PLUM symbol")]
+    [SerializeField] private Sprite plumSprite;
+    
+    [Tooltip("Sprite for BELL symbol")]
+    [SerializeField] private Sprite bellSprite;
+    
+    [Tooltip("Sprite for 7 symbol")]
+    [SerializeField] private Sprite sevenSprite;
+    
+    [Tooltip("Sprite for unknown/placeholder symbol")]
+    [SerializeField] private Sprite questionSprite;
+
+    /// <summary>Prefab for the Golden Knife weapon awarded on jackpot.</summary>
+    [Header("Rare Rewards")]
+    [Tooltip("Golden Knife weapon controller prefab awarded on triple 7s jackpot")]
+    [SerializeField] private WeaponController goldenKnifePrefab;
+
+    /// <summary>Parent GameObject for the dynamically created sprites.</summary>
+    private GameObject _spriteRoot;
+    
+    /// <summary>Array of SpriteRenderer components displaying the slot symbols.</summary>
+    private SpriteRenderer[] _spriteRenderers;
     
     /// <summary>Array storing the generated symbol strings.</summary>
     private string[] _values = new string[3];
@@ -68,32 +108,47 @@ public class SlotMachineMinigame : MinigameBase
     };
 
     /// <summary>
-    /// Called when the minigame starts. Generates symbols, builds UI, calculates payout, and credits the <see cref="Player"/>.
+    /// Called when the minigame starts. Generates symbols, builds sprites, calculates payout, and credits the <see cref="Player"/>.
+    /// On triple 7s jackpot, awards the rare Golden Knife weapon instead of money.
     /// </summary>
     protected override void OnStartGame()
     {
         _elapsed = 0f;
         GenerateSymbols();
-        BuildUI();
-        UpdateUI();
-        int payout = CalculatePayout();
-        if (payout > 0)
+        BuildSprites();
+        UpdateSprites();
+        
+        // Check for jackpot (triple 7s) first
+        bool isJackpot = _values[0] == "7" && _values[1] == "7" && _values[2] == "7";
+        if (isJackpot && goldenKnifePrefab != null && ActivatingPlayer != null)
         {
-            if (ActivatingPlayer != null)
-            {
-                ActivatingPlayer.AddBalance(payout);
-            }
-            Debug.Log($"[SlotMachineMinigame] Payout: {payout} coins.");
+            // Award rare Golden Knife weapon
+            ActivatingPlayer.SetCurrentWeapon(goldenKnifePrefab);
+            Debug.Log($"[SlotMachineMinigame] JACKPOT! Awarded Golden Knife to {ActivatingPlayer.name}!");
         }
+        else
+        {
+            // Normal payout
+            int payout = CalculatePayout();
+            if (payout > 0)
+            {
+                if (ActivatingPlayer != null)
+                {
+                    ActivatingPlayer.AddBalance(payout);
+                }
+                Debug.Log($"[SlotMachineMinigame] Payout: {payout} coins.");
+            }
+        }
+        
         Debug.Log($"[SlotMachineMinigame] Started. Symbols: {_values[0]}, {_values[1]}, {_values[2]} (autoEnd={autoEndSeconds}s)");
     }
 
     /// <summary>
-    /// Called when the minigame ends. Cleans up the dynamically created UI.
+    /// Called when the minigame ends. Cleans up the dynamically created sprites.
     /// </summary>
     protected override void OnEndGame()
     {
-        CleanupUI();
+        CleanupSprites();
         Debug.Log("[SlotMachineMinigame] Ended.");
     }
 
@@ -171,71 +226,77 @@ public class SlotMachineMinigame : MinigameBase
         return 0;
     }
 
-    /// <summary>Builds the UI Canvas and TextMeshPro components for displaying slot symbols.</summary>
-    private void BuildUI()
+    /// <summary>Builds the sprite GameObjects and SpriteRenderer components for displaying slot symbols in world space.</summary>
+    private void BuildSprites()
     {
-        CleanupUI();
+        CleanupSprites();
 
-        _uiRoot = new GameObject("SlotMachineUI");
-        var canvas = _uiRoot.AddComponent<Canvas>();
-        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        _uiRoot.AddComponent<CanvasScaler>();
-        _uiRoot.AddComponent<GraphicRaycaster>();
+        _spriteRoot = new GameObject("SlotMachineSprites");
+        _spriteRoot.transform.SetParent(transform, false);
+        _spriteRoot.transform.localPosition = Vector3.zero;
 
-        _texts = new TextMeshProUGUI[3];
+        _spriteRenderers = new SpriteRenderer[3];
 
         for (int i = 0; i < 3; i++)
         {
-            var go = new GameObject($"SlotTMP_{i}");
-            go.transform.SetParent(_uiRoot.transform, false);
-            var tmp = go.AddComponent<TextMeshProUGUI>();
-            tmp.text = "?";
-            tmp.alignment = TextAlignmentOptions.Center;
-            tmp.color = textColor;
-            tmp.fontSize = fontSize;
-            if (TMP_Settings.defaultFontAsset != null)
-            {
-                tmp.font = TMP_Settings.defaultFontAsset;
-            }
-            else
-            {
-                var fallback = Resources.Load<TMP_FontAsset>("Fonts & Materials/LiberationSans SDF");
-                if (fallback != null) tmp.font = fallback;
-            }
+            var go = new GameObject($"Slot_{i}");
+            go.transform.SetParent(_spriteRoot.transform, false);
+            
+            // Position relative to slot machine
+            Vector3 localPos = new Vector3((i - 1) * spacing, verticalOffset, 0f);
+            go.transform.localPosition = localPos;
+            go.transform.localScale = spriteScale;
+            
+            var sr = go.AddComponent<SpriteRenderer>();
+            sr.sprite = questionSprite;
+            sr.sortingLayerName = sortingLayerName;
+            sr.sortingOrder = sortingOrder;
 
-            var rt = tmp.rectTransform;
-            rt.sizeDelta = new Vector2(fontSize * 1.5f, fontSize * 1.5f);
-            rt.anchoredPosition = new Vector2((i - 1) * spacing.x, (i - 1) * spacing.y);
-            rt.anchorMin = new Vector2(0.5f, 0.5f);
-            rt.anchorMax = new Vector2(0.5f, 0.5f);
-            rt.pivot = new Vector2(0.5f, 0.5f);
-
-            _texts[i] = tmp;
+            _spriteRenderers[i] = sr;
         }
     }
 
-    /// <summary>Updates the UI text components with the current symbol values.</summary>
-    private void UpdateUI()
+    /// <summary>Updates the sprite renderers with the current symbol sprites.</summary>
+    private void UpdateSprites()
     {
-        if (_texts == null) return;
-        for (int i = 0; i < _texts.Length; i++)
+        if (_spriteRenderers == null) return;
+        for (int i = 0; i < _spriteRenderers.Length; i++)
         {
-            if (_texts[i] != null)
+            if (_spriteRenderers[i] != null)
             {
-                _texts[i].text = _values[i];
+                _spriteRenderers[i].sprite = GetSpriteForSymbol(_values[i]);
             }
         }
     }
 
-    /// <summary>Destroys the UI root GameObject and clears references.</summary>
-    private void CleanupUI()
+    /// <summary>
+    /// Returns the appropriate sprite for a given symbol string.
+    /// </summary>
+    /// <param name="symbol">The symbol string.</param>
+    /// <returns>The corresponding sprite, or questionSprite if not found.</returns>
+    private Sprite GetSpriteForSymbol(string symbol)
     {
-        if (_uiRoot != null)
+        return symbol switch
         {
-            Destroy(_uiRoot);
-            _uiRoot = null;
+            "CHERRY" => cherrySprite != null ? cherrySprite : questionSprite,
+            "LEMON" => lemonSprite != null ? lemonSprite : questionSprite,
+            "ORANGE" => orangeSprite != null ? orangeSprite : questionSprite,
+            "PLUM" => plumSprite != null ? plumSprite : questionSprite,
+            "BELL" => bellSprite != null ? bellSprite : questionSprite,
+            "7" => sevenSprite != null ? sevenSprite : questionSprite,
+            _ => questionSprite
+        };
+    }
+
+    /// <summary>Destroys the sprite root GameObject and clears references.</summary>
+    private void CleanupSprites()
+    {
+        if (_spriteRoot != null)
+        {
+            Destroy(_spriteRoot);
+            _spriteRoot = null;
         }
-        _texts = null;
+        _spriteRenderers = null;
     }
 
 #if ENABLE_INPUT_SYSTEM
