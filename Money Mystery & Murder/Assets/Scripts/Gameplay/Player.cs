@@ -165,7 +165,7 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>Initializes player state, assigns role from <see cref="GameManager"/>, and shows role via <see cref="RoleAnnouncer"/>.</summary>
-    void Start()
+    protected virtual void Start()
     {
         if (autoHealToMaxOnStart) currentHealth = maxHealth;
         if (role == PlayerRole.None && GameManager.Instance != null)
