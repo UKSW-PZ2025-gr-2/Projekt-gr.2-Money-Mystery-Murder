@@ -21,6 +21,9 @@ public class GameManager : MonoBehaviour
     
     /// <summary>Reference to the <see cref="PhaseManager"/> system. Set this in the Unity Inspector.</summary>
     [SerializeField] private PhaseManager phaseManager;
+    
+    /// <summary>Reference to the <see cref="GameEndUI"/> component. Set this in the Unity Inspector.</summary>
+    [SerializeField] private GameEndUI gameEndUI;
 
     /// <summary>Starting hour (0-23) when game begins. Set this in the Unity Inspector.</summary>
     [Header("Game Time")]
@@ -34,6 +37,9 @@ public class GameManager : MonoBehaviour
     
     /// <summary>Internal time counter in minutes since midnight (0-1439).</summary>
     private float _currentTimeMinutes;
+    
+    /// <summary>Whether the game has ended.</summary>
+    private bool _gameEnded = false;
 
     /// <summary>Gets the current player count from RoleManager.</summary>
     public int PlayerCount => roleManager != null ? roleManager.PlayerCount : 0;
@@ -69,6 +75,11 @@ public class GameManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        
+        if (gameEndUI == null)
+        {
+            gameEndUI = FindObjectOfType<GameEndUI>();
+        }
     }
 
     /// <summary>Initializes game time, phase schedule, and optionally assigns roles to all <see cref="Player"/> instances.</summary>
@@ -94,11 +105,14 @@ public class GameManager : MonoBehaviour
     /// <summary>Updates game time and checks for phase transitions each frame.</summary>
     void Update()
     {
-        TickGameTime();
-        
-        if (phaseManager != null)
+        if (!_gameEnded)
         {
-            phaseManager.UpdatePhaseByTime(CurrentHour);
+            TickGameTime();
+            
+            if (phaseManager != null)
+            {
+                phaseManager.UpdatePhaseByTime(CurrentHour);
+            }
         }
     }
 
@@ -136,7 +150,7 @@ public class GameManager : MonoBehaviour
     /// <summary>Checks win condition logic based on role survival.</summary>
     public void CheckWinCondition()
     {
-        if (roleManager == null) return;
+        if (roleManager == null || _gameEnded) return;
 
         bool murderersAlive = roleManager.CountAlivePlayersByRole(PlayerRole.Murderer) > 0;
         bool innocentsAlive = roleManager.CountAlivePlayersByRole(PlayerRole.Civilian) > 0 
@@ -160,10 +174,43 @@ public class GameManager : MonoBehaviour
     /// <param name="winningTeam">The name of the winning team.</param>
     private void EndGame(string winningTeam)
     {
+        if (_gameEnded) return;
+        
+        _gameEnded = true;
+        
         if (phaseManager != null)
         {
             phaseManager.SetPhase(GamePhase.End);
         }
+        
+        if (gameEndUI != null)
+        {
+            gameEndUI.ShowWinner(winningTeam);
+        }
+        
         Debug.Log($"[GameManager] Game ended. Winner: {winningTeam}");
+    }
+    
+    /// <summary>Gets whether the game has ended.</summary>
+    public bool IsGameEnded => _gameEnded;
+    
+    /// <summary>Resets the game state for a new game.</summary>
+    public void ResetGame()
+    {
+        _gameEnded = false;
+        
+        if (gameEndUI != null)
+        {
+            gameEndUI.Hide();
+        }
+        
+        if (phaseManager != null)
+        {
+            phaseManager.SetPhase(GamePhase.Day);
+        }
+        
+        _currentTimeMinutes = startHour * 60 + startMinute;
+        
+        Debug.Log("[GameManager] Game reset");
     }
 }
