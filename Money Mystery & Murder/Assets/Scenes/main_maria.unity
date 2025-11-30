@@ -238,6 +238,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &82590659
 SpriteRenderer:
@@ -653,6 +656,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &130289179
 SpriteRenderer:
@@ -930,6 +936,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &157281928
 SpriteRenderer:
@@ -1123,6 +1132,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &175097244
 SpriteRenderer:
@@ -1427,6 +1439,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &199307307
 SpriteRenderer:
@@ -1814,6 +1829,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &278506942
 SpriteRenderer:
@@ -2086,6 +2104,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &321565350
 SpriteRenderer:
@@ -2279,6 +2300,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &344767699
 SpriteRenderer:
@@ -2472,6 +2496,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &349488123
 SpriteRenderer:
@@ -2776,6 +2803,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &379316123
 SpriteRenderer:
@@ -2969,6 +2999,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &394760577
 SpriteRenderer:
@@ -3162,6 +3195,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &427079769
 SpriteRenderer:
@@ -3466,6 +3502,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &494729546
 SpriteRenderer:
@@ -3770,6 +3809,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &501455023
 SpriteRenderer:
@@ -3963,6 +4005,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &505815123
 SpriteRenderer:
@@ -4156,6 +4201,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &511483414
 SpriteRenderer:
@@ -4349,6 +4397,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &517832676
 SpriteRenderer:
@@ -4542,6 +4593,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &555658070
 SpriteRenderer:
@@ -4735,6 +4789,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &581630233
 SpriteRenderer:
@@ -4928,6 +4985,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &637412101
 SpriteRenderer:
@@ -5121,6 +5181,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &652791288
 SpriteRenderer:
@@ -5314,6 +5377,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &696441848
 SpriteRenderer:
@@ -5507,6 +5573,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &708993837
 SpriteRenderer:
@@ -5700,6 +5769,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &736147115
 SpriteRenderer:
@@ -5893,6 +5965,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &749603838
 SpriteRenderer:
@@ -6086,6 +6161,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &805786431
 SpriteRenderer:
@@ -6279,6 +6357,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &806655458
 SpriteRenderer:
@@ -6583,6 +6664,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &825210582
 SpriteRenderer:
@@ -6776,6 +6860,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &845747781
 SpriteRenderer:
@@ -6969,6 +7056,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &882224708
 SpriteRenderer:
@@ -7162,6 +7252,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &899389312
 SpriteRenderer:
@@ -7466,6 +7559,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &947721664
 SpriteRenderer:
@@ -7659,6 +7755,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &955612890
 SpriteRenderer:
@@ -7873,15 +7972,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50502ae7e725c384fb670cede912d4b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  playerCount: 3
-  rolePoolDebugView: 
   assignUniqueRolesOnStart: 0
   roleManager: {fileID: 0}
   phaseManager: {fileID: 0}
-  currentPhase: 1
-  dayStartHour: 6
-  eveningStartHour: 7
-  nightStartHour: 8
+  gameEndUI: {fileID: 0}
   startHour: 6
   startMinute: 0
   timeScale: 1
@@ -8019,6 +8113,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &986909746
 SpriteRenderer:
@@ -8212,6 +8309,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1018829001
 SpriteRenderer:
@@ -8405,6 +8505,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1020483052
 SpriteRenderer:
@@ -8598,6 +8701,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1031058461
 SpriteRenderer:
@@ -8902,6 +9008,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1104740012
 SpriteRenderer:
@@ -9095,6 +9204,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1116442803
 SpriteRenderer:
@@ -9501,6 +9613,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1214585015
 SpriteRenderer:
@@ -9694,6 +9809,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1230064815
 SpriteRenderer:
@@ -9887,6 +10005,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1246438913
 SpriteRenderer:
@@ -10080,6 +10201,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1268754092
 SpriteRenderer:
@@ -10273,6 +10397,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1276563742
 SpriteRenderer:
@@ -10577,6 +10704,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1338259508
 SpriteRenderer:
@@ -11014,6 +11144,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!114 &1380486778
 MonoBehaviour:
@@ -11239,6 +11372,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1395906725
 SpriteRenderer:
@@ -11432,6 +11568,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1427657173
 SpriteRenderer:
@@ -11625,6 +11764,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1447254551
 SpriteRenderer:
@@ -12105,6 +12247,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1484881565
 SpriteRenderer:
@@ -12298,6 +12443,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1577798073
 SpriteRenderer:
@@ -12491,6 +12639,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1604327024
 SpriteRenderer:
@@ -12684,6 +12835,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1640977631
 SpriteRenderer:
@@ -12877,6 +13031,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1641646490
 SpriteRenderer:
@@ -13070,6 +13227,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1651910117
 SpriteRenderer:
@@ -13263,6 +13423,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1662886258
 SpriteRenderer:
@@ -13456,6 +13619,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1700032740
 SpriteRenderer:
@@ -13649,6 +13815,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1743336058
 SpriteRenderer:
@@ -13953,6 +14122,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1797329260
 SpriteRenderer:
@@ -14146,6 +14318,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1808008588
 SpriteRenderer:
@@ -14339,6 +14514,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1824137247
 SpriteRenderer:
@@ -14643,6 +14821,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1868013202
 SpriteRenderer:
@@ -14947,6 +15128,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1922260446
 SpriteRenderer:
@@ -15140,6 +15324,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1950443768
 SpriteRenderer:
@@ -15333,6 +15520,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1963582494
 SpriteRenderer:
@@ -15526,6 +15716,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &1985541269
 SpriteRenderer:
@@ -15830,6 +16023,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &2053371856
 SpriteRenderer:
@@ -16101,13 +16297,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2075650904}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.17364816, y: 0, z: 0, w: 0.9848078}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.7, y: 5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 20, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2075650908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16271,6 +16467,9 @@ MonoBehaviour:
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
   currentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 0}
+  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
+  weaponLocalEuler: {x: 0, y: 90, z: 0}
   autoHealToMaxOnStart: 0
 --- !u!212 &2141485735
 SpriteRenderer:
