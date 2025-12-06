@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 public class MinigameActivator : MonoBehaviour
 {
     [Header("Interaction")]
-    [SerializeField] private float interactRadius = 2f;
+    [SerializeField] private float interactRadius = 5f;
     private KeyCode fallbackKey = KeyCode.E; // legacy input interact key (hidden from inspector)
 
     private MinigameBase minigame; // auto-found minigame component (UI / logic)
@@ -43,15 +43,24 @@ public class MinigameActivator : MonoBehaviour
 
     private void DetectPlayer()
     {
-        var player = _nearbyPlayer ?? Object.FindFirstObjectByType<Player>();
-        if (player != null && Vector3.Distance(player.transform.position, transform.position) <= interactRadius)
+        // Pick the closest player within interact radius. This better matches
+        // the intent of the player who pressed the keyboard.
+        var players = Object.FindObjectsByType<Player>(FindObjectsSortMode.None);
+        Player closest = null;
+        float closestDist = float.MaxValue;
+        var origin = transform.position;
+        for (int i = 0; i < players.Length; i++)
         {
-            _nearbyPlayer = player;
+            var p = players[i];
+            if (p == null || !p.IsAlive) continue;
+            float d = Vector3.Distance(p.transform.position, origin);
+            if (d <= interactRadius && d < closestDist)
+            {
+                closestDist = d;
+                closest = p;
+            }
         }
-        else
-        {
-            _nearbyPlayer = null;
-        }
+        _nearbyPlayer = closest;
     }
 
     private bool WasInteractPressed()
