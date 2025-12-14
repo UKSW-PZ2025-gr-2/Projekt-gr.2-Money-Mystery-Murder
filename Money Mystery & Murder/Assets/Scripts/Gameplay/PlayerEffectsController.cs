@@ -17,106 +17,135 @@ public class PlayerEffectsController : MonoBehaviour
         public float Value;
     }
 
-    [SerializeField] private List<ActiveEffect> activeEffects = new();
-    [SerializeField] private SpriteRenderer targetRenderer; // for invisibility alpha toggle
+    private readonly List<ActiveEffect> _activeEffects = new();
+    
+    [SerializeField] private SpriteRenderer targetRenderer;
     [SerializeField] private PlayerMovement movement;
 
-    private Player player;
+    private Player _player;
+    private float _baseSpeedMultiplier = 1f;
+    private bool _wasVisible = true;
 
     private void Awake()
     {
-        player = GetComponent<Player>();
-        if (movement == null) movement = GetComponent<PlayerMovement>();
-        if (targetRenderer == null) targetRenderer = GetComponentInChildren<SpriteRenderer>();
+        _player = GetComponent<Player>();
+        
+        if (movement == null)
+        {
+            movement = GetComponent<PlayerMovement>();
+        }
+        
+        if (targetRenderer == null)
+        {
+            targetRenderer = GetComponentInChildren<SpriteRenderer>();
+        }
     }
 
     public void ApplyEffect(EffectType type, float duration, float value)
     {
-        // Check if effect already exists, if so, extend/refresh it
-        ActiveEffect existing = activeEffects.Find(e => e.Type == type);
+        ActiveEffect existing = FindActiveEffect(type);
+        
         if (existing != null)
         {
-            // Refresh duration and update value
-            existing.TimeRemaining = duration;
-            existing.Value = value;
+            RefreshEffect(existing, duration, value);
         }
         else
         {
-            // Add new effect
-            var newEffect = new ActiveEffect
-            {
-                Type = type,
-                TimeRemaining = duration,
-                Value = value
-            };
-            activeEffects.Add(newEffect);
+            AddNewEffect(type, duration, value);
         }
 
-        // Apply immediate effect
         ApplyEffectImmediate(type, value);
     }
 
     public void UpdateEffects()
     {
-        // Tick down all active effects
-        for (int i = activeEffects.Count - 1; i >= 0; i--)
+        for (int i = _activeEffects.Count - 1; i >= 0; i--)
         {
-            var effect = activeEffects[i];
+            ActiveEffect effect = _activeEffects[i];
             effect.TimeRemaining -= Time.deltaTime;
 
             if (effect.TimeRemaining <= 0f)
             {
-                // Effect expired, remove it and restore default state
                 RemoveEffect(effect);
-                activeEffects.RemoveAt(i);
+                _activeEffects.RemoveAt(i);
             }
         }
     }
 
-    public void SetInvisibility(bool isVisible)
+    public bool HasActiveEffect(EffectType type)
     {
-        if (targetRenderer != null)
-        {
-            // Make player invisible by setting alpha to 0, visible by setting alpha to 1
-            Color color = targetRenderer.color;
-            color.a = isVisible ? 1f : 0f;
-            targetRenderer.color = color;
-        }
+        return FindActiveEffect(type) != null;
     }
 
-    public void SetSpeedMultiplier(float multiplier)
+    public float GetEffectTimeRemaining(EffectType type)
     {
-        if (movement != null)
-        {
-            movement.SetSpeedMultiplier(multiplier);
-        }
+        ActiveEffect effect = FindActiveEffect(type);
+        return effect?.TimeRemaining ?? 0f;
     }
 
-    /// <summary>Applies an effect immediately (when first activated or refreshed).</summary>
+    private ActiveEffect FindActiveEffect(EffectType type)
+    {
+        return _activeEffects.Find(e => e.Type == type);
+    }
+
+    private void RefreshEffect(ActiveEffect effect, float duration, float value)
+    {
+        effect.TimeRemaining = duration;
+        effect.Value = value;
+    }
+
+    private void AddNewEffect(EffectType type, float duration, float value)
+    {
+        var newEffect = new ActiveEffect
+        {
+            Type = type,
+            TimeRemaining = duration,
+            Value = value
+        };
+        _activeEffects.Add(newEffect);
+    }
+
     private void ApplyEffectImmediate(EffectType type, float value)
     {
         switch (type)
         {
             case EffectType.Invisibility:
-                SetInvisibility(false); // false = invisible
+                SetInvisibility(false);
                 break;
+            
             case EffectType.Speed:
                 SetSpeedMultiplier(value);
                 break;
         }
     }
 
-    /// <summary>Removes an effect and restores default state.</summary>
     private void RemoveEffect(ActiveEffect effect)
     {
         switch (effect.Type)
         {
             case EffectType.Invisibility:
-                SetInvisibility(true); // true = visible
+                SetInvisibility(true);
                 break;
+            
             case EffectType.Speed:
-                SetSpeedMultiplier(1f); // restore normal speed
+                SetSpeedMultiplier(_baseSpeedMultiplier);
                 break;
         }
+    }
+
+    private void SetInvisibility(bool isVisible)
+    {
+        if (targetRenderer == null) return;
+
+        Color color = targetRenderer.color;
+        color.a = isVisible ? 1f : 0f;
+        targetRenderer.color = color;
+    }
+
+    private void SetSpeedMultiplier(float multiplier)
+    {
+        if (movement == null) return;
+
+        movement.SetSpeedMultiplier(multiplier);
     }
 }
