@@ -64,6 +64,7 @@ GameObject:
   - component: {fileID: 7982360018672486463}
   - component: {fileID: 5163089199499607803}
   - component: {fileID: 6455024986214768891}
+  - component: {fileID: 7116790836754955485}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -135,7 +136,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.26100624, g: 1, b: 0.4340777, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -197,7 +198,9 @@ MonoBehaviour:
   equippedWeapon: {fileID: 0}
   ownedWeapons: []
   hotbarItems: []
-  learnedAbilities: []
+  learnedAbilities:
+  - {fileID: 11400000, guid: 64fddce30a5aa1b489f989c8efe08206, type: 2}
+  - {fileID: 11400000, guid: 95ef541cf831e0f468ef24d03353495f, type: 2}
   roleAnnouncer: {fileID: 2418662272272116099}
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
@@ -298,3 +301,17 @@ MonoBehaviour:
   roleText: {fileID: 0}
   timeText: {fileID: 0}
   refreshInterval: 0.25
+--- !u!114 &7116790836754955485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6998283097264661436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee903dd270e73e04d884efe28748c390, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerEffectsController
+  targetRenderer: {fileID: 8252789506905311483}
+  movement: {fileID: 7430873539596343221}
