@@ -26,6 +26,9 @@ public class PlayerMovement : MonoBehaviour
 
     /// <summary>Reference to the <see cref="Player"/> component for abilities affecting speed.</summary>
     private Player _player;
+    
+    /// <summary>Current speed multiplier applied to movement (default 1.0).</summary>
+    private float _speedMultiplier = 1f;
 
     /// <summary>
     /// Initializes the <see cref="Player"/> reference.
@@ -42,7 +45,16 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector2 move = ReadMove();
         if (move.sqrMagnitude > 1f) move.Normalize();
-        transform.Translate(moveSpeed * Time.deltaTime * (Vector3)move, Space.World);
+        transform.Translate(moveSpeed * _speedMultiplier * Time.deltaTime * (Vector3)move, Space.World);
+    }
+
+    /// <summary>
+    /// Sets the speed multiplier for movement effects (e.g., speed boost ability).
+    /// </summary>
+    /// <param name="multiplier">Speed multiplier (1.0 = normal speed, 2.0 = double speed, etc.)</param>
+    public void SetSpeedMultiplier(float multiplier)
+    {
+        _speedMultiplier = Mathf.Max(0f, multiplier); // Ensure non-negative
     }
 
     /// <summary>

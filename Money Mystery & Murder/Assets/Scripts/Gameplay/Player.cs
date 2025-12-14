@@ -210,6 +210,9 @@ public class Player : MonoBehaviour
             weaponGO.transform.localRotation = Quaternion.Euler(weaponLocalEuler);
         }
 
+        // Handle ability activation via number keys (1-9)
+        HandleAbilityInput();
+
         // Input: support both the old Input Manager and the new Input System
 #if ENABLE_INPUT_SYSTEM
         bool pressed = false;
@@ -235,6 +238,37 @@ public class Player : MonoBehaviour
 #endif
     }
 
+    /// <summary>Handles number key input (1-9) to activate abilities.</summary>
+    private void HandleAbilityInput()
+    {
+#if ENABLE_INPUT_SYSTEM
+        var keyboard = Keyboard.current;
+        if (keyboard == null) return;
+
+        // Check keys 1-9 for ability activation
+        if (keyboard.digit1Key.wasPressedThisFrame) ActivateAbilityByIndex(0);
+        else if (keyboard.digit2Key.wasPressedThisFrame) ActivateAbilityByIndex(1);
+        else if (keyboard.digit3Key.wasPressedThisFrame) ActivateAbilityByIndex(2);
+        else if (keyboard.digit4Key.wasPressedThisFrame) ActivateAbilityByIndex(3);
+        else if (keyboard.digit5Key.wasPressedThisFrame) ActivateAbilityByIndex(4);
+        else if (keyboard.digit6Key.wasPressedThisFrame) ActivateAbilityByIndex(5);
+        else if (keyboard.digit7Key.wasPressedThisFrame) ActivateAbilityByIndex(6);
+        else if (keyboard.digit8Key.wasPressedThisFrame) ActivateAbilityByIndex(7);
+        else if (keyboard.digit9Key.wasPressedThisFrame) ActivateAbilityByIndex(8);
+#else
+        // Old Input Manager fallback
+        if (Input.GetKeyDown(KeyCode.Alpha1)) ActivateAbilityByIndex(0);
+        else if (Input.GetKeyDown(KeyCode.Alpha2)) ActivateAbilityByIndex(1);
+        else if (Input.GetKeyDown(KeyCode.Alpha3)) ActivateAbilityByIndex(2);
+        else if (Input.GetKeyDown(KeyCode.Alpha4)) ActivateAbilityByIndex(3);
+        else if (Input.GetKeyDown(KeyCode.Alpha5)) ActivateAbilityByIndex(4);
+        else if (Input.GetKeyDown(KeyCode.Alpha6)) ActivateAbilityByIndex(5);
+        else if (Input.GetKeyDown(KeyCode.Alpha7)) ActivateAbilityByIndex(6);
+        else if (Input.GetKeyDown(KeyCode.Alpha8)) ActivateAbilityByIndex(7);
+        else if (Input.GetKeyDown(KeyCode.Alpha9)) ActivateAbilityByIndex(8);
+#endif
+    }
+
     /// <summary>
     /// Adds balance to the player.
     /// </summary>
@@ -254,9 +288,7 @@ public class Player : MonoBehaviour
     /// <param name="amount">Amount to add.</param>
     public void AddMoney(int amount)
     {
-        // 1. Alias for AddBalance (for external calls)
-        // 2. Could trigger money-specific events
-        throw new System.NotImplementedException();
+        AddBalance(amount);
     }
 
     /// <summary>
@@ -399,12 +431,42 @@ public class Player : MonoBehaviour
     public bool ActivateAbility(AbilityDefinition ability)
     {
         // 1. Validate ownership
+        if (ability == null || !learnedAbilities.Contains(ability)) return false;
+        
         // 2. Check cooldown
+        if (GetCooldownRemaining(ability) > 0f) return false;
+        
         // 3. End existing active ability if needed
+        if (_activeAbility != null)
+        {
+            EndActiveAbility();
+        }
+        
         // 4. Set active ability + timers
-        // 5. Trigger effect activation
+        _activeAbility = ability;
+        _activeAbilityTimeLeft = ability.duration;
+        
+        // 5. Trigger effect activation based on ability kind
+        switch (ability.kind)
+        {
+            case AbilityKind.Invisibility:
+                ApplyInvisibilityEffect(ability.duration);
+                break;
+            case AbilityKind.SpeedBoost:
+                ApplySpeedEffect(ability.duration, ability.magnitude);
+                break;
+            case AbilityKind.Heal:
+                Heal((int)ability.magnitude);
+                break;
+            default:
+                // Unknown or unsupported ability type
+                break;
+        }
+        
         // 6. Start cooldown
-        throw new System.NotImplementedException();
+        _cooldowns[ability] = ability.cooldown;
+        
+        return true;
     }
 
     /// <summary>
@@ -494,8 +556,10 @@ public class Player : MonoBehaviour
     /// <param name="multiplier">Speed multiplier.</param>
     public void ApplySpeedEffect(float duration, float multiplier)
     {
-        // 1. Forward to effectsController.ApplyEffect(EffectType.Speed,...)
-        throw new System.NotImplementedException();
+        if (effectsController != null)
+        {
+            effectsController.ApplyEffect(EffectType.Speed, duration, multiplier);
+        }
     }
 
     /// <summary>
@@ -504,8 +568,10 @@ public class Player : MonoBehaviour
     /// <param name="duration">Duration in seconds.</param>
     public void ApplyInvisibilityEffect(float duration)
     {
-        // 1. Forward to effectsController.ApplyEffect(EffectType.Invisibility,...)
-        throw new System.NotImplementedException();
+        if (effectsController != null)
+        {
+            effectsController.ApplyEffect(EffectType.Invisibility, duration, 1f);
+        }
     }
 
     /// <summary>
