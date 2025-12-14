@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-#if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
-#endif
 
 /// <summary>
 /// Enum defining the different player roles.
@@ -221,10 +219,9 @@ public class Player : MonoBehaviour
     
     private void HandleAbilityInput()
     {
-#if ENABLE_INPUT_SYSTEM
         Keyboard keyboard = Keyboard.current;
         if (keyboard == null) return;
-
+    
         if (keyboard.digit1Key.wasPressedThisFrame) ActivateAbilityByIndex(0);
         else if (keyboard.digit2Key.wasPressedThisFrame) ActivateAbilityByIndex(1);
         else if (keyboard.digit3Key.wasPressedThisFrame) ActivateAbilityByIndex(2);
@@ -234,28 +231,11 @@ public class Player : MonoBehaviour
         else if (keyboard.digit7Key.wasPressedThisFrame) ActivateAbilityByIndex(6);
         else if (keyboard.digit8Key.wasPressedThisFrame) ActivateAbilityByIndex(7);
         else if (keyboard.digit9Key.wasPressedThisFrame) ActivateAbilityByIndex(8);
-#else
-        if (Input.GetKeyDown(KeyCode.Alpha1)) ActivateAbilityByIndex(0);
-        else if (Input.GetKeyDown(KeyCode.Alpha2)) ActivateAbilityByIndex(1);
-        else if (Input.GetKeyDown(KeyCode.Alpha3)) ActivateAbilityByIndex(2);
-        else if (Input.GetKeyDown(KeyCode.Alpha4)) ActivateAbilityByIndex(3);
-        else if (Input.GetKeyDown(KeyCode.Alpha5)) ActivateAbilityByIndex(4);
-        else if (Input.GetKeyDown(KeyCode.Alpha6)) ActivateAbilityByIndex(5);
-        else if (Input.GetKeyDown(KeyCode.Alpha7)) ActivateAbilityByIndex(6);
-        else if (Input.GetKeyDown(KeyCode.Alpha8)) ActivateAbilityByIndex(7);
-        else if (Input.GetKeyDown(KeyCode.Alpha9)) ActivateAbilityByIndex(8);
-#endif
     }
 
     private void HandleAttackInput()
     {
-#if ENABLE_INPUT_SYSTEM
-        bool pressed = Mouse.current != null 
-            ? Mouse.current.leftButton.wasPressedThisFrame 
-            : Input.GetMouseButtonDown(0);
-#else
-        bool pressed = Input.GetMouseButtonDown(0);
-#endif
+        bool pressed = Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame;
 
         if (pressed)
         {

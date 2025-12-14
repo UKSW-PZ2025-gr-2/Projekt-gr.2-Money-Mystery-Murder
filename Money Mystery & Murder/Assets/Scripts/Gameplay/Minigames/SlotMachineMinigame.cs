@@ -1,9 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-#if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
-#endif
 
 /// <summary>
 /// Classic slot machine minigame with weighted symbols and payout logic.
@@ -324,42 +322,24 @@ public class SlotMachineMinigame : MinigameBase
         _spriteRenderers = null;
     }
 
-#if ENABLE_INPUT_SYSTEM
     /// <summary>
-    /// Updates the minigame timer and handles Escape key to end the game (Input System version).
+    /// Updates the minigame timer and handles Escape key to end the game.
     /// </summary>
     void Update()
     {
         if (!IsRunning) return;
+        
         _elapsed += Time.deltaTime;
         if (autoEndSeconds > 0f && _elapsed >= autoEndSeconds)
         {
             EndGame();
             return;
         }
+        
         var k = Keyboard.current;
         if (k != null && k.escapeKey.wasPressedThisFrame)
         {
             EndGame();
         }
     }
-#else
-    /// <summary>
-    /// Updates the minigame timer and handles Escape key to end the game (Legacy Input version).
-    /// </summary>
-    void Update()
-    {
-        if (!IsRunning) return;
-        _elapsed += Time.deltaTime;
-        if (autoEndSeconds > 0f && _elapsed >= autoEndSeconds)
-        {
-            EndGame();
-            return;
-        }
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            EndGame();
-        }
-    }
-#endif
 }
