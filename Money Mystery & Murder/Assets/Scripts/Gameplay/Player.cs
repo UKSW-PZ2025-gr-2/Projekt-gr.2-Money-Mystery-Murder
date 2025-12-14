@@ -78,9 +78,6 @@ public class Player : MonoBehaviour
     public PlayerRole Role => role;
     public bool IsAlive => isAlive;
     public float VisionRange => visionRange;
-    public PlayerRole CurrentRole => role;
-    public int Money => balance;
-    public int CurrentHP => currentHealth;
     public Weapon EquippedWeapon => equippedWeapon;
     public IReadOnlyList<Weapon> OwnedWeapons => ownedWeapons;
     public IReadOnlyList<AbilityDefinition> LearnedAbilities => learnedAbilities;

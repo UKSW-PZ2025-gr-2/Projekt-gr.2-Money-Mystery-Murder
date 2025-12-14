@@ -100,7 +100,7 @@ public class Knife : MeleeWeapon
                 damaged.Add(p);
 
                 p.TakeDamage(damage);
-                Debug.Log($"Knife hit player {p.name} for {damage} damage. New HP={p.CurrentHP}");
+                Debug.Log($"Knife hit player {p.name} for {damage} damage. New HP={p.CurrentHealth}");
             }
             else
             {

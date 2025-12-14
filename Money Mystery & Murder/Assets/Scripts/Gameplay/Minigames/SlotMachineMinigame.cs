@@ -79,6 +79,31 @@ public class SlotMachineMinigame : MinigameBase
     [Tooltip("Sprite for unknown/placeholder symbol")]
     [SerializeField] private Sprite questionSprite;
 
+    [Header("Payout Settings")]
+    [Tooltip("Payout for three 7 symbols (jackpot)")]
+    [SerializeField] private int payout7 = 500;
+    
+    [Tooltip("Payout for three BELL symbols")]
+    [SerializeField] private int payoutBell = 100;
+    
+    [Tooltip("Payout for three PLUM symbols")]
+    [SerializeField] private int payoutPlum = 50;
+    
+    [Tooltip("Payout for three ORANGE symbols")]
+    [SerializeField] private int payoutOrange = 20;
+    
+    [Tooltip("Payout for three LEMON symbols")]
+    [SerializeField] private int payoutLemon = 10;
+    
+    [Tooltip("Payout for three CHERRY symbols")]
+    [SerializeField] private int payoutCherry = 5;
+    
+    [Tooltip("Payout for two CHERRY symbols")]
+    [SerializeField] private int payoutTwoCherries = 2;
+    
+    [Tooltip("Payout for one CHERRY symbol")]
+    [SerializeField] private int payoutOneCherry = 1;
+
     /// <summary>Prefab for the Golden Knife weapon awarded on jackpot.</summary>
     [Header("Rare Rewards")]
     [Tooltip("Golden Knife weapon controller prefab awarded on triple 7s jackpot")]
@@ -206,12 +231,12 @@ public class SlotMachineMinigame : MinigameBase
         {
             return a switch
             {
-                "7" => 500,
-                "BELL" => 100,
-                "PLUM" => 50,
-                "ORANGE" => 20,
-                "LEMON" => 10,
-                "CHERRY" => 5,
+                "7" => payout7,
+                "BELL" => payoutBell,
+                "PLUM" => payoutPlum,
+                "ORANGE" => payoutOrange,
+                "LEMON" => payoutLemon,
+                "CHERRY" => payoutCherry,
                 _ => 0
             };
         }
@@ -221,8 +246,8 @@ public class SlotMachineMinigame : MinigameBase
         if (a == "CHERRY") cherryCount++;
         if (b == "CHERRY") cherryCount++;
         if (c == "CHERRY") cherryCount++;
-        if (cherryCount == 2) return 2;
-        if (cherryCount == 1) return 1;
+        if (cherryCount == 2) return payoutTwoCherries;
+        if (cherryCount == 1) return payoutOneCherry;
         return 0;
     }
 

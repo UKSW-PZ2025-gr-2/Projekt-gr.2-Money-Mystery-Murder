@@ -89,36 +89,6 @@ public class PlayerHUD : MonoBehaviour
         Refresh();
     }
 
-    /// <summary>
-    /// Updates the phase label. Not yet fully implemented.
-    /// </summary>
-    /// <param name="phase">The phase string to display.</param>
-    public void UpdatePhaseLabel(string phase)
-    {
-        // TODO: Logic
-        throw new System.NotImplementedException();
-    }
-
-    /// <summary>
-    /// Updates the money display. Not yet fully implemented.
-    /// </summary>
-    /// <param name="amount">The money amount to display.</param>
-    public void UpdateMoney(int amount)
-    {
-        // TODO: Logic
-        throw new System.NotImplementedException();
-    }
-
-    /// <summary>
-    /// Updates the health display. Not yet fully implemented.
-    /// </summary>
-    /// <param name="ratio">The health ratio (0-1) to display.</param>
-    public void UpdateHealth(float ratio)
-    {
-        // TODO: Logic
-        throw new System.NotImplementedException();
-    }
-
     /// <summary>Refreshes all HUD text fields with current data from <see cref="Player"/> and <see cref="GameManager"/>.</summary>
     private void Refresh()
     {

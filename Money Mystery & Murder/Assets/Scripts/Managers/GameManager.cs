@@ -141,12 +141,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    /// <summary>Starts the game. Logic not yet implemented.</summary>
-    public void StartGame()
-    {
-        throw new System.NotImplementedException();
-    }
-
     /// <summary>Checks win condition logic based on role survival.</summary>
     public void CheckWinCondition()
     {

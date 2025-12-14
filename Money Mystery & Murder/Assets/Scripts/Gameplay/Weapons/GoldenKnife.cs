@@ -102,7 +102,7 @@ public class GoldenKnife : MeleeWeapon
                 damaged.Add(p);
 
                 p.TakeDamage(damage);
-                Debug.Log($"GoldenKnife hit player {p.name} for {damage} damage. New HP={p.CurrentHP}");
+                Debug.Log($"GoldenKnife hit player {p.name} for {damage} damage. New HP={p.CurrentHealth}");
             }
             else
             {
