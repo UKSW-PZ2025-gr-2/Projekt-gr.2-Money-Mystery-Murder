@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09810402a39ed9146a67d1fe6dd34186, type: 3}
   m_Name: SpeedBoost
   m_EditorClassIdentifier: Assembly-CSharp::AbilityDefinition
-  displayName: 
-  description: 
-  cost: 0
+  displayName: speed
+  description: go fast
+  icon: {fileID: 5543025767652233760, guid: 44370618f93b11f419609b25ce5c633d, type: 3}
+  cost: 2
   duration: 5
   cooldown: 10
   kind: 1
-  magnitude: 29.04
+  magnitude: 10

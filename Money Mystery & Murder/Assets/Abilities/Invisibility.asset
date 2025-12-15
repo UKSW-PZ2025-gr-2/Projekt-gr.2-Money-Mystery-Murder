@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09810402a39ed9146a67d1fe6dd34186, type: 3}
   m_Name: Invisibility
   m_EditorClassIdentifier: Assembly-CSharp::AbilityDefinition
-  displayName: 
-  description: 
-  cost: 0
+  displayName: invis
+  description: go invis
+  icon: {fileID: 7028616704906629411, guid: 0b7e9cc9a238b83438922abdcf9a707d, type: 3}
+  cost: 1
   duration: 5
   cooldown: 10
   kind: 2

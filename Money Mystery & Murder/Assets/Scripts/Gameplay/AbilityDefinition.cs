@@ -9,6 +9,7 @@ public class AbilityDefinition : ScriptableObject
     public string displayName;
     [TextArea]
     public string description;
+    public Sprite icon;
 
     [Header("Economy")]
     public int cost = 0; // referenced by Player.LearnAbility

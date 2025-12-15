@@ -31,19 +31,19 @@ public class ShopItemUI : MonoBehaviour
         _itemData = itemData;
         _shopUI = shopUI;
 
-        if (iconImage != null && itemData.icon != null)
+        if (iconImage != null && itemData.GetIcon() != null)
         {
-            iconImage.sprite = itemData.icon;
+            iconImage.sprite = itemData.GetIcon();
         }
 
         if (nameText != null)
         {
-            nameText.text = itemData.itemName;
+            nameText.text = itemData.GetItemName();
         }
 
         if (priceText != null)
         {
-            priceText.text = $"${itemData.price}";
+            priceText.text = $"${itemData.GetPrice()}";
         }
 
         if (purchaseButton != null)
@@ -59,7 +59,8 @@ public class ShopItemUI : MonoBehaviour
     {
         if (player == null || _itemData == null) return;
 
-        bool canAfford = player.Balance >= _itemData.price;
+        int price = _itemData.GetPrice();
+        bool canAfford = player.Balance >= price;
         bool alreadyOwned = CheckIfOwned(player);
 
         if (purchaseButton != null)
@@ -81,14 +82,14 @@ public class ShopItemUI : MonoBehaviour
             targetColor = unaffordableColor;
             if (priceText != null)
             {
-                priceText.text = $"${_itemData.price}";
+                priceText.text = $"${price}";
             }
         }
         else
         {
             if (priceText != null)
             {
-                priceText.text = $"${_itemData.price}";
+                priceText.text = $"${price}";
             }
         }
 

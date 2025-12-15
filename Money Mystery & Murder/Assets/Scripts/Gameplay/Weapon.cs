@@ -20,6 +20,12 @@ public class Weapon : ScriptableObject
     public Sprite icon;
 
     /// <summary>
+    /// Price of the weapon in the shop.
+    /// Set this in the Unity Inspector.
+    /// </summary>
+    public int cost = 0;
+
+    /// <summary>
     /// Base damage dealt per attack.
     /// Set this in the Unity Inspector.
     /// </summary>

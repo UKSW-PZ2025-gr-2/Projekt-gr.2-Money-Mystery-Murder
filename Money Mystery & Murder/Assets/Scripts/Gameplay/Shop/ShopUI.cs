@@ -80,9 +80,11 @@ public class ShopUI : MonoBehaviour
     {
         if (_currentPlayer == null || itemData == null) return;
 
-        if (!_currentPlayer.SpendBalance(itemData.price))
+        int price = itemData.GetPrice();
+        
+        if (!_currentPlayer.SpendBalance(price))
         {
-            Debug.Log($"[ShopUI] Player {_currentPlayer.name} cannot afford {itemData.itemName} (costs {itemData.price}, has {_currentPlayer.Balance})");
+            Debug.Log($"[ShopUI] Player {_currentPlayer.name} cannot afford {itemData.GetItemName()} (costs {price}, has {_currentPlayer.Balance})");
             return;
         }
 
@@ -92,19 +94,19 @@ public class ShopUI : MonoBehaviour
         {
             _currentPlayer.AcquireWeapon(itemData.weapon);
             success = true;
-            Debug.Log($"[ShopUI] Player {_currentPlayer.name} purchased weapon: {itemData.itemName}");
+            Debug.Log($"[ShopUI] Player {_currentPlayer.name} purchased weapon: {itemData.GetItemName()}");
         }
         else if (itemData.ability != null)
         {
             success = _currentPlayer.LearnAbility(itemData.ability);
             if (success)
             {
-                Debug.Log($"[ShopUI] Player {_currentPlayer.name} purchased ability: {itemData.itemName}");
+                Debug.Log($"[ShopUI] Player {_currentPlayer.name} purchased ability: {itemData.GetItemName()}");
             }
             else
             {
-                _currentPlayer.AddBalance(itemData.price);
-                Debug.Log($"[ShopUI] Failed to learn ability (already owned or invalid), refunding {itemData.price}");
+                _currentPlayer.AddBalance(price);
+                Debug.Log($"[ShopUI] Failed to learn ability (already owned or invalid), refunding {price}");
             }
         }
 
@@ -182,11 +184,28 @@ public class ShopUI : MonoBehaviour
 [System.Serializable]
 public class ShopItemData
 {
-    public string itemName;
-    public int price;
-    public Sprite icon;
-    
     [Header("Item Content (Set one)")]
     public Weapon weapon;
     public AbilityDefinition ability;
+
+    public string GetItemName()
+    {
+        if (weapon != null) return weapon.displayName;
+        if (ability != null) return ability.displayName;
+        return "Unknown Item";
+    }
+
+    public int GetPrice()
+    {
+        if (weapon != null) return weapon.cost;
+        if (ability != null) return ability.cost;
+        return 0;
+    }
+
+    public Sprite GetIcon()
+    {
+        if (weapon != null) return weapon.icon;
+        if (ability != null) return ability.icon;
+        return null;
+    }
 }
