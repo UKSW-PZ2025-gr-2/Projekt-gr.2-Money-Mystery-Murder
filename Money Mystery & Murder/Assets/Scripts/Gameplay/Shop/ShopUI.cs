@@ -98,7 +98,8 @@ public class ShopUI : MonoBehaviour
         }
         else if (itemData.ability != null)
         {
-            success = _currentPlayer.LearnAbility(itemData.ability);
+            // Use AcquireAbility since we already paid
+            success = _currentPlayer.AcquireAbility(itemData.ability);
             if (success)
             {
                 Debug.Log($"[ShopUI] Player {_currentPlayer.name} purchased ability: {itemData.GetItemName()}");

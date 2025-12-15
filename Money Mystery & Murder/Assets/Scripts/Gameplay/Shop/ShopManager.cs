@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Linq;
 
 public class Shop : MonoBehaviour
 {
@@ -17,12 +18,6 @@ public class Shop : MonoBehaviour
             return false;
         }
 
-        if (!player.SpendBalance(item.Price))
-        {
-            Debug.Log($"[Shop] Player {player.name} cannot afford {item.ItemName} (costs {item.Price}, has {player.Balance})");
-            return false;
-        }
-
         bool success = false;
 
         switch (item.ItemType)
@@ -30,6 +25,12 @@ public class Shop : MonoBehaviour
             case ShopItemType.Weapon:
                 if (item is WeaponShopItem weaponItem && weaponItem.WeaponData != null)
                 {
+                    if (!player.SpendBalance(item.Price))
+                    {
+                        Debug.Log($"[Shop] Player {player.name} cannot afford {item.ItemName} (costs {item.Price}, has {player.Balance})");
+                        return false;
+                    }
+                    
                     player.AcquireWeapon(weaponItem.WeaponData);
                     success = true;
                     Debug.Log($"[Shop] Player {player.name} purchased weapon: {item.ItemName}");
@@ -39,15 +40,30 @@ public class Shop : MonoBehaviour
             case ShopItemType.Upgrade:
                 if (item is AbilityShopItem abilityItem && abilityItem.Ability != null)
                 {
-                    success = player.LearnAbility(abilityItem.Ability);
-                    if (!success)
+                    // Check if player can learn the ability (not already owned)
+                    if (player.LearnedAbilities.Any(a => a == abilityItem.Ability))
                     {
-                        player.AddBalance(item.Price);
-                        Debug.Log($"[Shop] Failed to learn ability (already owned), refunding {item.Price}");
+                        Debug.Log($"[Shop] Player {player.name} already owns ability: {item.ItemName}");
+                        return false;
+                    }
+                    
+                    if (!player.SpendBalance(item.Price))
+                    {
+                        Debug.Log($"[Shop] Player {player.name} cannot afford {item.ItemName} (costs {item.Price}, has {player.Balance})");
+                        return false;
+                    }
+                    
+                    // Add ability directly without paying again
+                    success = player.AcquireAbility(abilityItem.Ability);
+                    if (success)
+                    {
+                        Debug.Log($"[Shop] Player {player.name} purchased ability: {item.ItemName}");
                     }
                     else
                     {
-                        Debug.Log($"[Shop] Player {player.name} purchased ability: {item.ItemName}");
+                        // Refund if something went wrong
+                        player.AddBalance(item.Price);
+                        Debug.Log($"[Shop] Failed to learn ability (invalid), refunding {item.Price}");
                     }
                 }
                 break;

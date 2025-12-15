@@ -367,6 +367,15 @@ public class Player : MonoBehaviour
 
     #region Ability System
     
+    public bool AcquireAbility(Ability ability)
+    {
+        if (ability == null || learnedAbilities.Contains(ability)) return false;
+        
+        learnedAbilities.Add(ability);
+        _cooldowns[ability] = 0f;
+        return true;
+    }
+    
     public bool LearnAbility(Ability ability)
     {
         if (!CanLearnAbility(ability)) return false;
