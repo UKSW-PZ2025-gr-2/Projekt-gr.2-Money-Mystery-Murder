@@ -1874,12 +1874,16 @@ PrefabInstance:
       objectReference: {fileID: 236524486}
     - target: {fileID: 1780585770356068073, guid: e6f89303dbd05e747afa1900881dab2b, type: 3}
       propertyPath: shopItems.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1780585770356068073, guid: e6f89303dbd05e747afa1900881dab2b, type: 3}
       propertyPath: shopItems.Array.data[1].weapon
       value: 
       objectReference: {fileID: 11400000, guid: 5a2fb74668d9516469ddc05aee8a91ae, type: 2}
+    - target: {fileID: 1780585770356068073, guid: e6f89303dbd05e747afa1900881dab2b, type: 3}
+      propertyPath: shopItems.Array.data[2].weapon
+      value: 
+      objectReference: {fileID: 11400000, guid: b44281cc69f83c845bcf3f0374b05c2f, type: 2}
     - target: {fileID: 1780585770356068073, guid: e6f89303dbd05e747afa1900881dab2b, type: 3}
       propertyPath: shopItems.Array.data[1].ability
       value: 
@@ -1887,7 +1891,7 @@ PrefabInstance:
     - target: {fileID: 1780585770356068073, guid: e6f89303dbd05e747afa1900881dab2b, type: 3}
       propertyPath: shopItems.Array.data[2].ability
       value: 
-      objectReference: {fileID: 11400000, guid: 64fddce30a5aa1b489f989c8efe08206, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 1780585770356068073, guid: e6f89303dbd05e747afa1900881dab2b, type: 3}
       propertyPath: shopItems.Array.data[3].ability
       value: 
