@@ -2,8 +2,8 @@ using UnityEngine;
 
 // Scriptable definition of a player ability used by Player.cs.
 // Keep minimal fields required by existing gameplay code.
-[CreateAssetMenu(menuName = "Gameplay/Ability Definition", fileName = "AbilityDefinition")]
-public class AbilityDefinition : ScriptableObject
+[CreateAssetMenu(menuName = "Item/Ability", fileName = "Ability")]
+public class Ability : ScriptableObject
 {
     [Header("Meta")]
     public string displayName;

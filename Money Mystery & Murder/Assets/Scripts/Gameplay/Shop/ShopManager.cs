@@ -75,5 +75,5 @@ public class WeaponShopItem : ShopItem
 /// </summary>
 public class AbilityShopItem : ShopItem
 {
-    public AbilityDefinition Ability;
+    public Ability Ability;
 }

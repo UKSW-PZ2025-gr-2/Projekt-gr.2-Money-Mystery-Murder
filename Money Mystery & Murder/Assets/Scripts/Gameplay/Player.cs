@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
     [SerializeField] private List<ShopItem> hotbarItems = new();
 
     [Header("Abilities")]
-    [SerializeField] private List<AbilityDefinition> learnedAbilities = new();
+    [SerializeField] private List<Ability> learnedAbilities = new();
 
     [Header("UI")]
     [SerializeField] private RoleAnnouncer roleAnnouncer;
@@ -61,8 +61,8 @@ public class Player : MonoBehaviour
 
     #region Private Fields
     
-    private readonly Dictionary<AbilityDefinition, float> _cooldowns = new();
-    private AbilityDefinition _activeAbility;
+    private readonly Dictionary<Ability, float> _cooldowns = new();
+    private Ability _activeAbility;
     private float _activeAbilityTimeLeft;
     private WeaponController _runtimeWeaponInstance;
     
@@ -78,8 +78,8 @@ public class Player : MonoBehaviour
     public float VisionRange => visionRange;
     public Weapon EquippedWeapon => equippedWeapon;
     public IReadOnlyList<Weapon> OwnedWeapons => ownedWeapons;
-    public IReadOnlyList<AbilityDefinition> LearnedAbilities => learnedAbilities;
-    public AbilityDefinition ActiveAbility => _activeAbility;
+    public IReadOnlyList<Ability> LearnedAbilities => learnedAbilities;
+    public Ability ActiveAbility => _activeAbility;
     
     #endregion
 
@@ -446,7 +446,7 @@ public class Player : MonoBehaviour
 
     #region Ability System
     
-    public bool LearnAbility(AbilityDefinition ability)
+    public bool LearnAbility(Ability ability)
     {
         if (!CanLearnAbility(ability)) return false;
         if (!SpendBalance(ability.cost)) return false;
@@ -456,7 +456,7 @@ public class Player : MonoBehaviour
         return true;
     }
 
-    public bool ActivateAbility(AbilityDefinition ability)
+    public bool ActivateAbility(Ability ability)
     {
         if (!CanActivateAbility(ability)) return false;
         
@@ -474,36 +474,36 @@ public class Player : MonoBehaviour
         return ActivateAbility(learnedAbilities[index]);
     }
 
-    public float GetCooldownRemaining(AbilityDefinition ability)
+    public float GetCooldownRemaining(Ability ability)
     {
         if (ability == null) return 0f;
         return _cooldowns.TryGetValue(ability, out float t) ? Mathf.Max(0f, t) : 0f;
     }
 
-    public bool IsAbilityActive(AbilityDefinition ability)
+    public bool IsAbilityActive(Ability ability)
     {
         return _activeAbility == ability;
     }
 
-    private bool CanLearnAbility(AbilityDefinition ability)
+    private bool CanLearnAbility(Ability ability)
     {
         return ability != null && !learnedAbilities.Contains(ability);
     }
 
-    private bool CanActivateAbility(AbilityDefinition ability)
+    private bool CanActivateAbility(Ability ability)
     {
         if (ability == null || !learnedAbilities.Contains(ability)) return false;
         if (GetCooldownRemaining(ability) > 0f) return false;
         return true;
     }
 
-    private void StartAbility(AbilityDefinition ability)
+    private void StartAbility(Ability ability)
     {
         _activeAbility = ability;
         _activeAbilityTimeLeft = ability.duration;
     }
 
-    private void ApplyAbilityEffect(AbilityDefinition ability)
+    private void ApplyAbilityEffect(Ability ability)
     {
         switch (ability.kind)
         {
@@ -521,7 +521,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void StartCooldown(AbilityDefinition ability)
+    private void StartCooldown(Ability ability)
     {
         _cooldowns[ability] = ability.cooldown;
     }
@@ -548,8 +548,8 @@ public class Player : MonoBehaviour
     {
         if (_cooldowns.Count == 0) return;
 
-        List<AbilityDefinition> keys = new List<AbilityDefinition>(_cooldowns.Keys);
-        foreach (AbilityDefinition key in keys)
+        List<Ability> keys = new List<Ability>(_cooldowns.Keys);
+        foreach (Ability key in keys)
         {
             if (_cooldowns[key] > 0f)
             {

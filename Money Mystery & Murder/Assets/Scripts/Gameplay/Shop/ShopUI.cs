@@ -186,7 +186,7 @@ public class ShopItemData
 {
     [Header("Item Content (Set one)")]
     public Weapon weapon;
-    public AbilityDefinition ability;
+    public Ability ability;
 
     public string GetItemName()
     {

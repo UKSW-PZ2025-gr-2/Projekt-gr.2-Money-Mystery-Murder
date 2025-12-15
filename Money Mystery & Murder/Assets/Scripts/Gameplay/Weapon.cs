@@ -4,7 +4,7 @@ using UnityEngine;
 /// ScriptableObject that defines a weapon's properties including damage, fire rate, range, and ammo settings.
 /// Set this in the Unity Inspector.
 /// </summary>
-[CreateAssetMenu(fileName = "Weapon", menuName = "Game/Weapon", order = 10)]
+[CreateAssetMenu(fileName = "Weapon", menuName = "Item/Weapon", order = 10)]
 public class Weapon : ScriptableObject
 {
     /// <summary>
