@@ -14,7 +14,6 @@ public class WeaponSystem : MonoBehaviour
     [SerializeField] private LayerMask hitLayers = ~0;
     
     [Header("Visual References")]
-    [SerializeField] private Transform attackOrigin;
     [SerializeField] private Animator weaponAnimator;
     
     private Player owner;
@@ -204,7 +203,7 @@ public class WeaponSystem : MonoBehaviour
     
     private Vector3 GetAttackOrigin()
     {
-        return attackOrigin != null ? attackOrigin.position : transform.position;
+        return transform.position;
     }
     
     private Player GetPlayerFromCollider(Collider2D collider)
@@ -263,7 +262,6 @@ public class WeaponSystem : MonoBehaviour
             weaponVisual = Instantiate(currentWeapon.weaponPrefab, transform);
             weaponVisual.transform.localPosition = Vector3.zero;
             weaponVisual.transform.localRotation = Quaternion.identity;
-            
             weaponAnimator = weaponVisual.GetComponent<Animator>();
         }
     }
