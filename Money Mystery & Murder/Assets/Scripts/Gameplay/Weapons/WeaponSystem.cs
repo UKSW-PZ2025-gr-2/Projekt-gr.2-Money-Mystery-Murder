@@ -82,6 +82,7 @@ public class WeaponSystem : MonoBehaviour
     public bool CanAttack()
     {
         if (currentWeapon == null) return false;
+        if (owner != null && owner.IsInMinigameOrShop()) return false;
         if (Time.time - lastAttackTime < currentWeapon.cooldown) return false;
         if (currentWeapon.usesAmmo && currentAmmo <= 0) return false;
         return true;

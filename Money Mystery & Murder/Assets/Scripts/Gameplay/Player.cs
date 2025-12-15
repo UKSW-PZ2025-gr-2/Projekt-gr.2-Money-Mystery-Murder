@@ -350,6 +350,7 @@ public class Player : MonoBehaviour
     public void PerformAttack()
     {
         if (weaponSystem == null) return;
+        if (IsInMinigameOrShop()) return;
 
         weaponSystem.Attack();
         TriggerAttackAnimation();
@@ -361,6 +362,42 @@ public class Player : MonoBehaviour
         {
             playerAnimator.TriggerAttack();
         }
+    }
+
+    /// <summary>
+    /// Check if the player is currently in a minigame or shop (cannot attack).
+    /// </summary>
+    public bool IsInMinigameOrShop()
+    {
+        // Check if player is in a minigame
+        var minigameActivators = Object.FindObjectsByType<MinigameActivator>(FindObjectsSortMode.None);
+        foreach (var activator in minigameActivators)
+        {
+            if (activator.CurrentMinigame != null && 
+                activator.CurrentMinigame.IsRunning && 
+                activator.CurrentMinigame.ActivatingPlayer == this)
+            {
+                return true;
+            }
+        }
+
+        // Check if player is in a shop
+        var shopUIs = Object.FindObjectsByType<ShopUI>(FindObjectsSortMode.None);
+        foreach (var shopUI in shopUIs)
+        {
+            if (shopUI.IsOpen)
+            {
+                // Shop UI doesn't expose the current player, but if it's open and this player's movement is disabled by a shop, they're in it
+                // We'll check by seeing if any shop has disabled our movement
+                var movement = GetComponent<PlayerMovement>();
+                if (movement != null && !movement.enabled)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
     
     #endregion
