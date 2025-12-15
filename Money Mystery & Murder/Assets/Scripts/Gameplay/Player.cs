@@ -29,9 +29,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float visionRange = 5f;
 
     [Header("Inventory / Progression")]
-    [SerializeField] private Weapon equippedWeapon;
-    [SerializeField] private List<Weapon> ownedWeapons = new();
-    [SerializeField] private List<ShopItem> hotbarItems = new();
+    [SerializeField] private List<WeaponData> ownedWeapons = new();
 
     [Header("Abilities")]
     [SerializeField] private List<Ability> learnedAbilities = new();
@@ -43,16 +41,8 @@ public class Player : MonoBehaviour
     [SerializeField] private PlayerEffectsController effectsController;
     [SerializeField] private PlayerAnimator playerAnimator;
 
-    [Header("Weapon Controller")]
-    [SerializeField] private WeaponController currentWeapon;
-    
-    [Header("Weapon Socket")]
-    [Tooltip("Optional transform to parent equipped weapons to (e.g. HipSocket or Hand). If null, weapon will be parented to the player root.")]
-    [SerializeField] private Transform weaponSocket;
-    [Tooltip("Local position applied to an equipped weapon when parented (used if no socket or to offset inside socket).")]
-    [SerializeField] private Vector3 weaponLocalPosition = new Vector3(1.2f, 0.6f, 0.2f);
-    [Tooltip("Local Euler angles applied to an equipped weapon when parented.")]
-    [SerializeField] private Vector3 weaponLocalEuler = new Vector3(0f, 90f, 0f);
+    [Header("Weapon System")]
+    [SerializeField] private WeaponSystem weaponSystem;
 
     [Header("Events / Flags")]
     [SerializeField] private bool autoHealToMaxOnStart = false;
@@ -64,7 +54,6 @@ public class Player : MonoBehaviour
     private readonly Dictionary<Ability, float> _cooldowns = new();
     private Ability _activeAbility;
     private float _activeAbilityTimeLeft;
-    private WeaponController _runtimeWeaponInstance;
     
     #endregion
 
@@ -76,8 +65,8 @@ public class Player : MonoBehaviour
     public PlayerRole Role => role;
     public bool IsAlive => isAlive;
     public float VisionRange => visionRange;
-    public Weapon EquippedWeapon => equippedWeapon;
-    public IReadOnlyList<Weapon> OwnedWeapons => ownedWeapons;
+    public WeaponData EquippedWeapon => weaponSystem?.CurrentWeapon;
+    public IReadOnlyList<WeaponData> OwnedWeapons => ownedWeapons;
     public IReadOnlyList<Ability> LearnedAbilities => learnedAbilities;
     public Ability ActiveAbility => _activeAbility;
     
@@ -109,7 +98,6 @@ public class Player : MonoBehaviour
     {
         UpdateAbilities();
         UpdateEffects();
-        UpdateWeaponTransform();
         HandleInput();
     }
     
@@ -132,6 +120,11 @@ public class Player : MonoBehaviour
         if (playerAnimator == null)
         {
             playerAnimator = GetComponent<PlayerAnimator>();
+        }
+        
+        if (weaponSystem == null)
+        {
+            weaponSystem = GetComponentInChildren<WeaponSystem>();
         }
     }
 
@@ -167,9 +160,15 @@ public class Player : MonoBehaviour
 
     private void InitializeWeapon()
     {
-        if (currentWeapon != null)
+        if (weaponSystem != null)
         {
-            SetCurrentWeapon(currentWeapon);
+            weaponSystem.Initialize(this);
+            
+            // Equip first weapon from owned weapons list if available
+            if (ownedWeapons.Count > 0 && ownedWeapons[0] != null)
+            {
+                weaponSystem.EquipWeapon(ownedWeapons[0]);
+            }
         }
     }
     
@@ -189,22 +188,6 @@ public class Player : MonoBehaviour
         {
             effectsController.UpdateEffects();
         }
-    }
-
-    private void UpdateWeaponTransform()
-    {
-        if (currentWeapon == null) return;
-
-        GameObject weaponGO = currentWeapon.gameObject;
-        Transform parent = weaponSocket != null ? weaponSocket : transform;
-
-        if (weaponGO.transform.parent != parent)
-        {
-            weaponGO.transform.SetParent(parent, false);
-        }
-
-        weaponGO.transform.localPosition = weaponLocalPosition;
-        weaponGO.transform.localRotation = Quaternion.Euler(weaponLocalEuler);
     }
 
     private void HandleInput()
@@ -341,97 +324,35 @@ public class Player : MonoBehaviour
 
     #region Weapon Management
     
-    public void AcquireWeapon(Weapon weapon)
+    public void AcquireWeapon(WeaponData weapon)
     {
         if (weapon == null || ownedWeapons.Contains(weapon)) return;
         
         ownedWeapons.Add(weapon);
         
-        if (equippedWeapon == null)
+        // If this is the first weapon, equip it automatically
+        if (ownedWeapons.Count == 1 && weaponSystem != null)
         {
-            equippedWeapon = weapon;
+            weaponSystem.EquipWeapon(weapon);
         }
     }
 
-    public void EquipWeapon(Weapon weapon)
+    public void EquipWeapon(WeaponData weapon)
     {
         if (weapon == null || !ownedWeapons.Contains(weapon)) return;
-        equippedWeapon = weapon;
-    }
-
-    public void SetCurrentWeapon(WeaponController weapon)
-    {
-        CleanupRuntimeWeapon();
-
-        if (weapon == null)
+        
+        if (weaponSystem != null)
         {
-            currentWeapon = null;
-            return;
+            weaponSystem.EquipWeapon(weapon);
         }
-
-        WeaponController instance = InstantiateWeapon(weapon);
-        if (instance == null) return;
-
-        currentWeapon = instance;
-        currentWeapon.Initialize(this);
-        ParentWeapon(currentWeapon);
     }
 
     public void PerformAttack()
     {
-        if (currentWeapon == null) return;
+        if (weaponSystem == null) return;
 
-        currentWeapon.Attack();
+        weaponSystem.Attack();
         TriggerAttackAnimation();
-    }
-
-    private void CleanupRuntimeWeapon()
-    {
-        if (_runtimeWeaponInstance != null)
-        {
-            try
-            {
-                Destroy(_runtimeWeaponInstance.gameObject);
-            }
-            catch
-            {
-                // Ignore cleanup errors
-            }
-            _runtimeWeaponInstance = null;
-        }
-    }
-
-    private WeaponController InstantiateWeapon(WeaponController weapon)
-    {
-        GameObject instantiatedGO = Instantiate(weapon.gameObject);
-        WeaponController instance = instantiatedGO.GetComponent<WeaponController>();
-        
-        if (instance == null)
-        {
-            Debug.LogError("SetCurrentWeapon: instantiated weapon GameObject has no WeaponController component");
-            Destroy(instantiatedGO);
-            return null;
-        }
-
-        _runtimeWeaponInstance = instance;
-        return instance;
-    }
-
-    private void ParentWeapon(WeaponController weapon)
-    {
-        try
-        {
-            GameObject go = weapon.gameObject;
-            Transform parent = weaponSocket != null ? weaponSocket : transform;
-            
-            go.transform.SetParent(parent, false);
-            go.transform.localPosition = weaponLocalPosition;
-            go.transform.localRotation = Quaternion.Euler(weaponLocalEuler);
-        }
-        catch (System.Exception)
-        {
-            // Ignore parenting errors
-        }
     }
 
     private void TriggerAttackAnimation()

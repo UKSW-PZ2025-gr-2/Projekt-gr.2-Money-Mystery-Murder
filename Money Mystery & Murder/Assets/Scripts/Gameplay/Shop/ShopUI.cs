@@ -185,7 +185,7 @@ public class ShopUI : MonoBehaviour
 public class ShopItemData
 {
     [Header("Item Content (Set one)")]
-    public Weapon weapon;
+    public WeaponData weapon;
     public Ability ability;
 
     public string GetItemName()
@@ -207,5 +207,12 @@ public class ShopItemData
         if (weapon != null) return weapon.icon;
         if (ability != null) return ability.icon;
         return null;
+    }
+
+    public string GetDescription()
+    {
+        if (weapon != null) return weapon.description;
+        if (ability != null) return ability.description;
+        return "";
     }
 }

@@ -351,7 +351,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7116790836754955485, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
   m_PrefabInstance: {fileID: 125447955}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1914953331}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee903dd270e73e04d884efe28748c390, type: 3}
@@ -409,6 +409,10 @@ PrefabInstance:
       propertyPath: uiText
       value: 
       objectReference: {fileID: 83326310}
+    - target: {fileID: 2818845033641352481, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6455024986214768891, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
       propertyPath: roleText
       value: 
@@ -433,10 +437,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 6998283097264661436, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7927993846431860460, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
       propertyPath: effectsController
       value: 
       objectReference: {fileID: 86567392}
+    - target: {fileID: 7927993846431860460, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
+      propertyPath: ownedWeapons.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7927993846431860460, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
+      propertyPath: 'ownedWeapons.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 5a2fb74668d9516469ddc05aee8a91ae, type: 2}
     - target: {fileID: 7927993846431860460, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
       propertyPath: learnedAbilities.Array.size
       value: 0
@@ -444,7 +460,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6998283097264661436, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1914953340}
   m_SourcePrefab: {fileID: 100100000, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
 --- !u!1001 &210003216
 PrefabInstance:
@@ -1188,7 +1207,7 @@ MonoBehaviour:
   payoutCherry: 5
   payoutTwoCherries: 2
   payoutOneCherry: 1
-  goldenKnifePrefab: {fileID: 2005947453637291105, guid: 7b31bd9857a41434cbee657e9b1af667, type: 3}
+  goldenKnifeData: {fileID: 0}
 --- !u!114 &848457223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1727,6 +1746,29 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+--- !u!1 &1914953331 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6998283097264661436, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
+  m_PrefabInstance: {fileID: 125447955}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1914953340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1914953331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44067b5feb97d0649a3350a156f7fae6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponSystem
+  currentWeapon: {fileID: 0}
+  hitLayers:
+    serializedVersion: 2
+    m_Bits: 51
+  attackOrigin: {fileID: 0}
+  weaponAnimator: {fileID: 0}
 --- !u!1 &1955271979
 GameObject:
   m_ObjectHideFlags: 0
@@ -1889,7 +1931,15 @@ PrefabInstance:
       objectReference: {fileID: 236524486}
     - target: {fileID: 1780585770356068073, guid: e6f89303dbd05e747afa1900881dab2b, type: 3}
       propertyPath: shopItems.Array.size
-      value: 10
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1780585770356068073, guid: e6f89303dbd05e747afa1900881dab2b, type: 3}
+      propertyPath: shopItems.Array.data[1].weapon
+      value: 
+      objectReference: {fileID: 11400000, guid: 5a2fb74668d9516469ddc05aee8a91ae, type: 2}
+    - target: {fileID: 1780585770356068073, guid: e6f89303dbd05e747afa1900881dab2b, type: 3}
+      propertyPath: shopItems.Array.data[1].ability
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1780585770356068073, guid: e6f89303dbd05e747afa1900881dab2b, type: 3}
       propertyPath: shopItems.Array.data[2].ability

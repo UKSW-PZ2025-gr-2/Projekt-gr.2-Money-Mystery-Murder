@@ -3,7 +3,7 @@ using System;
 
 public class Shop : MonoBehaviour
 {
-    public event Action<ShopItem> OnItemPurchased; // event-based notification
+    public event Action<ShopItem> OnItemPurchased;
 
     /// <summary>
     /// Attempts to purchase a shop item for the given player.
@@ -28,9 +28,9 @@ public class Shop : MonoBehaviour
         switch (item.ItemType)
         {
             case ShopItemType.Weapon:
-                if (item is WeaponShopItem weaponItem && weaponItem.Weapon != null)
+                if (item is WeaponShopItem weaponItem && weaponItem.WeaponData != null)
                 {
-                    player.AcquireWeapon(weaponItem.Weapon);
+                    player.AcquireWeapon(weaponItem.WeaponData);
                     success = true;
                     Debug.Log($"[Shop] Player {player.name} purchased weapon: {item.ItemName}");
                 }
@@ -67,7 +67,7 @@ public class Shop : MonoBehaviour
 /// </summary>
 public class WeaponShopItem : ShopItem
 {
-    public Weapon Weapon;
+    public WeaponData WeaponData;
 }
 
 /// <summary>

@@ -104,8 +104,8 @@ public class SlotMachineMinigame : MinigameBase
 
     /// <summary>Prefab for the Golden Knife weapon awarded on jackpot.</summary>
     [Header("Rare Rewards")]
-    [Tooltip("Golden Knife weapon controller prefab awarded on triple 7s jackpot")]
-    [SerializeField] private WeaponController goldenKnifePrefab;
+    [Tooltip("Golden Knife weapon data awarded on triple 7s jackpot")]
+    [SerializeField] private WeaponData goldenKnifeData;
 
     /// <summary>Parent GameObject for the dynamically created sprites.</summary>
     private GameObject _spriteRoot;
@@ -143,10 +143,11 @@ public class SlotMachineMinigame : MinigameBase
         
         // Check for jackpot (triple 7s) first
         bool isJackpot = _values[0] == "7" && _values[1] == "7" && _values[2] == "7";
-        if (isJackpot && goldenKnifePrefab != null && ActivatingPlayer != null)
+        if (isJackpot && goldenKnifeData != null && ActivatingPlayer != null)
         {
             // Award rare Golden Knife weapon
-            ActivatingPlayer.SetCurrentWeapon(goldenKnifePrefab);
+            ActivatingPlayer.AcquireWeapon(goldenKnifeData);
+            ActivatingPlayer.EquipWeapon(goldenKnifeData);
             Debug.Log($"[SlotMachineMinigame] JACKPOT! Awarded Golden Knife to {ActivatingPlayer.name}!");
         }
         else
@@ -158,8 +159,8 @@ public class SlotMachineMinigame : MinigameBase
                 if (ActivatingPlayer != null)
                 {
                     ActivatingPlayer.AddBalance(payout);
+                    Debug.Log($"[SlotMachineMinigame] Payout: {payout} to {ActivatingPlayer.name}");
                 }
-                Debug.Log($"[SlotMachineMinigame] Payout: {payout} coins.");
             }
         }
         
