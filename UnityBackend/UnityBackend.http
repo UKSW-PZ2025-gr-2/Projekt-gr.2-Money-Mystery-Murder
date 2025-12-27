@@ -1,0 +1,6 @@
+@UnityBackend_HostAddress = http://localhost:5100
+
+GET {{UnityBackend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
