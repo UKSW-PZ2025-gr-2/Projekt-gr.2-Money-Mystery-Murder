@@ -1,4 +1,5 @@
 using UnityEngine;
+<<<<<<< HEAD
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine.UI;
@@ -440,5 +441,21 @@ public class QuizMinigame : MinigameBase
             correctAnswerIndex = 1,
             rewardPerCorrect = 50
         };
+=======
+
+public class QuizMinigame : MinigameBase
+{
+    // Handles Question/Answer logic
+    public void AskQuestion()
+    {
+        // TODO: Logic
+        throw new System.NotImplementedException();
+    }
+
+    public void SubmitAnswer(int answerIndex)
+    {
+        // TODO: Logic
+        throw new System.NotImplementedException();
+>>>>>>> c41e47bb5f2e86e1a0411a514d0da0bb22320e71
     }
 }

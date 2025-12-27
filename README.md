@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Projekt-gr.2-Money-Mystery-Murder
 
 
@@ -39,3 +40,6 @@ Uruchom backend:
 
 Backend działa na http://localhost:5100
 Endpointy: GET /players, POST /players
+=======
+# Projekt-gr.2-Money-Mystery-Murder
+>>>>>>> c41e47bb5f2e86e1a0411a514d0da0bb22320e71
