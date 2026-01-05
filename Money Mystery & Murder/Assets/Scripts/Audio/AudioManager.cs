@@ -29,7 +29,6 @@ public class AudioManager : MonoBehaviour
 
     public void SetVolume(float volume)
     {
-        // TODO: Logic
-        throw new System.NotImplementedException();
+        AudioListener.volume = Mathf.Clamp01(volume);
     }
 }
