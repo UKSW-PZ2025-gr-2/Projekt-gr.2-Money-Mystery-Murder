@@ -82,7 +82,8 @@ public class GameManager : MonoBehaviour
         
         if (gameEndUI == null)
         {
-            gameEndUI = FindObjectOfType<GameEndUI>();
+            // Use the newer API to find a scene instance (replaces obsolete FindObjectOfType)
+            gameEndUI = Object.FindFirstObjectByType<GameEndUI>();
         }
     }
 
