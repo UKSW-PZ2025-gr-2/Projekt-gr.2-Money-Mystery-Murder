@@ -1,49 +1,64 @@
 using UnityEngine;
+using UnityEngine.UI;
 
-public class PauseMenu : MonoBehaviour
+public class MenuManager : MonoBehaviour
 {
-    public GameObject menuPanel; // panel pauzy w Canvas
-    private bool isPaused = false;
+    public GameObject menuPanel;
+    public Slider volumeSlider;
 
-    void Start()
+    //bool paused = true;
+
+    //void Start()
+    //{
+    //    Time.timeScale = 0f;
+    //    menuPanel.SetActive(true);
+    //    volumeSlider.value = AudioListener.volume;
+    //}
+
+    //void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Escape))
+    //        TogglePause();
+    //}
+
+    public void StartGame()
     {
-        // Na start menu pauzy ukryte
-        if(menuPanel != null)
-            menuPanel.SetActive(true);
-    }
-
-    void Update()
-    {
-        // Naciśnięcie ESC
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            TogglePause();
-        }
-    }
-
-    public void TogglePause()
-    {
-        isPaused = !isPaused;
-
-        if(menuPanel != null)
-            menuPanel.SetActive(isPaused);
-
-        // Zatrzymanie gry (animacje, AI, fizyka) jeśli chcesz
-        Time.timeScale = isPaused ? 0f : 1f;
-    }
-
-    public void ResumeGame()
-    {
-        isPaused = false;
-
-        if(menuPanel != null)
-            menuPanel.SetActive(false);
-
+        //paused = false;
+        menuPanel.SetActive(false);
         Time.timeScale = 1f;
     }
 
-    public void ExitGame()
+    //public void TogglePause()
+    //{
+    //    paused = !paused;
+    //    menuPanel.SetActive(paused);
+    //    Time.timeScale = paused ? 0f : 1f;
+    //}
+
+    public void ChangeVolume(float v)
     {
-        Application.Quit();
+        AudioListener.volume = v;
     }
+
+   public void ExitGame()
+{
+    // Działa w buildzie
+    Application.Quit();
+
+    // Działa w Unity Editor
+#if UNITY_EDITOR
+    UnityEditor.EditorApplication.isPlaying = false;
+#endif
 }
+
+//    public void Resume()
+//    {
+//        paused = false;
+//        if(menuPanel != null)
+//
+//            menuPanel.SetActive(false);
+//        Time.timeScale = 1f;
+//    }
+}
+
+
