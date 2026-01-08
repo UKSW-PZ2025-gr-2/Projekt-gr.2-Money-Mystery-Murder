@@ -76,10 +76,7 @@ public class MafiaQuizMinigame : MinigameBase
             };
         }
 
-        BuildUI();
-        ResetUI(); // Ukryj wszystko na start
     }
-
     protected override void OnStartGame()
     {
         _gameRunning = true;
