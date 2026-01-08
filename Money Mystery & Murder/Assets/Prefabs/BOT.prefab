@@ -13,6 +13,9 @@ GameObject:
   - component: {fileID: 5801502103815895333}
   - component: {fileID: 1228241615140388769}
   - component: {fileID: 1773026990334076160}
+  - component: {fileID: 1206236947824311579}
+  - component: {fileID: -763842379541670036}
+  - component: {fileID: 1328489068502025126}
   m_Layer: 0
   m_Name: BOT
   m_TagString: Untagged
@@ -111,18 +114,21 @@ MonoBehaviour:
   role: 0
   isAlive: 1
   visionRange: 5
-  equippedWeapon: {fileID: 0}
   ownedWeapons: []
-  hotbarItems: []
   learnedAbilities: []
   roleAnnouncer: {fileID: 0}
   effectsController: {fileID: 0}
   playerAnimator: {fileID: 0}
-  currentWeapon: {fileID: 0}
-  weaponSocket: {fileID: 0}
-  weaponLocalPosition: {x: 1.2, y: 0.6, z: 0.2}
-  weaponLocalEuler: {x: 0, y: 90, z: 0}
+  weaponSystem: {fileID: 0}
   autoHealToMaxOnStart: 0
+  moveSpeed: 3
+  changeDirectionTime: 2
+  attackRange: 2
+  attackCooldown: 1
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  knifeWeapon: {fileID: 0}
 --- !u!61 &1228241615140388769
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -196,3 +202,55 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &1206236947824311579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8451748926706170243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44067b5feb97d0649a3350a156f7fae6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponSystem
+  currentWeapon: {fileID: 0}
+  hitLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  weaponAnimator: {fileID: 0}
+--- !u!95 &-763842379541670036
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8451748926706170243}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1328489068502025126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8451748926706170243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c3f9b95bf0e4b748b1dc7ca43e200ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimator
+  animator: {fileID: 0}

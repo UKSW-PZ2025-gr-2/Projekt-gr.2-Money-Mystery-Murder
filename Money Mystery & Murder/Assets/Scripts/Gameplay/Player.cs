@@ -42,7 +42,7 @@ public class Player : MonoBehaviour
     [SerializeField] private PlayerAnimator playerAnimator;
 
     [Header("Weapon System")]
-    [SerializeField] private WeaponSystem weaponSystem;
+    [SerializeField] protected WeaponSystem weaponSystem;
 
     [Header("Events / Flags")]
     [SerializeField] private bool autoHealToMaxOnStart = false;
@@ -257,6 +257,8 @@ public class Player : MonoBehaviour
     public void TakeDamage(int dmg)
     {
         if (dmg <= 0) return;
+        
+        Debug.Log($"[Player] {gameObject.name} took {dmg} damage, HP: {currentHealth} -> {currentHealth - dmg}");
         
         currentHealth -= dmg;
         

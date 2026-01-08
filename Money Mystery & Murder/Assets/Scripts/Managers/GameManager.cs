@@ -25,6 +25,10 @@ public class GameManager : MonoBehaviour
     /// <summary>Reference to the <see cref="GameEndUI"/> component. Set this in the Unity Inspector.</summary>
     [SerializeField] private GameEndUI gameEndUI;
 
+    /// <summary>Audio clip for game music. Set this in the Unity Inspector.</summary>
+    [Header("Audio")]
+    [SerializeField] private AudioClip gameMusic;
+
     /// <summary>Starting hour (0-23) when game begins. Set this in the Unity Inspector.</summary>
     [Header("Game Time")]
     [SerializeField] private int startHour = 6;
@@ -78,7 +82,8 @@ public class GameManager : MonoBehaviour
         
         if (gameEndUI == null)
         {
-            gameEndUI = FindObjectOfType<GameEndUI>();
+            // Use the newer API to find a scene instance (replaces obsolete FindObjectOfType)
+            gameEndUI = Object.FindFirstObjectByType<GameEndUI>();
         }
     }
 
@@ -99,6 +104,12 @@ public class GameManager : MonoBehaviour
         {
             phaseManager.Initialize();
             phaseManager.UpdatePhaseByTime(CurrentHour);
+        }
+
+        // Play game music
+        if (AudioManager.Instance != null && gameMusic != null)
+        {
+            AudioManager.Instance.PlayMusic(gameMusic);
         }
     }
 

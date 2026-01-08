@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 /// <summary>
 /// Main UI controller for the shop panel. Displays a grid of purchasable items
@@ -15,6 +18,8 @@ public class ShopUI : MonoBehaviour
     
     [Header("Shop Configuration")]
     [SerializeField] private List<ShopItemData> shopItems = new();
+    [SerializeField] private bool autoLoadAllWeapons = true;
+    [SerializeField] private bool autoLoadAllAbilities = false;
 
     private Player _currentPlayer;
     private List<ShopItemUI> _itemUIInstances = new();
@@ -33,6 +38,13 @@ public class ShopUI : MonoBehaviour
         {
             shopPanel.SetActive(false);
         }
+        
+        // Auto-load weapons and abilities if enabled
+        if (autoLoadAllWeapons || autoLoadAllAbilities)
+        {
+            LoadItemsFromResources();
+        }
+        
         SetupShopItems();
     }
 
@@ -145,6 +157,35 @@ public class ShopUI : MonoBehaviour
         }
     }
 
+    private void LoadItemsFromResources()
+    {
+        if (autoLoadAllWeapons)
+        {
+            WeaponData[] weapons = Resources.LoadAll<WeaponData>("");
+            foreach (var weapon in weapons)
+            {
+                if (weapon != null && weapon.cost > 0)
+                {
+                    shopItems.Add(new ShopItemData { weapon = weapon });
+                }
+            }
+            Debug.Log($"[ShopUI] Auto-loaded {weapons.Length} weapons from Resources");
+        }
+
+        if (autoLoadAllAbilities)
+        {
+            Ability[] abilities = Resources.LoadAll<Ability>("");
+            foreach (var ability in abilities)
+            {
+                if (ability != null && ability.cost > 0)
+                {
+                    shopItems.Add(new ShopItemData { ability = ability });
+                }
+            }
+            Debug.Log($"[ShopUI] Auto-loaded {abilities.Length} abilities from Resources");
+        }
+    }
+
     private void RefreshShopItems()
     {
         foreach (var itemUI in _itemUIInstances)
@@ -177,6 +218,54 @@ public class ShopUI : MonoBehaviour
             movement.enabled = true;
         }
     }
+
+#if UNITY_EDITOR
+    [ContextMenu("Auto-Load All Weapons From Assets")]
+    private void EditorLoadAllWeapons()
+    {
+        shopItems.Clear();
+        
+        string[] guids = AssetDatabase.FindAssets("t:WeaponData");
+        int count = 0;
+        
+        foreach (string guid in guids)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            WeaponData weapon = AssetDatabase.LoadAssetAtPath<WeaponData>(path);
+            
+            if (weapon != null && weapon.cost > 0)
+            {
+                shopItems.Add(new ShopItemData { weapon = weapon });
+                count++;
+            }
+        }
+        
+        Debug.Log($"[ShopUI] Loaded {count} weapons with cost > 0 into shop");
+        EditorUtility.SetDirty(this);
+    }
+
+    [ContextMenu("Auto-Load All Abilities From Assets")]
+    private void EditorLoadAllAbilities()
+    {
+        string[] guids = AssetDatabase.FindAssets("t:Ability");
+        int count = 0;
+        
+        foreach (string guid in guids)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            Ability ability = AssetDatabase.LoadAssetAtPath<Ability>(path);
+            
+            if (ability != null && ability.cost > 0)
+            {
+                shopItems.Add(new ShopItemData { ability = ability });
+                count++;
+            }
+        }
+        
+        Debug.Log($"[ShopUI] Loaded {count} abilities with cost > 0 into shop");
+        EditorUtility.SetDirty(this);
+    }
+#endif
 }
 
 /// <summary>
