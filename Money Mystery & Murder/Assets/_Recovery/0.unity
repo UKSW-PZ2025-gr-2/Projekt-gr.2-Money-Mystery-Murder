@@ -234,10 +234,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6310545941019334263, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1075502277}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1135068902}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
 --- !u!1 &152192169
 GameObject:
@@ -335,11 +332,82 @@ Transform:
   m_Children: []
   m_Father: {fileID: 772407091}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &227682578 stripped
+--- !u!1 &237726849 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
-  m_PrefabInstance: {fileID: 1223809305}
+  m_CorrespondingSourceObject: {fileID: 6998283097264661436, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
+  m_PrefabInstance: {fileID: 6280322183512520848}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &237726850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 237726849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d310379f5bc3c2c4ea05e7173dbee3b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NightVisionController
+  dayVisionRange: 15
+  eveningVisionRange: 10
+  nightVisionRange: 5
+  dayIntensity: 1
+  eveningIntensity: 0.7
+  nightIntensity: 0.4
+  transitionSpeed: 2
+--- !u!114 &237726851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 237726849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.2D.Runtime::UnityEngine.Rendering.Universal.Light2D
+  m_ComponentVersion: 2
+  m_LightType: 3
+  m_BlendStyleIndex: 0
+  m_FalloffIntensity: 0.5
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 1
+  m_LightVolumeIntensity: 1
+  m_LightVolumeEnabled: 0
+  m_ApplyToSortingLayers: 00000000
+  m_LightCookieSprite: {fileID: 0}
+  m_DeprecatedPointLightCookieSprite: {fileID: 0}
+  m_LightOrder: 0
+  m_AlphaBlendOnOverlap: 0
+  m_OverlapOperation: 0
+  m_NormalMapDistance: 3
+  m_NormalMapQuality: 2
+  m_UseNormalMap: 0
+  m_ShadowsEnabled: 1
+  m_ShadowIntensity: 0.75
+  m_ShadowSoftness: 0.3
+  m_ShadowSoftnessFalloffIntensity: 0.5
+  m_ShadowVolumeIntensityEnabled: 0
+  m_ShadowVolumeIntensity: 0.75
+  m_LocalBounds:
+    m_Center: {x: 0, y: -0.00000011920929, z: 0}
+    m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
+  m_PointLightInnerAngle: 360
+  m_PointLightOuterAngle: 360
+  m_PointLightInnerRadius: 0
+  m_PointLightOuterRadius: 1
+  m_ShapeLightParametricSides: 5
+  m_ShapeLightParametricAngleOffset: 0
+  m_ShapeLightParametricRadius: 1
+  m_ShapeLightFalloffSize: 0.5
+  m_ShapeLightFalloffOffset: {x: 0, y: 0}
+  m_ShapePath:
+  - {x: -0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: 0.5, z: 0}
+  - {x: -0.5, y: 0.5, z: 0}
 --- !u!1 &251832761
 GameObject:
   m_ObjectHideFlags: 0
@@ -514,10 +582,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6310545941019334263, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1219584904}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2102661608}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
 --- !u!1 &416033089
 GameObject:
@@ -632,7 +697,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b98f599ffb652034189a842fa18df0b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PhaseManager
-  currentPhase: 2
+  currentPhase: 4
   dayStartHour: 6
   eveningStartHour: 7
   nightStartHour: 8
@@ -758,32 +823,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5576988932967931177, guid: 6da2a6bb9fb447c4cada7ff42c906309, type: 3}
   m_PrefabInstance: {fileID: 504297757}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &519177524 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
-  m_PrefabInstance: {fileID: 135935825}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &533782950 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6310545941019334263, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
   m_PrefabInstance: {fileID: 1223809305}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &533782951
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 227682578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 097f932ab67ad2d4499d21e681ab805d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AutoShadowCaster2D
-  autoAddShadowCaster: 1
-  castsShadows: 1
-  selfShadows: 0
-  autoSetLitMaterial: 1
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -934,10 +978,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6310545941019334263, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 251832762}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1457269606}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
 --- !u!114 &732976926 stripped
 MonoBehaviour:
@@ -982,7 +1023,7 @@ Transform:
   - {fileID: 201423030}
   - {fileID: 503190233}
   - {fileID: 1374334435}
-  - {fileID: 2056465120}
+  - {fileID: 1876131776}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &960634506
@@ -998,7 +1039,6 @@ GameObject:
   - component: {fileID: 960634508}
   - component: {fileID: 960634507}
   - component: {fileID: 960634511}
-  - component: {fileID: 960634512}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1100,19 +1140,6 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 960634506}
   m_Enabled: 1
---- !u!114 &960634512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 960634506}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 873360d817ed7c14d841ab5f63a15c89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AlwaysVisibleUI
-  autoConfigureCanvas: 1
 --- !u!114 &974209234 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4220080845210166111, guid: 68f39ac937bb47b46aa535ba9004ded1, type: 3}
@@ -1129,27 +1156,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6310545941019334263, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
   m_PrefabInstance: {fileID: 389603317}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1007871550 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
-  m_PrefabInstance: {fileID: 1786418173}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1007871551
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1007871550}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 097f932ab67ad2d4499d21e681ab805d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AutoShadowCaster2D
-  autoAddShadowCaster: 1
-  castsShadows: 1
-  selfShadows: 0
-  autoSetLitMaterial: 1
 --- !u!1 &1028581688
 GameObject:
   m_ObjectHideFlags: 0
@@ -1382,117 +1388,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6310545941019334263, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
   m_PrefabInstance: {fileID: 135935825}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1135068902
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 519177524}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 097f932ab67ad2d4499d21e681ab805d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AutoShadowCaster2D
-  autoAddShadowCaster: 1
-  castsShadows: 1
-  selfShadows: 0
-  autoSetLitMaterial: 1
---- !u!1 &1154426327 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6998283097264661436, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
-  m_PrefabInstance: {fileID: 6280322183512520848}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1154426328
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1154426327}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 097f932ab67ad2d4499d21e681ab805d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AutoShadowCaster2D
-  autoAddShadowCaster: 1
-  castsShadows: 1
-  selfShadows: 0
-  autoSetLitMaterial: 1
---- !u!114 &1154426329
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1154426327}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d310379f5bc3c2c4ea05e7173dbee3b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NightVisionController
-  dayVisionRange: 25
-  eveningVisionRange: 15
-  nightVisionRange: 12
-  dayIntensity: 1.5
-  eveningIntensity: 1.2
-  nightIntensity: 1
-  transitionSpeed: 3
-  innerRadiusMultiplier: 0.3
-  useDistanceFalloff: 1
-  enableLightForThisObject: 1
---- !u!114 &1154426330
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1154426327}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.2D.Runtime::UnityEngine.Rendering.Universal.Light2D
-  m_ComponentVersion: 2
-  m_LightType: 3
-  m_BlendStyleIndex: 0
-  m_FalloffIntensity: 0.5
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
-  m_LightVolumeIntensity: 1
-  m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 00000000
-  m_LightCookieSprite: {fileID: 0}
-  m_DeprecatedPointLightCookieSprite: {fileID: 0}
-  m_LightOrder: 0
-  m_AlphaBlendOnOverlap: 0
-  m_OverlapOperation: 0
-  m_NormalMapDistance: 3
-  m_NormalMapQuality: 2
-  m_UseNormalMap: 0
-  m_ShadowsEnabled: 1
-  m_ShadowIntensity: 0.75
-  m_ShadowSoftness: 0.3
-  m_ShadowSoftnessFalloffIntensity: 0.5
-  m_ShadowVolumeIntensityEnabled: 0
-  m_ShadowVolumeIntensity: 0.75
-  m_LocalBounds:
-    m_Center: {x: 0, y: -0.00000011920929, z: 0}
-    m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
-  m_PointLightInnerAngle: 360
-  m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 15
-  m_ShapeLightParametricSides: 5
-  m_ShapeLightParametricAngleOffset: 0
-  m_ShapeLightParametricRadius: 1
-  m_ShapeLightFalloffSize: 0.5
-  m_ShapeLightFalloffOffset: {x: 0, y: 0}
-  m_ShapePath:
-  - {x: -0.5, y: -0.5, z: 0}
-  - {x: 0.5, y: -0.5, z: 0}
-  - {x: 0.5, y: 0.5, z: 0}
-  - {x: -0.5, y: 0.5, z: 0}
 --- !u!1 &1219584903
 GameObject:
   m_ObjectHideFlags: 0
@@ -1608,10 +1503,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6310545941019334263, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 152192170}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 533782951}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
 --- !u!114 &1230190138 stripped
 MonoBehaviour:
@@ -1624,27 +1516,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
---- !u!1 &1251627541 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
-  m_PrefabInstance: {fileID: 3967523389431473336}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1251627542
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1251627541}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 097f932ab67ad2d4499d21e681ab805d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AutoShadowCaster2D
-  autoAddShadowCaster: 1
-  castsShadows: 1
-  selfShadows: 0
-  autoSetLitMaterial: 1
 --- !u!1 &1374334433
 GameObject:
   m_ObjectHideFlags: 0
@@ -1986,27 +1857,6 @@ RectTransform:
   m_AnchoredPosition: {x: 1357.7048, y: 346.65}
   m_SizeDelta: {x: 554.7002, y: 348.1992}
   m_Pivot: {x: 0.8531307, y: 0.33773398}
---- !u!1 &1457269605 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
-  m_PrefabInstance: {fileID: 702759828}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1457269606
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1457269605}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 097f932ab67ad2d4499d21e681ab805d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AutoShadowCaster2D
-  autoAddShadowCaster: 1
-  castsShadows: 1
-  selfShadows: 0
-  autoSetLitMaterial: 1
 --- !u!114 &1487775366 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8323421307892668496, guid: 68f39ac937bb47b46aa535ba9004ded1, type: 3}
@@ -2151,11 +2001,60 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6310545941019334263, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 25747344}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1007871551}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+--- !u!1 &1876131775
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1876131776}
+  - component: {fileID: 1876131777}
+  m_Layer: 0
+  m_Name: GlobalLightning
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1876131776
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876131775}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.15302, y: 0.02484, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 772407091}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1876131777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876131775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8e4d9f0e5c3f2a7b9d4e6f8a0b1c3d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GlobalLightingController
+  globalLight: {fileID: 619394801}
+  dayLightIntensity: 1
+  eveningLightIntensity: 0.6
+  nightLightIntensity: 0.2
+  dayColor: {r: 1, g: 1, b: 1, a: 1}
+  eveningColor: {r: 1, g: 0.7, b: 0.5, a: 1}
+  nightColor: {r: 0.2, g: 0.2, b: 0.4, a: 1}
+  transitionSpeed: 1
 --- !u!1001 &2053497164
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2213,95 +2112,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46543ac869b88b84cb137ef8dbde56ac, type: 3}
---- !u!1 &2056465119
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2056465120}
-  - component: {fileID: 2056465122}
-  - component: {fileID: 2056465121}
-  m_Layer: 0
-  m_Name: LightManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2056465120
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2056465119}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.82852995, y: -0.32433, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 772407091}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2056465121
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2056465119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8e4d9f0e5c3f2a7b9d4e6f8a0b1c3d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GlobalLightingController
-  globalLight: {fileID: 619394801}
-  dayLightIntensity: 1
-  eveningLightIntensity: 0.4
-  nightLightIntensity: 0
-  dayColor: {r: 1, g: 1, b: 1, a: 1}
-  eveningColor: {r: 1, g: 0.7, b: 0.4, a: 1}
-  nightColor: {r: 0, g: 0, b: 0, a: 1}
-  transitionSpeed: 2
-  forceCompleteBlackness: 1
---- !u!114 &2056465122
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2056465119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dda1b873373686940a9b13c970c39490, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NightVisionQuickSetup
-  setupGlobalLight: 0
-  globalLight: {fileID: 619394801}
---- !u!1 &2102661607 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
-  m_PrefabInstance: {fileID: 389603317}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2102661608
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2102661607}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 097f932ab67ad2d4499d21e681ab805d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AutoShadowCaster2D
-  autoAddShadowCaster: 1
-  castsShadows: 1
-  selfShadows: 0
-  autoSetLitMaterial: 1
 --- !u!1001 &2122878395
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2576,10 +2386,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6310545941019334263, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 338596861}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1251627542}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
 --- !u!1001 &6280322183512520848
 PrefabInstance:
@@ -2675,13 +2482,10 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6998283097264661436, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1154426330}
+      addedObject: {fileID: 237726851}
     - targetCorrespondingSourceObject: {fileID: 6998283097264661436, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1154426329}
-    - targetCorrespondingSourceObject: {fileID: 6998283097264661436, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1154426328}
+      addedObject: {fileID: 237726850}
   m_SourcePrefab: {fileID: 100100000, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

@@ -43,6 +43,9 @@ public class Player : MonoBehaviour
 
     [Header("Weapon System")]
     [SerializeField] protected WeaponSystem weaponSystem;
+    
+    [Header("Night Vision")]
+    [SerializeField] private NightVisionController nightVisionController;
 
     [Header("Events / Flags")]
     [SerializeField] private bool autoHealToMaxOnStart = false;
@@ -115,6 +118,28 @@ public class Player : MonoBehaviour
         if (effectsController == null)
         {
             effectsController = GetComponent<PlayerEffectsController>();
+        }
+        
+        if (nightVisionController == null)
+        {
+            nightVisionController = GetComponent<NightVisionController>();
+            
+            // Only add for actual player, not bots
+            bool isBot = gameObject.name.Contains("BOT");
+            
+            if (nightVisionController == null && !isBot)
+            {
+                // Auto-add if missing (only for player)
+                nightVisionController = gameObject.AddComponent<NightVisionController>();
+                Debug.Log($"[Player] Auto-added NightVisionController to player {gameObject.name}");
+            }
+            else if (isBot && nightVisionController != null)
+            {
+                // Remove from bots if exists
+                Destroy(nightVisionController);
+                nightVisionController = null;
+                Debug.Log($"[Player] Removed NightVisionController from bot {gameObject.name}");
+            }
         }
         
         if (playerAnimator == null)
