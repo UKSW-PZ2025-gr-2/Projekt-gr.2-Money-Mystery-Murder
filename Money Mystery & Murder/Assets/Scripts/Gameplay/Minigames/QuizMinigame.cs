@@ -45,66 +45,66 @@ public class QuizMinigame : MinigameBase
     {
         return new Question[]
         {
-            new Question 
-            { 
-                questionText = "Ile wynosi 2 + 2?", 
-                answers = {"3", "4", "5", "6"}, 
-                correctAnswerIndex = 1 
-            },
-            new Question 
-            { 
-                questionText = "Jaka jest stolica Polski?", 
-                answers = {"Kraków", "Warszawa", "Gdańsk", "Wrocław"}, 
-                correctAnswerIndex = 1 
-            },
-            new Question 
-            { 
-                questionText = "Ile kontynentów jest na Ziemi?", 
-                answers = {"5", "6", "7", "8"}, 
-                correctAnswerIndex = 2 
-            },
-            new Question 
-            { 
-                questionText = "Jaki kolor ma niebo w słoneczny dzień?", 
-                answers = {"Zielony", "Niebieski", "Czerwony", "Żółty"}, 
-                correctAnswerIndex = 1 
-            },
-            new Question 
-            { 
-                questionText = "Jak nazywa się największa planeta Układu Słonecznego?", 
-                answers = {"Ziemia", "Mars", "Jowisz", "Saturn"}, 
-                correctAnswerIndex = 2 
-            },
-            new Question 
-            { 
-                questionText = "Ile stron ma kwadrat?", 
-                answers = {"3", "4", "5", "6"}, 
-                correctAnswerIndex = 1 
-            },
-            new Question 
-            { 
-                questionText = "Co to jest H2O?", 
-                answers = {"Mleko", "Woda", "Sok", "Piwo"}, 
-                correctAnswerIndex = 1 
-            },
-            new Question 
-            { 
-                questionText = "Jaki jest pierwiastek 36?", 
-                answers = {"34", "35", "36", "37"}, 
-                correctAnswerIndex = 2 
-            },
-            new Question 
-            { 
-                questionText = "Ile = 10 * 2?", 
-                answers = {"15", "20", "25", "30"}, 
-                correctAnswerIndex = 1 
-            },
-            new Question 
-            { 
-                questionText = "Kto wynalazł żarówkę?", 
-                answers = {"Tesla", "Edison", "Newton", "Einstein"}, 
-                correctAnswerIndex = 1 
-            }
+            //new Question 
+            //{ 
+            //    questionText = "Ile wynosi 2 + 2?", 
+            //    answers = {"3", "4", "5", "6"}, 
+            //    correctAnswerIndex = 1 
+            //},
+            //new Question 
+            //{ 
+            //    questionText = "Jaka jest stolica Polski?", 
+            //    answers = {"Kraków", "Warszawa", "Gdańsk", "Wrocław"}, 
+            //    correctAnswerIndex = 1 
+            //},
+            //new Question 
+            //{ 
+            //    questionText = "Ile kontynentów jest na Ziemi?", 
+            //    answers = {"5", "6", "7", "8"}, 
+            //    correctAnswerIndex = 2 
+            //},
+            //new Question 
+            //{ 
+            //    questionText = "Jaki kolor ma niebo w słoneczny dzień?", 
+            //    answers = {"Zielony", "Niebieski", "Czerwony", "Żółty"}, 
+            //    correctAnswerIndex = 1 
+            //},
+            //new Question 
+            //{ 
+            //    questionText = "Jak nazywa się największa planeta Układu Słonecznego?", 
+            //    answers = {"Ziemia", "Mars", "Jowisz", "Saturn"}, 
+            //    correctAnswerIndex = 2 
+            //},
+            //new Question 
+            //{ 
+            //    questionText = "Ile stron ma kwadrat?", 
+            //    answers = {"3", "4", "5", "6"}, 
+            //    correctAnswerIndex = 1 
+            //},
+            //new Question 
+            //{ 
+            //    questionText = "Co to jest H2O?", 
+            //    answers = {"Mleko", "Woda", "Sok", "Piwo"}, 
+            //    correctAnswerIndex = 1 
+            //},
+            //new Question 
+            //{ 
+            //    questionText = "Jaki jest pierwiastek 36?", 
+            //    answers = {"34", "35", "36", "37"}, 
+            //    correctAnswerIndex = 2 
+            //},
+            //new Question 
+            //{ 
+            //    questionText = "Ile = 10 * 2?", 
+            //    answers = {"15", "20", "25", "30"}, 
+            //    correctAnswerIndex = 1 
+            //},
+            //new Question 
+            //{ 
+            //    questionText = "Kto wynalazł żarówkę?", 
+            //    answers = {"Tesla", "Edison", "Newton", "Einstein"}, 
+            //    correctAnswerIndex = 1 
+            //}
         };
     }
 
