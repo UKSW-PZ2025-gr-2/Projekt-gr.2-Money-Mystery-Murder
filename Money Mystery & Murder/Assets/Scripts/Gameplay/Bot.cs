@@ -13,15 +13,22 @@ public class Bot : Player
     [SerializeField] private float attackRange = 1f;
     [SerializeField] private float attackCooldown = 1f;
     [SerializeField, Tooltip("Which layers the bot will consider as attack targets (set to Player layer in Inspector)")]
-    private LayerMask targetLayers = ~0;
+    private LayerMask targetLayers;
 
     [Header("Weapon")]
-    [SerializeField] private WeaponData knifeWeapon;
+    [SerializeField] private List<WeaponData> possibleWeapons = new List<WeaponData>();
+    [SerializeField, Tooltip("Fallback weapon if possibleWeapons list is empty")]
+    private WeaponData knifeWeapon;
 
+    private WeaponData _equippedWeapon;
     private Vector3 _moveDirection;
     private float _nextChangeTime;
     private float _nextAttackTime;
     private PlayerMovement _movement;
+    private PlayerAnimator _playerAnimator;
+    
+    // Cache for performance - shared across all bots
+    private static Collider2D[] nearbyColliders = new Collider2D[20];
 
     /// <summary>
     /// Initializes bot state, assigns role from <see cref="RoleManager"/>.
@@ -37,26 +44,72 @@ public class Bot : Player
             _movement.enabled = false; // Disable player input movement
         }
 
-        // Equip knife
-            if (knifeWeapon != null)
-            {
-                AcquireWeapon(knifeWeapon);
-                EquipWeapon(knifeWeapon);
-                attackRange = knifeWeapon.range; // Set attack range to match weapon
-                Debug.Log($"[Bot] {gameObject.name} equipped {knifeWeapon.displayName} with range {attackRange}");
-            }
-            else
-            {
-                Debug.LogWarning($"[Bot] {gameObject.name} has no knifeWeapon assigned");
-            }
+        _playerAnimator = GetComponent<PlayerAnimator>();
+        if (_playerAnimator == null)
+        {
+            Debug.LogWarning($"[Bot] {gameObject.name} has no PlayerAnimator component for walk animation.");
+        }
+
+        // Select and equip a random weapon
+        _equippedWeapon = SelectRandomWeapon();
+        if (_equippedWeapon != null)
+        {
+            AcquireWeapon(_equippedWeapon);
+            EquipWeapon(_equippedWeapon);
+            attackRange = _equippedWeapon.range; // Set attack range to match weapon
+            Debug.Log($"[Bot] {gameObject.name} equipped {_equippedWeapon.displayName} with range {attackRange}");
+        }
+        else
+        {
+            Debug.LogWarning($"[Bot] {gameObject.name} has no weapon to equip (possibleWeapons and knifeWeapon are null)");
+        }
 
         _moveDirection = Random.insideUnitCircle.normalized;
         _nextChangeTime = Time.time + changeDirectionTime;
         _nextAttackTime = Time.time + attackCooldown;
     }
 
+    /// <summary>
+    /// Selects a random weapon from the possibleWeapons list.
+    /// Falls back to knifeWeapon if the list is empty.
+    /// </summary>
+    private WeaponData SelectRandomWeapon()
+    {
+        if (possibleWeapons != null && possibleWeapons.Count > 0)
+        {
+            // Filter out null entries
+            List<WeaponData> validWeapons = new List<WeaponData>();
+            foreach (WeaponData weapon in possibleWeapons)
+            {
+                if (weapon != null)
+                {
+                    validWeapons.Add(weapon);
+                }
+            }
+
+            if (validWeapons.Count > 0)
+            {
+                int randomIndex = Random.Range(0, validWeapons.Count);
+                return validWeapons[randomIndex];
+            }
+        }
+
+        // Fallback to knife weapon
+        return knifeWeapon;
+    }
+
     private void Update()
     {
+        if (!IsAlive) 
+        {
+            // Stop all movement and animation updates when dead
+            if (_playerAnimator != null)
+            {
+                _playerAnimator.SetMovementState(false);
+            }
+            return;
+        }
+        
         // Random movement
         if (Time.time > _nextChangeTime)
         {
@@ -64,74 +117,71 @@ public class Bot : Player
             _nextChangeTime = Time.time + changeDirectionTime;
         }
 
-        transform.Translate(_moveDirection * moveSpeed * Time.deltaTime, Space.World);
+        // Move and update walk animation
+        bool isMoving = _moveDirection.sqrMagnitude > 0.01f;
+        if (isMoving)
+        {
+            transform.Translate(_moveDirection * moveSpeed * Time.deltaTime, Space.World);
+        }
 
-        // Attack during night
+        // Update walk animation state
+        if (_playerAnimator != null)
+        {
+            _playerAnimator.SetMovementState(isMoving);
+        }
+
+        // Attack during night - only check when cooldown is ready
         if (GameManager.Instance != null && GameManager.Instance.CurrentPhase == GamePhase.Night)
         {
-            Debug.Log($"[Bot] {gameObject.name} is in Night phase, checking for attack");
-            AttackNearbyPlayers();
+            if (Time.time >= _nextAttackTime)
+            {
+                AttackNearbyPlayers();
+            }
         }
     }
 
     private void AttackNearbyPlayers()
     {
-        if (Time.time < _nextAttackTime) return;
-
-        Debug.Log($"[Bot] {gameObject.name} attempting to attack");
-
-        // Find the closest player within attack range
+        // Find the closest player within attack range using cached array and NonAlloc
         Player closestPlayer = null;
         float closestDistance = Mathf.Infinity;
 
-        Debug.Log($"[Bot] {gameObject.name} attackRange={attackRange}");
+        int hitCount = Physics2D.OverlapCircleNonAlloc(transform.position, attackRange, nearbyColliders, targetLayers != 0 ? targetLayers : ~0);
 
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange, targetLayers);
-        Debug.Log($"[Bot] {gameObject.name} found {hits.Length} colliders in range");
-
-        foreach (Collider2D hit in hits)
+        for (int i = 0; i < hitCount; i++)
         {
-            string hitName = hit != null && hit.gameObject != null ? hit.gameObject.name : "(null)";
-            string hitLayer = hit != null && hit.gameObject != null ? LayerMask.LayerToName(hit.gameObject.layer) : "(none)";
+            Collider2D hit = nearbyColliders[i];
+            if (hit == null) continue;
 
-            Player player = null;
-            if (hit != null)
+            // Optimized: Try direct component first
+            Player player = hit.GetComponent<Player>();
+            if (player == null)
             {
-                player = hit.GetComponent<Player>();
-                if (player == null) player = hit.GetComponentInParent<Player>();
-                if (player == null) player = hit.GetComponentInChildren<Player>();
+                player = hit.GetComponentInParent<Player>();
             }
 
-            if (player != null)
+            if (player != null && player != this && player.IsAlive)
             {
                 float distance = Vector3.Distance(transform.position, player.transform.position);
-                Debug.Log($"[Bot] {gameObject.name} collider '{hitName}' layer='{hitLayer}' has Player='{player.gameObject.name}' IsAlive={player.IsAlive} dist={distance}");
-
-                if (player != this && player.IsAlive && distance < closestDistance)
+                if (distance < closestDistance)
                 {
                     closestDistance = distance;
                     closestPlayer = player;
                 }
             }
-            else
-            {
-                Debug.Log($"[Bot] {gameObject.name} collider '{hitName}' layer='{hitLayer}' has no Player component");
-            }
         }
 
         if (closestPlayer != null)
         {
-            Debug.Log($"[Bot] {gameObject.name} found closest player {closestPlayer.gameObject.name}, attacking");
-
             // Face the player
             Vector3 direction = (closestPlayer.transform.position - transform.position).normalized;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0, 0, angle);
 
-            // Attack: prefer direct damage (knifeWeapon) but log details and fall back to WeaponSystem if needed
-            Debug.Log($"[Bot] {gameObject.name} attacking {closestPlayer.gameObject.name} with knifeWeapon={(knifeWeapon != null ? knifeWeapon.displayName : "null")} weaponSystemWeapon={(weaponSystem != null && weaponSystem.CurrentWeapon != null ? weaponSystem.CurrentWeapon.displayName : "null")}");
+            // Attack: prefer direct damage (_equippedWeapon) but log details and fall back to WeaponSystem if needed
+            Debug.Log($"[Bot] {gameObject.name} attacking {closestPlayer.gameObject.name} with _equippedWeapon={(_equippedWeapon != null ? _equippedWeapon.displayName : "null")} weaponSystemWeapon={(weaponSystem != null && weaponSystem.CurrentWeapon != null ? weaponSystem.CurrentWeapon.displayName : "null")}");
 
-            int dmg = knifeWeapon != null ? knifeWeapon.damage : (weaponSystem?.CurrentWeapon?.damage ?? 0);
+            int dmg = _equippedWeapon != null ? _equippedWeapon.damage : (weaponSystem?.CurrentWeapon?.damage ?? 0);
 
             if (dmg > 0)
             {
@@ -172,10 +222,6 @@ public class Bot : Player
             }
 
             _nextAttackTime = Time.time + attackCooldown;
-        }
-        else
-        {
-            Debug.Log($"[Bot] {gameObject.name} no valid targets found");
         }
     }
 }

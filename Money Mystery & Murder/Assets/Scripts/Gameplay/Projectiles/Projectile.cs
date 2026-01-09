@@ -17,7 +17,8 @@ public class Projectile : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _rb.gravityScale = 0f;
-        _rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+        // Changed from Continuous to Discrete for better performance
+        _rb.collisionDetectionMode = CollisionDetectionMode2D.Discrete;
         Debug.Log($"[Projectile] Awake: {gameObject.name} rb={_rb != null}");
     }
 
@@ -40,7 +41,13 @@ public class Projectile : MonoBehaviour
         
         if (collision == null || collision.collider == null) return;
 
-        var player = collision.collider.GetComponentInParent<Player>() ?? collision.collider.GetComponent<Player>();
+        // Optimized: Try direct component first
+        var player = collision.collider.GetComponent<Player>();
+        if (player == null)
+        {
+            player = collision.collider.GetComponentInParent<Player>();
+        }
+        
         if (player != null && (owner == null || player.gameObject != owner))
         {
             Debug.Log($"[Projectile] Damaging player {player.name} for {damage} damage");

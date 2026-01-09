@@ -99,6 +99,8 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (!isAlive) return;
+        
         UpdateAbilities();
         UpdateEffects();
         HandleInput();
@@ -145,6 +147,17 @@ public class Player : MonoBehaviour
         if (playerAnimator == null)
         {
             playerAnimator = GetComponent<PlayerAnimator>();
+            
+            if (playerAnimator == null)
+            {
+                // Try to find it in children
+                playerAnimator = GetComponentInChildren<PlayerAnimator>();
+            }
+            
+            if (playerAnimator == null)
+            {
+                Debug.LogWarning($"[Player] PlayerAnimator component not found on {gameObject.name}. Attack animations will not play. Please add a PlayerAnimator component.");
+            }
         }
         
         if (weaponSystem == null)
@@ -243,10 +256,17 @@ public class Player : MonoBehaviour
 
     private void HandleAttackInput()
     {
-        bool pressed = Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame;
+        bool pressed = false;
+        
+        // Default to left mouse button (Space key is used for other things)
+        if (Mouse.current != null)
+        {
+            pressed = Mouse.current.leftButton.wasPressedThisFrame;
+        }
 
         if (pressed)
         {
+            Debug.Log("[Player] Attack input detected.");
             PerformAttack();
         }
     }
@@ -258,6 +278,11 @@ public class Player : MonoBehaviour
     public void AddBalance(int amount)
     {
         if (amount <= 0) return;
+        
+        // Play money sound
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlayMoney();
+        
         balance += amount;
     }
 
@@ -283,6 +308,10 @@ public class Player : MonoBehaviour
     {
         if (dmg <= 0) return;
         
+        // Play pain sound
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlayPain();
+        
         Debug.Log($"[Player] {gameObject.name} took {dmg} damage, HP: {currentHealth} -> {currentHealth - dmg}");
         
         currentHealth -= dmg;
@@ -302,9 +331,9 @@ public class Player : MonoBehaviour
         
         TriggerDeathAnimation();
         DisableMovement();
+        DisableInput();
+        DisableBotScript();
         NotifyGameManager();
-        
-        gameObject.SetActive(false);
     }
 
     public void Heal(int hp)
@@ -327,6 +356,25 @@ public class Player : MonoBehaviour
         if (movement != null)
         {
             movement.enabled = false;
+        }
+    }
+    
+    private void DisableInput()
+    {
+        // Disable this script's Update handling by setting isAlive to false (already done)
+        // Optionally disable weapon system input
+        if (weaponSystem != null)
+        {
+            weaponSystem.enabled = false;
+        }
+    }
+    
+    private void DisableBotScript()
+    {
+        Bot bot = GetComponent<Bot>();
+        if (bot != null)
+        {
+            bot.enabled = false;
         }
     }
 
@@ -376,19 +424,37 @@ public class Player : MonoBehaviour
 
     public void PerformAttack()
     {
-        if (weaponSystem == null) return;
-        if (IsInMinigameOrShop()) return;
+        if (weaponSystem == null)
+        {
+            Debug.LogWarning($"[Player] Cannot attack - weaponSystem is null on {gameObject.name}");
+            return;
+        }
+        
+        if (IsInMinigameOrShop())
+        {
+            Debug.Log($"[Player] Cannot attack - {gameObject.name} is in minigame or shop");
+            return;
+        }
 
-        weaponSystem.Attack();
+        Debug.Log($"[Player] {gameObject.name} performing attack");
+        
+        // Trigger player animation first
         TriggerAttackAnimation();
+        
+        // Then perform the actual weapon attack
+        weaponSystem.Attack();
     }
 
     private void TriggerAttackAnimation()
     {
-        if (playerAnimator != null)
+        if (playerAnimator == null)
         {
-            playerAnimator.TriggerAttack();
+            Debug.LogWarning($"[Player] Cannot trigger attack animation on {gameObject.name} - playerAnimator is null. Make sure PlayerAnimator component is attached.");
+            return;
         }
+        
+        Debug.Log($"[Player] Triggering attack animation for {gameObject.name}");
+        playerAnimator.TriggerAttack();
     }
 
     /// <summary>

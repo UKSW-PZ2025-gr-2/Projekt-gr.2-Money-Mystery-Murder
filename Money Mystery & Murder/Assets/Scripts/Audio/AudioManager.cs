@@ -7,6 +7,13 @@ public class AudioManager : MonoBehaviour
     [Header("Audio Sources")]
     public AudioSource musicSource;
     public AudioSource sfxSource;
+    
+    [Header("Sound Effects")]
+    public AudioClip footstepSound;
+    public AudioClip moneySound;
+    public AudioClip knifeSound;
+    public AudioClip rifleShootSound;
+    public AudioClip painSound;
 
     void Awake()
     {
@@ -51,4 +58,10 @@ public class AudioManager : MonoBehaviour
     {
         AudioListener.volume = Mathf.Clamp01(volume);
     }
+    
+    public void PlayFootstep() => PlaySFX(footstepSound);
+    public void PlayMoney() => PlaySFX(moneySound);
+    public void PlayKnife() => PlaySFX(knifeSound);
+    public void PlayRifleShoot() => PlaySFX(rifleShootSound);
+    public void PlayPain() => PlaySFX(painSound);
 }

@@ -23,8 +23,15 @@ public class PlayerMovement : MonoBehaviour
     /// <summary>Reference to the <see cref="Player"/> component for abilities affecting speed.</summary>
     private Player _player;
     
+    /// <summary>Reference to the <see cref="PlayerAnimator"/> component for controlling animations.</summary>
+    private PlayerAnimator _playerAnimator;
+    
     /// <summary>Current speed multiplier applied to movement (default 1.0).</summary>
     private float _speedMultiplier = 1f;
+    
+    /// <summary>Footstep sound timing</summary>
+    private float _footstepTimer = 0f;
+    private float _footstepInterval = 0.5f; // Play footstep every 0.5 seconds while moving
 
     /// <summary>
     /// Initializes the <see cref="Player"/> reference.
@@ -32,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
     void Awake()
     {
         _player = GetComponent<Player>();
+        _playerAnimator = GetComponent<PlayerAnimator>();
     }
 
     /// <summary>
@@ -41,7 +49,31 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector2 move = ReadMove();
         if (move.sqrMagnitude > 1f) move.Normalize();
-        transform.Translate(moveSpeed * _speedMultiplier * Time.deltaTime * (Vector3)move, Space.World);
+        
+        bool isMoving = move.sqrMagnitude > 0.01f;
+        
+        if (_playerAnimator != null)
+        {
+            _playerAnimator.SetMovementState(isMoving);
+        }
+        
+        if (isMoving)
+        {
+            transform.Translate(moveSpeed * _speedMultiplier * Time.deltaTime * (Vector3)move, Space.World);
+            
+            // Play footstep sounds
+            _footstepTimer += Time.deltaTime;
+            if (_footstepTimer >= _footstepInterval)
+            {
+                _footstepTimer = 0f;
+                if (AudioManager.Instance != null)
+                    AudioManager.Instance.PlayFootstep();
+            }
+        }
+        else
+        {
+            _footstepTimer = 0f; // Reset timer when not moving
+        }
     }
 
     /// <summary>
@@ -67,11 +99,15 @@ public class PlayerMovement : MonoBehaviour
         var k = Keyboard.current;
         if (k == null) return Vector2.zero;
         
+        var bindings = KeyBindings.Instance;
+        if (bindings == null) return Vector2.zero;
+        
         float x = 0f, y = 0f;
-        if (k.aKey.isPressed || k.leftArrowKey.isPressed) x -= 1f;
-        if (k.dKey.isPressed || k.rightArrowKey.isPressed) x += 1f;
-        if (k.wKey.isPressed || k.upArrowKey.isPressed) y += 1f;
-        if (k.sKey.isPressed || k.downArrowKey.isPressed) y -= 1f;
+        
+        if (k[bindings.MoveLeft].isPressed) x -= 1f;
+        if (k[bindings.MoveRight].isPressed) x += 1f;
+        if (k[bindings.MoveUp].isPressed) y += 1f;
+        if (k[bindings.MoveDown].isPressed) y -= 1f;
         
         return new Vector2(x, y);
     }

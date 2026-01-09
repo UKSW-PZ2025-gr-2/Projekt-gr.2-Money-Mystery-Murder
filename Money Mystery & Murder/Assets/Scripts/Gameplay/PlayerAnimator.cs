@@ -3,83 +3,80 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class PlayerAnimator : MonoBehaviour
 {
-    [SerializeField] private Animator animator;
+    private Animator animator;
+    private bool hasAttackParam;
+    private bool hasHitParam;
+    private bool hasDeathParam;
+    private bool hasIsDeadParam;
 
     private void Awake()
     {
-        if (animator == null) animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
+        
+        if (animator != null)
+        {
+            CacheAnimatorParameters();
+        }
+    }
+
+    private void CacheAnimatorParameters()
+    {
+        foreach (var p in animator.parameters)
+        {
+            if (p.name == "Attack") hasAttackParam = true;
+            else if (p.name == "Hit") hasHitParam = true;
+            else if (p.name == "Death") hasDeathParam = true;
+            else if (p.name == "isDead") hasIsDeadParam = true;
+        }
+        
+        if (!hasAttackParam)
+            Debug.LogWarning("[PlayerAnimator] Animator on " + gameObject.name + " has no 'Attack' trigger parameter.");
+        if (!hasHitParam)
+            Debug.LogWarning("[PlayerAnimator] Animator on " + gameObject.name + " has no 'Hit' trigger parameter.");
+        if (!hasDeathParam)
+            Debug.LogWarning("[PlayerAnimator] Animator on " + gameObject.name + " has no 'Death' trigger parameter.");
+        if (!hasIsDeadParam)
+            Debug.LogWarning("[PlayerAnimator] Animator on " + gameObject.name + " has no 'isDead' bool parameter.");
     }
 
     public void SetMovementState(bool isMoving)
     {
-        // TODO: Logic - set animator parameters
         if (animator == null) return;
-        animator.SetBool("IsMoving", isMoving);
+        animator.SetBool("isWalking", isMoving);
     }
 
     public void TriggerAttack()
     {
-        if (animator == null)
+        if (animator == null) return;
+        if (hasAttackParam)
         {
-            Debug.LogWarning("[PlayerAnimator] TriggerAttack called but Animator is null on " + gameObject.name);
-            return;
+            animator.SetTrigger("Attack");
         }
-
-        bool hasParam = false;
-        foreach (var p in animator.parameters)
-        {
-            if (p.name == "Attack") { hasParam = true; break; }
-        }
-
-        if (!hasParam)
-        {
-            Debug.LogWarning("[PlayerAnimator] Animator on " + gameObject.name + " has no 'Attack' trigger parameter.");
-        }
-
-        animator.SetTrigger("Attack");
     }
 
     public void TriggerHit()
     {
-        if (animator == null)
+        if (animator == null) return;
+        if (hasHitParam)
         {
-            Debug.LogWarning("[PlayerAnimator] TriggerHit called but Animator is null on " + gameObject.name);
-            return;
+            animator.SetTrigger("Hit");
         }
-
-        bool hasParam = false;
-        foreach (var p in animator.parameters)
-        {
-            if (p.name == "Hit") { hasParam = true; break; }
-        }
-
-        if (!hasParam)
-        {
-            Debug.LogWarning("[PlayerAnimator] Animator on " + gameObject.name + " has no 'Hit' trigger parameter.");
-        }
-
-        animator.SetTrigger("Hit");
     }
 
     public void TriggerDeath()
     {
-        if (animator == null)
+        if (animator == null) return;
+        
+        // Set the boolean to permanently stay in death state
+        if (hasIsDeadParam)
         {
-            Debug.LogWarning("[PlayerAnimator] TriggerDeath called but Animator is null on " + gameObject.name);
-            return;
+            animator.SetBool("isDead", true);
         }
-
-        bool hasParam = false;
-        foreach (var p in animator.parameters)
+        
+        // Also trigger the death animation
+        if (hasDeathParam)
         {
-            if (p.name == "Death") { hasParam = true; break; }
+            animator.SetTrigger("Death");
         }
-
-        if (!hasParam)
-        {
-            Debug.LogWarning("[PlayerAnimator] Animator on " + gameObject.name + " has no 'Death' trigger parameter.");
-        }
-
-        animator.SetTrigger("Death");
     }
 }

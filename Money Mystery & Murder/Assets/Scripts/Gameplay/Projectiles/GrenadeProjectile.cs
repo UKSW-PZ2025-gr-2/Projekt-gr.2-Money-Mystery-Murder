@@ -11,8 +11,15 @@ public class GrenadeProjectile : MonoBehaviour
     public float fuse = 2.0f;
     public GameObject owner;
     public GameObject explosionEffectPrefab;
+    
+    [Header("Optimization")]
+    [Tooltip("Set to 'Player' layer for optimal performance. Leave at 0 to hit everything.")]
+    public LayerMask targetLayers;
 
     private bool hasExploded = false;
+    
+    // Cache for performance
+    private static Collider2D[] explosionHits = new Collider2D[20];
 
     private void Start()
     {
@@ -37,11 +44,20 @@ public class GrenadeProjectile : MonoBehaviour
             Destroy(effect, 2f); // Clean up effect after 2 seconds
         }
 
-        // Deal area damage
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, radius);
-        foreach (var c in hits)
+        // Optimized area damage with layer filtering and cached array
+        int hitCount = Physics2D.OverlapCircleNonAlloc(transform.position, radius, explosionHits, targetLayers != 0 ? targetLayers : ~0);
+        
+        for (int i = 0; i < hitCount; i++)
         {
-            var p = c.GetComponentInParent<Player>() ?? c.GetComponent<Player>();
+            if (explosionHits[i] == null) continue;
+            
+            // Optimized: Try direct component first
+            var p = explosionHits[i].GetComponent<Player>();
+            if (p == null)
+            {
+                p = explosionHits[i].GetComponentInParent<Player>();
+            }
+            
             if (p != null && (owner == null || p.gameObject != owner))
             {
                 p.TakeDamage(damage);
