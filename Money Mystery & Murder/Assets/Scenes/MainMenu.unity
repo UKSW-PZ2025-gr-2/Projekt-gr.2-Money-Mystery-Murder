@@ -2514,6 +2514,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   musicSource: {fileID: 0}
   sfxSource: {fileID: 0}
+  footstepSound: {fileID: 8300000, guid: 52a64f8fd59640f42ab2a4ec81fec063, type: 3}
+  moneySound: {fileID: 8300000, guid: e115eeaffea0d6547810922d175ea933, type: 3}
+  knifeSound: {fileID: 8300000, guid: e9690e2abae570649ba709b9dc3956f0, type: 3}
+  rifleShootSound: {fileID: 8300000, guid: c304ba457b824594fa46b4a74ad41a9e, type: 3}
+  painSound: {fileID: 8300000, guid: 92a10827b98fb3148ae859ad61cf134d, type: 3}
 --- !u!4 &1874622803
 Transform:
   m_ObjectHideFlags: 0
