@@ -22,6 +22,7 @@ public class Bot : Player
     private float _nextChangeTime;
     private float _nextAttackTime;
     private PlayerMovement _movement;
+    private PlayerAnimator _playerAnimator;
 
     /// <summary>
     /// Initializes bot state, assigns role from <see cref="RoleManager"/>.
@@ -37,18 +38,24 @@ public class Bot : Player
             _movement.enabled = false; // Disable player input movement
         }
 
+        _playerAnimator = GetComponent<PlayerAnimator>();
+        if (_playerAnimator == null)
+        {
+            Debug.LogWarning($"[Bot] {gameObject.name} has no PlayerAnimator component for walk animation.");
+        }
+
         // Equip knife
-            if (knifeWeapon != null)
-            {
-                AcquireWeapon(knifeWeapon);
-                EquipWeapon(knifeWeapon);
-                attackRange = knifeWeapon.range; // Set attack range to match weapon
-                Debug.Log($"[Bot] {gameObject.name} equipped {knifeWeapon.displayName} with range {attackRange}");
-            }
-            else
-            {
-                Debug.LogWarning($"[Bot] {gameObject.name} has no knifeWeapon assigned");
-            }
+        if (knifeWeapon != null)
+        {
+            AcquireWeapon(knifeWeapon);
+            EquipWeapon(knifeWeapon);
+            attackRange = knifeWeapon.range; // Set attack range to match weapon
+            Debug.Log($"[Bot] {gameObject.name} equipped {knifeWeapon.displayName} with range {attackRange}");
+        }
+        else
+        {
+            Debug.LogWarning($"[Bot] {gameObject.name} has no knifeWeapon assigned");
+        }
 
         _moveDirection = Random.insideUnitCircle.normalized;
         _nextChangeTime = Time.time + changeDirectionTime;
@@ -66,7 +73,18 @@ public class Bot : Player
             _nextChangeTime = Time.time + changeDirectionTime;
         }
 
-        transform.Translate(_moveDirection * moveSpeed * Time.deltaTime, Space.World);
+        // Move and update walk animation
+        bool isMoving = _moveDirection.sqrMagnitude > 0.01f;
+        if (isMoving)
+        {
+            transform.Translate(_moveDirection * moveSpeed * Time.deltaTime, Space.World);
+        }
+
+        // Update walk animation state
+        if (_playerAnimator != null)
+        {
+            _playerAnimator.SetMovementState(isMoving);
+        }
 
         // Attack during night
         if (GameManager.Instance != null && GameManager.Instance.CurrentPhase == GamePhase.Night)
