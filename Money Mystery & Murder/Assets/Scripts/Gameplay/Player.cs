@@ -243,7 +243,40 @@ public class Player : MonoBehaviour
 
     private void HandleAttackInput()
     {
-        bool pressed = Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame;
+        bool pressed = false;
+        
+        // Check if Shoot binding is a mouse button or keyboard key
+        if (KeyBindings.Instance != null)
+        {
+            string shootBinding = PlayerPrefs.GetString("Key_Shoot", "");
+            
+            if (shootBinding == "LeftButton" && Mouse.current != null)
+            {
+                pressed = Mouse.current.leftButton.wasPressedThisFrame;
+            }
+            else if (shootBinding == "RightButton" && Mouse.current != null)
+            {
+                pressed = Mouse.current.rightButton.wasPressedThisFrame;
+            }
+            else if (shootBinding == "MiddleButton" && Mouse.current != null)
+            {
+                pressed = Mouse.current.middleButton.wasPressedThisFrame;
+            }
+            else
+            {
+                // Keyboard key
+                var keyboard = Keyboard.current;
+                if (keyboard != null)
+                {
+                    pressed = keyboard[KeyBindings.Instance.Shoot].wasPressedThisFrame;
+                }
+            }
+        }
+        else
+        {
+            // Fallback to left mouse button
+            pressed = Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame;
+        }
 
         if (pressed)
         {

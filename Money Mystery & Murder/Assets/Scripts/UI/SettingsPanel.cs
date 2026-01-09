@@ -8,9 +8,17 @@ public class SettingsPanel : MonoBehaviour
     public Slider volumeSlider;
     public Toggle fullscreenToggle;
     public Button closeButton;
+    public Button controlsButton;
+    
+    [Header("Panels")]
+    public GameObject keyRebindPanel;
 
     void Start()
     {
+        // Hide controls panel by default
+        if (keyRebindPanel != null)
+            keyRebindPanel.SetActive(false);
+            
         // Initialize values first (use current values if SettingsManager not ready)
         if (SettingsManager.Instance != null)
         {
@@ -39,6 +47,30 @@ public class SettingsPanel : MonoBehaviour
         {
             closeButton.onClick.AddListener(ClosePanel);
         }
+        
+        if (controlsButton != null)
+        {
+            controlsButton.onClick.AddListener(OpenControlsPanel);
+        }
+    }
+    
+    public void OpenControlsPanel()
+    {
+        if (keyRebindPanel != null)
+        {
+            keyRebindPanel.SetActive(true);
+            // Hide main settings panel
+            gameObject.SetActive(false);
+        }
+    }
+    
+    public void CloseControlsPanel()
+    {
+        if (keyRebindPanel != null)
+            keyRebindPanel.SetActive(false);
+        
+        // Show main settings panel again
+        gameObject.SetActive(true);
     }
 
     public void ClosePanel()

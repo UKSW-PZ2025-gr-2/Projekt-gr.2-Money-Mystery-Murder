@@ -67,11 +67,15 @@ public class PlayerMovement : MonoBehaviour
         var k = Keyboard.current;
         if (k == null) return Vector2.zero;
         
+        var bindings = KeyBindings.Instance;
+        if (bindings == null) return Vector2.zero;
+        
         float x = 0f, y = 0f;
-        if (k.aKey.isPressed || k.leftArrowKey.isPressed) x -= 1f;
-        if (k.dKey.isPressed || k.rightArrowKey.isPressed) x += 1f;
-        if (k.wKey.isPressed || k.upArrowKey.isPressed) y += 1f;
-        if (k.sKey.isPressed || k.downArrowKey.isPressed) y -= 1f;
+        
+        if (k[bindings.MoveLeft].isPressed) x -= 1f;
+        if (k[bindings.MoveRight].isPressed) x += 1f;
+        if (k[bindings.MoveUp].isPressed) y += 1f;
+        if (k[bindings.MoveDown].isPressed) y -= 1f;
         
         return new Vector2(x, y);
     }

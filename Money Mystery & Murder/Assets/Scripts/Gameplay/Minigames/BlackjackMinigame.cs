@@ -33,6 +33,13 @@ public class BlackjackMinigame : MinigameBase
     [SerializeField] private GameObject bettingPanel;
     [SerializeField] private GameObject gamePanel;
     
+    [Header("Hint Texts")]
+    [SerializeField] private TMP_Text hintIncreaseText;
+    [SerializeField] private TMP_Text hintDecreaseText;
+    [SerializeField] private TMP_Text hintStartText;
+    [SerializeField] private TMP_Text hintHitText;
+    [SerializeField] private TMP_Text hintStandText;
+    
     [Header("Card Display Settings")]
     [SerializeField] private float cardSpacing = 1.5f;
     [SerializeField] private float verticalOffset = 2f;
@@ -79,6 +86,54 @@ public class BlackjackMinigame : MinigameBase
             uiPanel.SetActive(false);
             
         UpdateBetDisplay();
+    }
+    
+    void OnEnable()
+    {
+        UpdateHints();
+        
+        // Subscribe to key changes
+        if (KeyBindings.Instance != null)
+            KeyBindings.Instance.OnKeysChanged += UpdateHints;
+    }
+    
+    void OnDisable()
+    {
+        if (KeyBindings.Instance != null)
+            KeyBindings.Instance.OnKeysChanged -= UpdateHints;
+    }
+    
+    void OnDestroy()
+    {
+        if (KeyBindings.Instance != null)
+            KeyBindings.Instance.OnKeysChanged -= UpdateHints;
+    }
+    
+    private void UpdateHints()
+    {
+        if (KeyBindings.Instance == null)
+        {
+            // Retry after a frame if KeyBindings not loaded yet
+            StartCoroutine(RetryUpdateHints());
+            return;
+        }
+        
+        if (hintIncreaseText != null)
+            hintIncreaseText.text = $"[{KeyBindings.Instance.BlackjackIncreaseBet}] +10";
+        if (hintDecreaseText != null)
+            hintDecreaseText.text = $"[{KeyBindings.Instance.BlackjackDecreaseBet}] -10";
+        if (hintStartText != null)
+            hintStartText.text = $"[{KeyBindings.Instance.BlackjackStart}] START";
+        if (hintHitText != null)
+            hintHitText.text = $"[{KeyBindings.Instance.BlackjackHit}] HIT";
+        if (hintStandText != null)
+            hintStandText.text = $"[{KeyBindings.Instance.BlackjackStand}] STAND";
+    }
+    
+    private System.Collections.IEnumerator RetryUpdateHints()
+    {
+        yield return new WaitForSeconds(0.1f);
+        UpdateHints();
     }
     
     protected override void OnStartGame()
@@ -531,6 +586,8 @@ public class BlackjackMinigame : MinigameBase
         var k = Keyboard.current;
         if (k == null) return;
         
+        var bindings = KeyBindings.Instance;
+        
         // Escape to close
         if (k.escapeKey.wasPressedThisFrame)
         {
@@ -541,16 +598,20 @@ public class BlackjackMinigame : MinigameBase
         // Round ended - wait for play again or exit
         if (roundEnded)
         {
-            if (k.spaceKey.wasPressedThisFrame)
+            if (bindings != null)
             {
-                // Play again - reset everything
-                roundEnded = false;
-                gameInProgress = false;
-                isPlayerTurn = false;
-                CleanupCards();
-                playerCards.Clear();
-                dealerCards.Clear();
-                ShowBettingPanel();
+                var startKey = k[bindings.BlackjackStart];
+                if (startKey != null && startKey.wasPressedThisFrame)
+                {
+                    // Play again - reset everything
+                    roundEnded = false;
+                    gameInProgress = false;
+                    isPlayerTurn = false;
+                    CleanupCards();
+                    playerCards.Clear();
+                    dealerCards.Clear();
+                    ShowBettingPanel();
+                }
             }
             return;
         }
@@ -558,30 +619,43 @@ public class BlackjackMinigame : MinigameBase
         // Betting phase controls
         if (bettingPanel != null && bettingPanel.activeSelf)
         {
-            if (k.lKey.wasPressedThisFrame)
+            if (bindings != null)
             {
-                OnIncreaseBet();
-            }
-            if (k.jKey.wasPressedThisFrame)
-            {
-                OnDecreaseBet();
-            }
-            if (k.spaceKey.wasPressedThisFrame)
-            {
-                OnStartGameClicked();
+                var increaseKey = k[bindings.BlackjackIncreaseBet];
+                var decreaseKey = k[bindings.BlackjackDecreaseBet];
+                var startKey = k[bindings.BlackjackStart];
+                
+                if (increaseKey != null && increaseKey.wasPressedThisFrame)
+                {
+                    OnIncreaseBet();
+                }
+                if (decreaseKey != null && decreaseKey.wasPressedThisFrame)
+                {
+                    OnDecreaseBet();
+                }
+                if (startKey != null && startKey.wasPressedThisFrame)
+                {
+                    OnStartGameClicked();
+                }
             }
         }
         
         // Game phase controls
         if (gamePanel != null && gamePanel.activeSelf && gameInProgress)
         {
-            if (k.hKey.wasPressedThisFrame)
+            if (bindings != null)
             {
-                OnHitClicked();
-            }
-            if (k.sKey.wasPressedThisFrame)
-            {
-                OnStandClicked();
+                var hitKey = k[bindings.BlackjackHit];
+                var standKey = k[bindings.BlackjackStand];
+                
+                if (hitKey != null && hitKey.wasPressedThisFrame)
+                {
+                    OnHitClicked();
+                }
+                if (standKey != null && standKey.wasPressedThisFrame)
+                {
+                    OnStandClicked();
+                }
             }
         }
     }
