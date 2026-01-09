@@ -245,37 +245,10 @@ public class Player : MonoBehaviour
     {
         bool pressed = false;
         
-        // Check if Shoot binding is a mouse button or keyboard key
-        if (KeyBindings.Instance != null)
+        // Default to left mouse button (Space key is used for other things)
+        if (Mouse.current != null)
         {
-            string shootBinding = PlayerPrefs.GetString("Key_Shoot", "");
-            
-            if (shootBinding == "LeftButton" && Mouse.current != null)
-            {
-                pressed = Mouse.current.leftButton.wasPressedThisFrame;
-            }
-            else if (shootBinding == "RightButton" && Mouse.current != null)
-            {
-                pressed = Mouse.current.rightButton.wasPressedThisFrame;
-            }
-            else if (shootBinding == "MiddleButton" && Mouse.current != null)
-            {
-                pressed = Mouse.current.middleButton.wasPressedThisFrame;
-            }
-            else
-            {
-                // Keyboard key
-                var keyboard = Keyboard.current;
-                if (keyboard != null)
-                {
-                    pressed = keyboard[KeyBindings.Instance.Shoot].wasPressedThisFrame;
-                }
-            }
-        }
-        else
-        {
-            // Fallback to left mouse button
-            pressed = Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame;
+            pressed = Mouse.current.leftButton.wasPressedThisFrame;
         }
 
         if (pressed)
@@ -291,6 +264,11 @@ public class Player : MonoBehaviour
     public void AddBalance(int amount)
     {
         if (amount <= 0) return;
+        
+        // Play money sound
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlayMoney();
+        
         balance += amount;
     }
 
@@ -315,6 +293,10 @@ public class Player : MonoBehaviour
     public void TakeDamage(int dmg)
     {
         if (dmg <= 0) return;
+        
+        // Play pain sound
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlayPain();
         
         Debug.Log($"[Player] {gameObject.name} took {dmg} damage, HP: {currentHealth} -> {currentHealth - dmg}");
         

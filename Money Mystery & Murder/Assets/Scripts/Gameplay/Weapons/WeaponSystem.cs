@@ -282,6 +282,20 @@ public class WeaponSystem : MonoBehaviour
     
     private void PlayAttackSound()
     {
+        // Play weapon-specific sound
+        if (currentWeapon != null && AudioManager.Instance != null)
+        {
+            if (currentWeapon.weaponType == WeaponType.Melee)
+            {
+                AudioManager.Instance.PlayKnife();
+            }
+            else if (currentWeapon.weaponType == WeaponType.Ranged)
+            {
+                AudioManager.Instance.PlayRifleShoot();
+            }
+        }
+        
+        // Also play weapon's own sound if it has one
         if (currentWeapon.attackSound != null && AudioManager.Instance != null)
         {
             try

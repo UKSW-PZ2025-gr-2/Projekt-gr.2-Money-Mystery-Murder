@@ -25,6 +25,10 @@ public class PlayerMovement : MonoBehaviour
     
     /// <summary>Current speed multiplier applied to movement (default 1.0).</summary>
     private float _speedMultiplier = 1f;
+    
+    /// <summary>Footstep sound timing</summary>
+    private float _footstepTimer = 0f;
+    private float _footstepInterval = 0.5f; // Play footstep every 0.5 seconds while moving
 
     /// <summary>
     /// Initializes the <see cref="Player"/> reference.
@@ -41,7 +45,26 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector2 move = ReadMove();
         if (move.sqrMagnitude > 1f) move.Normalize();
-        transform.Translate(moveSpeed * _speedMultiplier * Time.deltaTime * (Vector3)move, Space.World);
+        
+        bool isMoving = move.sqrMagnitude > 0.01f;
+        
+        if (isMoving)
+        {
+            transform.Translate(moveSpeed * _speedMultiplier * Time.deltaTime * (Vector3)move, Space.World);
+            
+            // Play footstep sounds
+            _footstepTimer += Time.deltaTime;
+            if (_footstepTimer >= _footstepInterval)
+            {
+                _footstepTimer = 0f;
+                if (AudioManager.Instance != null)
+                    AudioManager.Instance.PlayFootstep();
+            }
+        }
+        else
+        {
+            _footstepTimer = 0f; // Reset timer when not moving
+        }
     }
 
     /// <summary>

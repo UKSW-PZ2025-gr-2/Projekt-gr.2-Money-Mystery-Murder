@@ -633,9 +633,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PhaseManager
   currentPhase: 2
-  dayStartHour: 6
-  eveningStartHour: 7
-  nightStartHour: 8
+  dayStartHour: 4
+  eveningStartHour: 5
+  nightStartHour: 6
 --- !u!4 &503190233
 Transform:
   m_ObjectHideFlags: 0
@@ -1252,7 +1252,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MinigameActivator
   interactRadius: 2
-  interactKey: 19
 --- !u!212 &1028581692
 SpriteRenderer:
   m_ObjectHideFlags: 0
