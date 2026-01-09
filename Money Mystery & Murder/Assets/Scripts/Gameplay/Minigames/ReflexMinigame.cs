@@ -12,7 +12,8 @@ public class ReflexMinigameHardcoreReusable : MinigameBase
     [SerializeField] private int rewardPerHit = 20;
 
     [Header("Visual Settings")]
-    [SerializeField] private Vector3 indicatorScale = Vector3.one;
+    [SerializeField] private Vector3 indicatorScale = new Vector3(2.5f, 2.5f, 1f);
+
     [SerializeField] private float spacing = 1.6f;
     [SerializeField] private float verticalOffset = 2f;
     [SerializeField] private Sprite indicatorSprite;
