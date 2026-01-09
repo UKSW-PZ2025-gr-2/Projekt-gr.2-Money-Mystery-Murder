@@ -150,13 +150,30 @@ public class WeaponSystem : MonoBehaviour
             GameObject projectile = Instantiate(
                 currentWeapon.projectilePrefab, 
                 origin, 
-                Quaternion.LookRotation(direction)
+                Quaternion.identity
             );
             
-            Rigidbody rb = projectile.GetComponent<Rigidbody>();
-            if (rb != null)
+            // Set owner for grenades
+            var grenadeProjectile = projectile.GetComponent<GrenadeProjectile>();
+            if (grenadeProjectile != null)
             {
-                rb.linearVelocity = direction * currentWeapon.projectileSpeed;
+                grenadeProjectile.owner = owner?.gameObject;
+                grenadeProjectile.explosionEffectPrefab = currentWeapon.hitEffectPrefab;
+            }
+            
+            // Try 2D rigidbody first (for grenades), then 3D
+            Rigidbody2D rb2d = projectile.GetComponent<Rigidbody2D>();
+            if (rb2d != null)
+            {
+                rb2d.linearVelocity = direction * currentWeapon.projectileSpeed;
+            }
+            else
+            {
+                Rigidbody rb = projectile.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    rb.linearVelocity = direction * currentWeapon.projectileSpeed;
+                }
             }
         }
         else
