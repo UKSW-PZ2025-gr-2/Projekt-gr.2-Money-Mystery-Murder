@@ -1549,6 +1549,19 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.19, y: 0.27}
   m_Direction: 0
+--- !u!114 &1154426342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1154426327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c3f9b95bf0e4b748b1dc7ca43e200ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimator
+  animator: {fileID: 1154426331}
 --- !u!1 &1219584903
 GameObject:
   m_ObjectHideFlags: 0
@@ -2725,6 +2738,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7927993846431860460, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
+      propertyPath: playerAnimator
+      value: 
+      objectReference: {fileID: 1154426342}
     - target: {fileID: 7982360018672486463, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
       value: 0.19
@@ -2769,6 +2786,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6998283097264661436, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1154426341}
+    - targetCorrespondingSourceObject: {fileID: 6998283097264661436, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1154426342}
   m_SourcePrefab: {fileID: 100100000, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

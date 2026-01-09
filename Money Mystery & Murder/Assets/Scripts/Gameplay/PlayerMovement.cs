@@ -23,6 +23,9 @@ public class PlayerMovement : MonoBehaviour
     /// <summary>Reference to the <see cref="Player"/> component for abilities affecting speed.</summary>
     private Player _player;
     
+    /// <summary>Reference to the <see cref="PlayerAnimator"/> component for controlling animations.</summary>
+    private PlayerAnimator _playerAnimator;
+    
     /// <summary>Current speed multiplier applied to movement (default 1.0).</summary>
     private float _speedMultiplier = 1f;
     
@@ -36,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
     void Awake()
     {
         _player = GetComponent<Player>();
+        _playerAnimator = GetComponent<PlayerAnimator>();
     }
 
     /// <summary>
@@ -47,6 +51,11 @@ public class PlayerMovement : MonoBehaviour
         if (move.sqrMagnitude > 1f) move.Normalize();
         
         bool isMoving = move.sqrMagnitude > 0.01f;
+        
+        if (_playerAnimator != null)
+        {
+            _playerAnimator.SetMovementState(isMoving);
+        }
         
         if (isMoving)
         {

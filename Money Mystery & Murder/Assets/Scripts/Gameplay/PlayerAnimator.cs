@@ -12,9 +12,8 @@ public class PlayerAnimator : MonoBehaviour
 
     public void SetMovementState(bool isMoving)
     {
-        // TODO: Logic - set animator parameters
         if (animator == null) return;
-        animator.SetBool("IsMoving", isMoving);
+        animator.SetBool("isWalking", isMoving);
     }
 
     public void TriggerAttack()
