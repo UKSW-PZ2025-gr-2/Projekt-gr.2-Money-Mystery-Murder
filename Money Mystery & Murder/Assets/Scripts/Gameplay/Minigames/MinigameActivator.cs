@@ -7,7 +7,6 @@ public class MinigameActivator : MonoBehaviour
 {
     [Header("Interaction")]
     [SerializeField] private float interactRadius = 5f;
-    [SerializeField] private Key interactKey = Key.E;
 
     private MinigameBase minigame;
     private Player _nearbyPlayer;
@@ -62,7 +61,14 @@ public class MinigameActivator : MonoBehaviour
         var k = Keyboard.current;
         if (k == null) return false;
         
-        return k[interactKey].wasPressedThisFrame;
+        var bindings = KeyBindings.Instance;
+        if (bindings != null)
+        {
+            return k[bindings.Interact].wasPressedThisFrame;
+        }
+        
+        // Fallback
+        return k.eKey.wasPressedThisFrame;
     }
 
     private void ToggleMinigame()
