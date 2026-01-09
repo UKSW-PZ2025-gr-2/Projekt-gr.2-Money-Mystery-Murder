@@ -49,6 +49,10 @@ public class ShopActivator : MonoBehaviour
         {
             var p = players[i];
             if (p == null || !p.IsAlive) continue;
+            
+            // Exclude bots - only detect actual players
+            if (p is Bot) continue;
+            
             float d = Vector3.Distance(p.transform.position, origin);
             if (d <= interactRadius && d < closestDist)
             {
