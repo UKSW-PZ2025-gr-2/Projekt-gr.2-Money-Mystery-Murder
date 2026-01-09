@@ -1164,7 +1164,7 @@ GameObject:
   - component: {fileID: 1028581690}
   - component: {fileID: 1028581689}
   m_Layer: 0
-  m_Name: SlotMachineDEBUG (1)
+  m_Name: SlotMachine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1219,27 +1219,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotMachineMinigame
   startCost: 10
-  spacing: 1.5
+  spacing: 2
   verticalOffset: 2
-  spriteScale: {x: 5, y: 5, z: 5}
+  spriteScale: {x: 1, y: 1, z: 1}
   autoEndSeconds: 3
   sortingLayerName: Default
   sortingOrder: 10
-  cherrySprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  lemonSprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  orangeSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
-  plumSprite: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
-  bellSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  sevenSprite: {fileID: 3891796401534313901, guid: 7bbbddff0198e8c488fba3cd9151ecb3, type: 3}
-  questionSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  cherrySprite: {fileID: 2661030192209111361, guid: 9a2f7f760197e9341ac58a467af3515b, type: 3}
+  lemonSprite: {fileID: -1338896177438027022, guid: 9a2f7f760197e9341ac58a467af3515b, type: 3}
+  orangeSprite: {fileID: -4471945186555551876, guid: 9a2f7f760197e9341ac58a467af3515b, type: 3}
+  plumSprite: {fileID: -2569926642674136991, guid: 9a2f7f760197e9341ac58a467af3515b, type: 3}
+  bellSprite: {fileID: -3897201176140910308, guid: 9a2f7f760197e9341ac58a467af3515b, type: 3}
+  sevenSprite: {fileID: 1023545253653907986, guid: 9a2f7f760197e9341ac58a467af3515b, type: 3}
+  questionSprite: {fileID: -5141500428527627396, guid: 9a2f7f760197e9341ac58a467af3515b, type: 3}
   payout7: 500
   payoutBell: 100
   payoutPlum: 50
   payoutOrange: 20
   payoutLemon: 10
   payoutCherry: 5
-  payoutTwoCherries: 2
-  payoutOneCherry: 1
   goldenKnifeData: {fileID: 0}
 --- !u!114 &1028581691
 MonoBehaviour:

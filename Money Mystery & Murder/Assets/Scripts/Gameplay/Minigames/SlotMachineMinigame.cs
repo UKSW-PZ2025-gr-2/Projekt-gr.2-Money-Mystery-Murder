@@ -95,12 +95,6 @@ public class SlotMachineMinigame : MinigameBase
     
     [Tooltip("Payout for three CHERRY symbols")]
     [SerializeField] private int payoutCherry = 5;
-    
-    [Tooltip("Payout for two CHERRY symbols")]
-    [SerializeField] private int payoutTwoCherries = 2;
-    
-    [Tooltip("Payout for one CHERRY symbol")]
-    [SerializeField] private int payoutOneCherry = 1;
 
     /// <summary>Prefab for the Golden Knife weapon awarded on jackpot.</summary>
     [Header("Rare Rewards")]
@@ -245,8 +239,6 @@ public class SlotMachineMinigame : MinigameBase
         if (a == "CHERRY") cherryCount++;
         if (b == "CHERRY") cherryCount++;
         if (c == "CHERRY") cherryCount++;
-        if (cherryCount == 2) return payoutTwoCherries;
-        if (cherryCount == 1) return payoutOneCherry;
         return 0;
     }
 
