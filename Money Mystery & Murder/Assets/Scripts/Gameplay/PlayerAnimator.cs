@@ -3,11 +3,11 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class PlayerAnimator : MonoBehaviour
 {
-    [SerializeField] private Animator animator;
+    private Animator animator;
 
     private void Awake()
     {
-        if (animator == null) animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
     }
 
     public void SetMovementState(bool isMoving)
