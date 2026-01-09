@@ -145,6 +145,17 @@ public class Player : MonoBehaviour
         if (playerAnimator == null)
         {
             playerAnimator = GetComponent<PlayerAnimator>();
+            
+            if (playerAnimator == null)
+            {
+                // Try to find it in children
+                playerAnimator = GetComponentInChildren<PlayerAnimator>();
+            }
+            
+            if (playerAnimator == null)
+            {
+                Debug.LogWarning($"[Player] PlayerAnimator component not found on {gameObject.name}. Attack animations will not play. Please add a PlayerAnimator component.");
+            }
         }
         
         if (weaponSystem == null)
@@ -253,6 +264,7 @@ public class Player : MonoBehaviour
 
         if (pressed)
         {
+            Debug.Log("[Player] Attack input detected.");
             PerformAttack();
         }
     }
@@ -391,19 +403,37 @@ public class Player : MonoBehaviour
 
     public void PerformAttack()
     {
-        if (weaponSystem == null) return;
-        if (IsInMinigameOrShop()) return;
+        if (weaponSystem == null)
+        {
+            Debug.LogWarning($"[Player] Cannot attack - weaponSystem is null on {gameObject.name}");
+            return;
+        }
+        
+        if (IsInMinigameOrShop())
+        {
+            Debug.Log($"[Player] Cannot attack - {gameObject.name} is in minigame or shop");
+            return;
+        }
 
-        weaponSystem.Attack();
+        Debug.Log($"[Player] {gameObject.name} performing attack");
+        
+        // Trigger player animation first
         TriggerAttackAnimation();
+        
+        // Then perform the actual weapon attack
+        weaponSystem.Attack();
     }
 
     private void TriggerAttackAnimation()
     {
-        if (playerAnimator != null)
+        if (playerAnimator == null)
         {
-            playerAnimator.TriggerAttack();
+            Debug.LogWarning($"[Player] Cannot trigger attack animation on {gameObject.name} - playerAnimator is null. Make sure PlayerAnimator component is attached.");
+            return;
         }
+        
+        Debug.Log($"[Player] Triggering attack animation for {gameObject.name}");
+        playerAnimator.TriggerAttack();
     }
 
     /// <summary>
