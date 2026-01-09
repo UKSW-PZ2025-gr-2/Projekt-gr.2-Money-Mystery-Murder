@@ -16,8 +16,11 @@ public class Bot : Player
     private LayerMask targetLayers = ~0;
 
     [Header("Weapon")]
-    [SerializeField] private WeaponData knifeWeapon;
+    [SerializeField] private List<WeaponData> possibleWeapons = new List<WeaponData>();
+    [SerializeField, Tooltip("Fallback weapon if possibleWeapons list is empty")]
+    private WeaponData knifeWeapon;
 
+    private WeaponData _equippedWeapon;
     private Vector3 _moveDirection;
     private float _nextChangeTime;
     private float _nextAttackTime;
@@ -44,22 +47,52 @@ public class Bot : Player
             Debug.LogWarning($"[Bot] {gameObject.name} has no PlayerAnimator component for walk animation.");
         }
 
-        // Equip knife
-        if (knifeWeapon != null)
+        // Select and equip a random weapon
+        _equippedWeapon = SelectRandomWeapon();
+        if (_equippedWeapon != null)
         {
-            AcquireWeapon(knifeWeapon);
-            EquipWeapon(knifeWeapon);
-            attackRange = knifeWeapon.range; // Set attack range to match weapon
-            Debug.Log($"[Bot] {gameObject.name} equipped {knifeWeapon.displayName} with range {attackRange}");
+            AcquireWeapon(_equippedWeapon);
+            EquipWeapon(_equippedWeapon);
+            attackRange = _equippedWeapon.range; // Set attack range to match weapon
+            Debug.Log($"[Bot] {gameObject.name} equipped {_equippedWeapon.displayName} with range {attackRange}");
         }
         else
         {
-            Debug.LogWarning($"[Bot] {gameObject.name} has no knifeWeapon assigned");
+            Debug.LogWarning($"[Bot] {gameObject.name} has no weapon to equip (possibleWeapons and knifeWeapon are null)");
         }
 
         _moveDirection = Random.insideUnitCircle.normalized;
         _nextChangeTime = Time.time + changeDirectionTime;
         _nextAttackTime = Time.time + attackCooldown;
+    }
+
+    /// <summary>
+    /// Selects a random weapon from the possibleWeapons list.
+    /// Falls back to knifeWeapon if the list is empty.
+    /// </summary>
+    private WeaponData SelectRandomWeapon()
+    {
+        if (possibleWeapons != null && possibleWeapons.Count > 0)
+        {
+            // Filter out null entries
+            List<WeaponData> validWeapons = new List<WeaponData>();
+            foreach (WeaponData weapon in possibleWeapons)
+            {
+                if (weapon != null)
+                {
+                    validWeapons.Add(weapon);
+                }
+            }
+
+            if (validWeapons.Count > 0)
+            {
+                int randomIndex = Random.Range(0, validWeapons.Count);
+                return validWeapons[randomIndex];
+            }
+        }
+
+        // Fallback to knife weapon
+        return knifeWeapon;
     }
 
     private void Update()
@@ -139,10 +172,10 @@ public class Bot : Player
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0, 0, angle);
 
-            // Attack: prefer direct damage (knifeWeapon) but log details and fall back to WeaponSystem if needed
-            Debug.Log($"[Bot] {gameObject.name} attacking {closestPlayer.gameObject.name} with knifeWeapon={(knifeWeapon != null ? knifeWeapon.displayName : "null")} weaponSystemWeapon={(weaponSystem != null && weaponSystem.CurrentWeapon != null ? weaponSystem.CurrentWeapon.displayName : "null")}");
+            // Attack: prefer direct damage (_equippedWeapon) but log details and fall back to WeaponSystem if needed
+            Debug.Log($"[Bot] {gameObject.name} attacking {closestPlayer.gameObject.name} with _equippedWeapon={(_equippedWeapon != null ? _equippedWeapon.displayName : "null")} weaponSystemWeapon={(weaponSystem != null && weaponSystem.CurrentWeapon != null ? weaponSystem.CurrentWeapon.displayName : "null")}");
 
-            int dmg = knifeWeapon != null ? knifeWeapon.damage : (weaponSystem?.CurrentWeapon?.damage ?? 0);
+            int dmg = _equippedWeapon != null ? _equippedWeapon.damage : (weaponSystem?.CurrentWeapon?.damage ?? 0);
 
             if (dmg > 0)
             {

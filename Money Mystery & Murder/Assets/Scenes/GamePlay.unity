@@ -131,6 +131,38 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: e8415ed33b1f11445b3e843d2ec04a80, type: 2}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: maxHealth
+      value: 9999
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: knifeWeapon
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: currentHealth
+      value: 9999
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: possibleWeapons.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: 'possibleWeapons.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 51b6bb571f5da3a4a8295eafda27bea9, type: 2}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: 'possibleWeapons.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: ce58ccddf26b83444962ff12da488f09, type: 2}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: 'possibleWeapons.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: cc1f1556444ae314fb83f5d57d613e70, type: 2}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: 'possibleWeapons.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: cc1f1556444ae314fb83f5d57d613e70, type: 2}
     - target: {fileID: 6310545941019334263, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -260,6 +292,38 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: e8415ed33b1f11445b3e843d2ec04a80, type: 2}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: maxHealth
+      value: 9999
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: knifeWeapon
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: currentHealth
+      value: 9999
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: possibleWeapons.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: 'possibleWeapons.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 51b6bb571f5da3a4a8295eafda27bea9, type: 2}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: 'possibleWeapons.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: ce58ccddf26b83444962ff12da488f09, type: 2}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: 'possibleWeapons.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: cc1f1556444ae314fb83f5d57d613e70, type: 2}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: 'possibleWeapons.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: cc1f1556444ae314fb83f5d57d613e70, type: 2}
     - target: {fileID: 6310545941019334263, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -697,6 +761,38 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: e8415ed33b1f11445b3e843d2ec04a80, type: 2}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: maxHealth
+      value: 9999
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: knifeWeapon
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: currentHealth
+      value: 9999
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: possibleWeapons.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: 'possibleWeapons.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 51b6bb571f5da3a4a8295eafda27bea9, type: 2}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: 'possibleWeapons.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: ce58ccddf26b83444962ff12da488f09, type: 2}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: 'possibleWeapons.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: cc1f1556444ae314fb83f5d57d613e70, type: 2}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: 'possibleWeapons.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: cc1f1556444ae314fb83f5d57d613e70, type: 2}
     - target: {fileID: 6310545941019334263, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -1255,6 +1351,38 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: e8415ed33b1f11445b3e843d2ec04a80, type: 2}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: maxHealth
+      value: 9999
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: knifeWeapon
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: currentHealth
+      value: 9999
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: possibleWeapons.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: 'possibleWeapons.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 51b6bb571f5da3a4a8295eafda27bea9, type: 2}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: 'possibleWeapons.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: ce58ccddf26b83444962ff12da488f09, type: 2}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: 'possibleWeapons.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: cc1f1556444ae314fb83f5d57d613e70, type: 2}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: 'possibleWeapons.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: cc1f1556444ae314fb83f5d57d613e70, type: 2}
     - target: {fileID: 6310545941019334263, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -1846,6 +1974,38 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: e8415ed33b1f11445b3e843d2ec04a80, type: 2}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: maxHealth
+      value: 9999
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: knifeWeapon
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: currentHealth
+      value: 9999
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: possibleWeapons.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: 'possibleWeapons.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 51b6bb571f5da3a4a8295eafda27bea9, type: 2}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: 'possibleWeapons.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: ce58ccddf26b83444962ff12da488f09, type: 2}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: 'possibleWeapons.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: cc1f1556444ae314fb83f5d57d613e70, type: 2}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: 'possibleWeapons.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: cc1f1556444ae314fb83f5d57d613e70, type: 2}
     - target: {fileID: 6310545941019334263, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -2293,6 +2453,38 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: e8415ed33b1f11445b3e843d2ec04a80, type: 2}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: maxHealth
+      value: 9999
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: knifeWeapon
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: currentHealth
+      value: 9999
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: possibleWeapons.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: 'possibleWeapons.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 51b6bb571f5da3a4a8295eafda27bea9, type: 2}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: 'possibleWeapons.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: ce58ccddf26b83444962ff12da488f09, type: 2}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: 'possibleWeapons.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: cc1f1556444ae314fb83f5d57d613e70, type: 2}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: 'possibleWeapons.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: cc1f1556444ae314fb83f5d57d613e70, type: 2}
     - target: {fileID: 6310545941019334263, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -2441,6 +2633,14 @@ PrefabInstance:
     - target: {fileID: 6998283097264661436, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7927993846431860460, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
+      propertyPath: maxHealth
+      value: 9999
+      objectReference: {fileID: 0}
+    - target: {fileID: 7927993846431860460, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
+      propertyPath: currentHealth
+      value: 9999
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1484732423478657644, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
