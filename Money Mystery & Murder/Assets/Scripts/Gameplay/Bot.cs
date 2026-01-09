@@ -69,7 +69,6 @@ public class Bot : Player
         // Attack during night
         if (GameManager.Instance != null && GameManager.Instance.CurrentPhase == GamePhase.Night)
         {
-            Debug.Log($"[Bot] {gameObject.name} is in Night phase, checking for attack");
             AttackNearbyPlayers();
         }
     }
@@ -78,22 +77,14 @@ public class Bot : Player
     {
         if (Time.time < _nextAttackTime) return;
 
-        Debug.Log($"[Bot] {gameObject.name} attempting to attack");
-
         // Find the closest player within attack range
         Player closestPlayer = null;
         float closestDistance = Mathf.Infinity;
 
-        Debug.Log($"[Bot] {gameObject.name} attackRange={attackRange}");
-
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange, targetLayers);
-        Debug.Log($"[Bot] {gameObject.name} found {hits.Length} colliders in range");
 
         foreach (Collider2D hit in hits)
         {
-            string hitName = hit != null && hit.gameObject != null ? hit.gameObject.name : "(null)";
-            string hitLayer = hit != null && hit.gameObject != null ? LayerMask.LayerToName(hit.gameObject.layer) : "(none)";
-
             Player player = null;
             if (hit != null)
             {
@@ -102,27 +93,19 @@ public class Bot : Player
                 if (player == null) player = hit.GetComponentInChildren<Player>();
             }
 
-            if (player != null)
+            if (player != null && player != this && player.IsAlive)
             {
                 float distance = Vector3.Distance(transform.position, player.transform.position);
-                Debug.Log($"[Bot] {gameObject.name} collider '{hitName}' layer='{hitLayer}' has Player='{player.gameObject.name}' IsAlive={player.IsAlive} dist={distance}");
-
-                if (player != this && player.IsAlive && distance < closestDistance)
+                if (distance < closestDistance)
                 {
                     closestDistance = distance;
                     closestPlayer = player;
                 }
             }
-            else
-            {
-                Debug.Log($"[Bot] {gameObject.name} collider '{hitName}' layer='{hitLayer}' has no Player component");
-            }
         }
 
         if (closestPlayer != null)
         {
-            Debug.Log($"[Bot] {gameObject.name} found closest player {closestPlayer.gameObject.name}, attacking");
-
             // Face the player
             Vector3 direction = (closestPlayer.transform.position - transform.position).normalized;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -172,10 +155,6 @@ public class Bot : Player
             }
 
             _nextAttackTime = Time.time + attackCooldown;
-        }
-        else
-        {
-            Debug.Log($"[Bot] {gameObject.name} no valid targets found");
         }
     }
 }

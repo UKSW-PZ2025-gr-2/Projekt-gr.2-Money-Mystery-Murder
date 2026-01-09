@@ -106,7 +106,6 @@ public class WeaponSystem : MonoBehaviour
         
         var damaged = new HashSet<Player>();
         Vector3[] directions = GenerateMeleeRayDirections(forward);
-        Debug.Log($"[WeaponSystem] PerformMeleeAttack origin={origin} directions={directions.Length} range={currentWeapon.range}");
 
         foreach (Vector3 dir in directions)
         {
@@ -122,20 +121,13 @@ public class WeaponSystem : MonoBehaviour
 
             if (hit.collider != null)
             {
-                Debug.Log($"[WeaponSystem] Melee ray hit collider={hit.collider.name} layer={LayerMask.LayerToName(hit.collider.gameObject.layer)} point={hit.point}");
-
                 Player target = GetPlayerFromCollider(hit.collider);
 
                 if (target != null && target != owner && !damaged.Contains(target))
                 {
                     damaged.Add(target);
                     target.TakeDamage(currentWeapon.damage);
-                    Debug.Log($"[WeaponSystem] {owner?.name ?? "(no-owner)"} hit {target.name} for {currentWeapon.damage} damage with {currentWeapon.displayName}");
                 }
-            }
-            else
-            {
-                Debug.Log($"[WeaponSystem] Melee ray missed (dir={dir2D})");
             }
         }
     }
@@ -191,7 +183,6 @@ public class WeaponSystem : MonoBehaviour
         else
         {
             Vector2 dir2D = new Vector2(direction.x, direction.y).normalized;
-            Debug.Log($"[WeaponSystem] PerformRangedAttack origin={origin} dir2D={dir2D} range={currentWeapon.range}");
 
             RaycastHit2D hit = Physics2D.Raycast(
                 new Vector2(origin.x, origin.y),
@@ -202,19 +193,12 @@ public class WeaponSystem : MonoBehaviour
 
             if (hit.collider != null)
             {
-                Debug.Log($"[WeaponSystem] Ranged ray hit collider={hit.collider.name} layer={LayerMask.LayerToName(hit.collider.gameObject.layer)} point={hit.point}");
-
                 Player target = GetPlayerFromCollider(hit.collider);
 
                 if (target != null && target != owner)
                 {
                     target.TakeDamage(currentWeapon.damage);
-                    Debug.Log($"[WeaponSystem] {owner?.name ?? "(no-owner)"} shot {target.name} for {currentWeapon.damage} damage with {currentWeapon.displayName}");
                 }
-            }
-            else
-            {
-                Debug.Log($"[WeaponSystem] Ranged ray missed (dir={dir2D})");
             }
         }
     }
