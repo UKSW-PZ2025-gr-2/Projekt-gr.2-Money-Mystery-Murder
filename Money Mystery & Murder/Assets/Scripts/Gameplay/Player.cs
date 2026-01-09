@@ -99,6 +99,8 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (!isAlive) return;
+        
         UpdateAbilities();
         UpdateEffects();
         HandleInput();
@@ -329,9 +331,9 @@ public class Player : MonoBehaviour
         
         TriggerDeathAnimation();
         DisableMovement();
+        DisableInput();
+        DisableBotScript();
         NotifyGameManager();
-        
-        gameObject.SetActive(false);
     }
 
     public void Heal(int hp)
@@ -354,6 +356,25 @@ public class Player : MonoBehaviour
         if (movement != null)
         {
             movement.enabled = false;
+        }
+    }
+    
+    private void DisableInput()
+    {
+        // Disable this script's Update handling by setting isAlive to false (already done)
+        // Optionally disable weapon system input
+        if (weaponSystem != null)
+        {
+            weaponSystem.enabled = false;
+        }
+    }
+    
+    private void DisableBotScript()
+    {
+        Bot bot = GetComponent<Bot>();
+        if (bot != null)
+        {
+            bot.enabled = false;
         }
     }
 

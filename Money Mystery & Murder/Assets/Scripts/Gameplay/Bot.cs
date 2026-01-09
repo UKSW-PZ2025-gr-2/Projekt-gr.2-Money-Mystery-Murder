@@ -57,6 +57,8 @@ public class Bot : Player
 
     private void Update()
     {
+        if (!IsAlive) return;
+        
         // Random movement
         if (Time.time > _nextChangeTime)
         {
