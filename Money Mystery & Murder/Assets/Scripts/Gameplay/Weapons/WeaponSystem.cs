@@ -11,7 +11,8 @@ public class WeaponSystem : MonoBehaviour
     [SerializeField] private WeaponData currentWeapon;
     
     [Header("Hit Detection")]
-    [SerializeField] private LayerMask hitLayers = ~0;
+    [SerializeField, Tooltip("Set to 'Player' layer for optimal performance")]
+    private LayerMask hitLayers;
     
     [Header("Visual References")]
     [SerializeField] private Animator weaponAnimator;
@@ -20,6 +21,9 @@ public class WeaponSystem : MonoBehaviour
     private float lastAttackTime;
     private int currentAmmo;
     private GameObject weaponVisual;
+    
+    // Cache for performance
+    private static RaycastHit2D[] raycastHits = new RaycastHit2D[10];
     
     public WeaponData CurrentWeapon => currentWeapon;
     public int CurrentAmmo => currentAmmo;
@@ -237,10 +241,16 @@ public class WeaponSystem : MonoBehaviour
     
     private Player GetPlayerFromCollider(Collider2D collider)
     {
+        // Optimized: Try direct component first (most common case)
         Player player = collider.GetComponent<Player>();
-        if (player == null) player = collider.GetComponentInParent<Player>();
-        if (player == null) player = collider.GetComponentInChildren<Player>();
-        return player;
+        if (player != null) return player;
+        
+        // Fallback to parent search (less common)
+        player = collider.GetComponentInParent<Player>();
+        if (player != null) return player;
+        
+        // Last resort: check children (rare)
+        return collider.GetComponentInChildren<Player>();
     }
     
     private void SpawnHitEffect(Vector3 position, Vector3 forward)

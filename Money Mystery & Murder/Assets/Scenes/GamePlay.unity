@@ -131,9 +131,13 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: e8415ed33b1f11445b3e843d2ec04a80, type: 2}
+    - target: {fileID: 4096844502546695080, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: maxHealth
-      value: 9999
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: knifeWeapon
@@ -141,7 +145,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: currentHealth
-      value: 9999
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: targetLayers.m_Bits
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: possibleWeapons.Array.size
@@ -214,6 +222,10 @@ PrefabInstance:
     - target: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_Name
       value: BOT (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_IsActive
@@ -292,9 +304,13 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: e8415ed33b1f11445b3e843d2ec04a80, type: 2}
+    - target: {fileID: 4096844502546695080, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: maxHealth
-      value: 9999
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: knifeWeapon
@@ -302,7 +318,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: currentHealth
-      value: 9999
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: targetLayers.m_Bits
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: possibleWeapons.Array.size
@@ -375,6 +395,10 @@ PrefabInstance:
     - target: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_Name
       value: BOT (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_IsActive
@@ -761,9 +785,13 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: e8415ed33b1f11445b3e843d2ec04a80, type: 2}
+    - target: {fileID: 4096844502546695080, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: maxHealth
-      value: 9999
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: knifeWeapon
@@ -771,7 +799,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: currentHealth
-      value: 9999
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: targetLayers.m_Bits
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: possibleWeapons.Array.size
@@ -844,6 +876,10 @@ PrefabInstance:
     - target: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_Name
       value: BOT (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_IsActive
@@ -1351,9 +1387,13 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: e8415ed33b1f11445b3e843d2ec04a80, type: 2}
+    - target: {fileID: 4096844502546695080, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: maxHealth
-      value: 9999
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: knifeWeapon
@@ -1361,7 +1401,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: currentHealth
-      value: 9999
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: targetLayers.m_Bits
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: possibleWeapons.Array.size
@@ -1434,6 +1478,10 @@ PrefabInstance:
     - target: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_Name
       value: BOT (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_IsActive
@@ -1974,9 +2022,13 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: e8415ed33b1f11445b3e843d2ec04a80, type: 2}
+    - target: {fileID: 4096844502546695080, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: maxHealth
-      value: 9999
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: knifeWeapon
@@ -1984,7 +2036,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: currentHealth
-      value: 9999
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: targetLayers.m_Bits
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: possibleWeapons.Array.size
@@ -2057,6 +2113,10 @@ PrefabInstance:
     - target: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_Name
       value: BOT (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_IsActive
@@ -2453,6 +2513,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: e8415ed33b1f11445b3e843d2ec04a80, type: 2}
+    - target: {fileID: 4096844502546695080, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: maxHealth
       value: 9999
@@ -2464,6 +2528,10 @@ PrefabInstance:
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: currentHealth
       value: 9999
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: targetLayers.m_Bits
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: possibleWeapons.Array.size
@@ -2538,6 +2606,10 @@ PrefabInstance:
       value: BOT
       objectReference: {fileID: 0}
     - target: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -2610,6 +2682,10 @@ PrefabInstance:
       propertyPath: uiText
       value: 
       objectReference: {fileID: 1380757377}
+    - target: {fileID: 2818845033641352481, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6455024986214768891, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
       propertyPath: roleText
       value: 
@@ -2634,6 +2710,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 6998283097264661436, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7927993846431860460, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
       propertyPath: maxHealth
       value: 9999
@@ -2641,6 +2721,10 @@ PrefabInstance:
     - target: {fileID: 7927993846431860460, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
       propertyPath: currentHealth
       value: 9999
+      objectReference: {fileID: 0}
+    - target: {fileID: 9196976273252184188, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1484732423478657644, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}

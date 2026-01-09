@@ -13,7 +13,7 @@ public class Bot : Player
     [SerializeField] private float attackRange = 1f;
     [SerializeField] private float attackCooldown = 1f;
     [SerializeField, Tooltip("Which layers the bot will consider as attack targets (set to Player layer in Inspector)")]
-    private LayerMask targetLayers = ~0;
+    private LayerMask targetLayers;
 
     [Header("Weapon")]
     [SerializeField] private List<WeaponData> possibleWeapons = new List<WeaponData>();
@@ -26,6 +26,9 @@ public class Bot : Player
     private float _nextAttackTime;
     private PlayerMovement _movement;
     private PlayerAnimator _playerAnimator;
+    
+    // Cache for performance - shared across all bots
+    private static Collider2D[] nearbyColliders = new Collider2D[20];
 
     /// <summary>
     /// Initializes bot state, assigns role from <see cref="RoleManager"/>.
@@ -127,31 +130,34 @@ public class Bot : Player
             _playerAnimator.SetMovementState(isMoving);
         }
 
-        // Attack during night
+        // Attack during night - only check when cooldown is ready
         if (GameManager.Instance != null && GameManager.Instance.CurrentPhase == GamePhase.Night)
         {
-            AttackNearbyPlayers();
+            if (Time.time >= _nextAttackTime)
+            {
+                AttackNearbyPlayers();
+            }
         }
     }
 
     private void AttackNearbyPlayers()
     {
-        if (Time.time < _nextAttackTime) return;
-
-        // Find the closest player within attack range
+        // Find the closest player within attack range using cached array and NonAlloc
         Player closestPlayer = null;
         float closestDistance = Mathf.Infinity;
 
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange, targetLayers);
+        int hitCount = Physics2D.OverlapCircleNonAlloc(transform.position, attackRange, nearbyColliders, targetLayers != 0 ? targetLayers : ~0);
 
-        foreach (Collider2D hit in hits)
+        for (int i = 0; i < hitCount; i++)
         {
-            Player player = null;
-            if (hit != null)
+            Collider2D hit = nearbyColliders[i];
+            if (hit == null) continue;
+
+            // Optimized: Try direct component first
+            Player player = hit.GetComponent<Player>();
+            if (player == null)
             {
-                player = hit.GetComponent<Player>();
-                if (player == null) player = hit.GetComponentInParent<Player>();
-                if (player == null) player = hit.GetComponentInChildren<Player>();
+                player = hit.GetComponentInParent<Player>();
             }
 
             if (player != null && player != this && player.IsAlive)
