@@ -5,15 +5,14 @@ using System.Collections.Generic;
 public class ReflexMinigameHardcoreReusable : MinigameBase
 {
     [Header("Reflex Settings")]
-    [SerializeField] private float minWaitTime = 0.2f;
-    [SerializeField] private float maxWaitTime = 0.5f;
-    [SerializeField] private float activeTime = 0.35f;
-    [SerializeField] private float minActiveTime = 0.1f;
+    [SerializeField] private float minWaitTime = 0.8f;
+    [SerializeField] private float maxWaitTime = 1.4f;
+    [SerializeField] private float activeTime = 0.6f;
+    [SerializeField] private float minActiveTime = 0.35f;
     [SerializeField] private int rewardPerHit = 20;
 
     [Header("Visual Settings")]
-    [SerializeField] private Vector3 indicatorScale = new Vector3(2.5f, 2.5f, 1f);
-
+    [SerializeField] private Vector3 indicatorScale = Vector3.one;
     [SerializeField] private float spacing = 1.6f;
     [SerializeField] private float verticalOffset = 2f;
     [SerializeField] private Sprite indicatorSprite;
@@ -36,7 +35,7 @@ public class ReflexMinigameHardcoreReusable : MinigameBase
 
     protected override void OnStartGame()
     {
-        _hits = 1;
+        _hits = 3;
         _currentIndex = -1;
         _isActive = false;
         _gameRunning = true;
@@ -88,12 +87,20 @@ public class ReflexMinigameHardcoreReusable : MinigameBase
         _scoreText.color = Color.white;
     }
 
+    private void ResetIndicators()
+    {
+        foreach (var sr in _indicators)
+            sr.color = inactiveColor;
+    }
+
     private void ActivateNext()
     {
         if (!IsRunning || !_gameRunning) return;
 
-        if (_currentIndex >= 0 && _indicators[_currentIndex] != null)
-            _indicators[_currentIndex].color = inactiveColor;
+        CancelInvoke(nameof(Deactivate));
+        CancelInvoke(nameof(ActivateNext));
+
+        ResetIndicators();
 
         foreach (var i in _indicators)
         {
@@ -115,7 +122,9 @@ public class ReflexMinigameHardcoreReusable : MinigameBase
         _isActive = false;
         if (_gameRunning)
         {
-            activeTime = Mathf.Max(activeTime - 0.01f, minActiveTime);
+
+            activeTime = Mathf.Max(activeTime - 0.003f, minActiveTime);
+
             Invoke(nameof(ActivateNext), Random.Range(minWaitTime, maxWaitTime));
         }
     }
@@ -132,8 +141,7 @@ public class ReflexMinigameHardcoreReusable : MinigameBase
         }
 
         var keyboard = Keyboard.current;
-        if (keyboard == null) return;
-        if (!_isActive) return;
+        if (keyboard == null || !_isActive) return;
 
         bool correctHit = false;
 
@@ -190,7 +198,6 @@ public class ReflexMinigameHardcoreReusable : MinigameBase
     {
         _gameRunning = false;
 
-        // ukrywamy maczugi i HITS
         foreach (var sr in _indicators)
         {
             if (sr != null)

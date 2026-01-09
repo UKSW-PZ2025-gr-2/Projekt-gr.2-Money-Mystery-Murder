@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
   displayName: Grenade
   icon: {fileID: 0}
-  description: Explosive device; provide a projectile prefab for arc/area effect.
+  description: Explosive device that deals area damage
   cost: 0
   weaponType: 1
   damage: 70
@@ -26,7 +26,7 @@ MonoBehaviour:
   maxAmmo: 0
   projectileSpeed: 20
   projectilePrefab: {fileID: 4018733234561847261, guid: 65ddf9527e705bc4dab5565bbbbecf33, type: 3}
-  weaponPrefab: {fileID: 0}
-  hitEffectPrefab: {fileID: 0}
+  weaponPrefab: {fileID: 7789499324823748169, guid: c1a2b3d4e5f6a7b8c9d0e1f2a3b4c5d6, type: 3}
+  hitEffectPrefab: {fileID: 8372142008013406761, guid: d6c5b4a3f2e1d0c9b8a7f6e5d4c3b2a1, type: 3}
   attackAnimation: {fileID: 0}
   attackSound: {fileID: 0}

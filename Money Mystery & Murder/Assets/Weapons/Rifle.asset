@@ -24,9 +24,9 @@ MonoBehaviour:
   raycastSpread: 5
   usesAmmo: 1
   maxAmmo: 30
-  projectileSpeed: 0
+  projectileSpeed: 40
   projectilePrefab: {fileID: 1355170585930803943, guid: 7a07e44d5163b234796e6c5309777770, type: 3}
-  weaponPrefab: {fileID: 0}
+  weaponPrefab: {fileID: 7789499324823748169, guid: a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d7, type: 3}
   hitEffectPrefab: {fileID: 0}
   attackAnimation: {fileID: 0}
   attackSound: {fileID: 0}

@@ -10,6 +10,9 @@ public class GrenadeProjectile : MonoBehaviour
     public float radius = 2.5f;
     public float fuse = 2.0f;
     public GameObject owner;
+    public GameObject explosionEffectPrefab;
+
+    private bool hasExploded = false;
 
     private void Start()
     {
@@ -18,12 +21,23 @@ public class GrenadeProjectile : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // optional: explode on first impact
-        Explode();
+        // Don't explode on impact - only after fuse timer
+        // This allows the grenade to bounce and fly
     }
 
     private void Explode()
     {
+        if (hasExploded) return;
+        hasExploded = true;
+
+        // Spawn explosion effect
+        if (explosionEffectPrefab != null)
+        {
+            GameObject effect = Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
+            Destroy(effect, 2f); // Clean up effect after 2 seconds
+        }
+
+        // Deal area damage
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, radius);
         foreach (var c in hits)
         {

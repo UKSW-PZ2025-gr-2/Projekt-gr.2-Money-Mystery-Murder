@@ -220,7 +220,6 @@ public class MafiaQuizMinigame : MinigameBase
 
         _background.SetActive(false);
 
-        // Reset UI po 3 sekundach
         StartCoroutine(ResetUIAfterDelay(3f));
     }
 
