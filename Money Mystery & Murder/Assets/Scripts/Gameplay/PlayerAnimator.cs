@@ -7,6 +7,7 @@ public class PlayerAnimator : MonoBehaviour
     private bool hasAttackParam;
     private bool hasHitParam;
     private bool hasDeathParam;
+    private bool hasIsDeadParam;
 
     private void Awake()
     {
@@ -25,6 +26,7 @@ public class PlayerAnimator : MonoBehaviour
             if (p.name == "Attack") hasAttackParam = true;
             else if (p.name == "Hit") hasHitParam = true;
             else if (p.name == "Death") hasDeathParam = true;
+            else if (p.name == "isDead") hasIsDeadParam = true;
         }
         
         if (!hasAttackParam)
@@ -33,6 +35,8 @@ public class PlayerAnimator : MonoBehaviour
             Debug.LogWarning("[PlayerAnimator] Animator on " + gameObject.name + " has no 'Hit' trigger parameter.");
         if (!hasDeathParam)
             Debug.LogWarning("[PlayerAnimator] Animator on " + gameObject.name + " has no 'Death' trigger parameter.");
+        if (!hasIsDeadParam)
+            Debug.LogWarning("[PlayerAnimator] Animator on " + gameObject.name + " has no 'isDead' bool parameter.");
     }
 
     public void SetMovementState(bool isMoving)
@@ -62,6 +66,14 @@ public class PlayerAnimator : MonoBehaviour
     public void TriggerDeath()
     {
         if (animator == null) return;
+        
+        // Set the boolean to permanently stay in death state
+        if (hasIsDeadParam)
+        {
+            animator.SetBool("isDead", true);
+        }
+        
+        // Also trigger the death animation
         if (hasDeathParam)
         {
             animator.SetTrigger("Death");

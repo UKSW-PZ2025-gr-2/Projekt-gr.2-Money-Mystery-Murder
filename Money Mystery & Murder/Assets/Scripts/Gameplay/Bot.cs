@@ -64,7 +64,15 @@ public class Bot : Player
 
     private void Update()
     {
-        if (!IsAlive) return;
+        if (!IsAlive) 
+        {
+            // Stop all movement and animation updates when dead
+            if (_playerAnimator != null)
+            {
+                _playerAnimator.SetMovementState(false);
+            }
+            return;
+        }
         
         // Random movement
         if (Time.time > _nextChangeTime)
