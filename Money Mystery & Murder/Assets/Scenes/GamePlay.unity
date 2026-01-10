@@ -137,7 +137,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: maxHealth
-      value: 100
+      value: 599
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: knifeWeapon
@@ -145,7 +145,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: currentHealth
-      value: 100
+      value: 599
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: targetLayers.m_Bits
@@ -218,6 +218,18 @@ PrefabInstance:
     - target: {fileID: 6310545941019334263, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7021576749747755862, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7021576749747755862, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7021576749747755862, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_Name
@@ -310,7 +322,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: maxHealth
-      value: 100
+      value: 599
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: knifeWeapon
@@ -318,7 +330,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: currentHealth
-      value: 100
+      value: 599
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: targetLayers.m_Bits
@@ -391,6 +403,18 @@ PrefabInstance:
     - target: {fileID: 6310545941019334263, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7021576749747755862, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7021576749747755862, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7021576749747755862, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_Name
@@ -864,7 +888,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: maxHealth
-      value: 100
+      value: 599
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: knifeWeapon
@@ -872,7 +896,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: currentHealth
-      value: 100
+      value: 599
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: targetLayers.m_Bits
@@ -945,6 +969,18 @@ PrefabInstance:
     - target: {fileID: 6310545941019334263, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7021576749747755862, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7021576749747755862, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7021576749747755862, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_Name
@@ -1359,7 +1395,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: maxHealth
-      value: 100
+      value: 599
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: knifeWeapon
@@ -1367,7 +1403,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: currentHealth
-      value: 100
+      value: 599
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: targetLayers.m_Bits
@@ -1440,6 +1476,18 @@ PrefabInstance:
     - target: {fileID: 6310545941019334263, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7021576749747755862, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7021576749747755862, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7021576749747755862, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_Name
@@ -2051,7 +2099,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: maxHealth
-      value: 100
+      value: 599
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: knifeWeapon
@@ -2059,7 +2107,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: currentHealth
-      value: 100
+      value: 599
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: targetLayers.m_Bits
@@ -2132,6 +2180,18 @@ PrefabInstance:
     - target: {fileID: 6310545941019334263, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7021576749747755862, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7021576749747755862, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7021576749747755862, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_Name
@@ -2599,7 +2659,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: maxHealth
-      value: 9999
+      value: 599
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: knifeWeapon
@@ -2607,7 +2667,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: currentHealth
-      value: 9999
+      value: 599
       objectReference: {fileID: 0}
     - target: {fileID: 5801502103815895333, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: targetLayers.m_Bits
@@ -2680,6 +2740,18 @@ PrefabInstance:
     - target: {fileID: 6310545941019334263, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7021576749747755862, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7021576749747755862, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7021576749747755862, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8451748926706170243, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_Name
@@ -2846,6 +2918,18 @@ PrefabInstance:
     - target: {fileID: 6998283097264661436, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8252789506905311483, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8252789506905311483, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8252789506905311483, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
