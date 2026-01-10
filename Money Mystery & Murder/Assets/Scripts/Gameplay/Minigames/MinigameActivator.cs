@@ -8,6 +8,11 @@ public class MinigameActivator : MonoBehaviour
     [Header("Interaction")]
     [SerializeField] private float interactRadius = 5f;
 
+    [Header("Phase Restriction")]
+    [SerializeField] private bool enforcePhaseRestriction = true;
+    [Tooltip("Minigames are only available during Day phase")]
+    [SerializeField] private GamePhase allowedPhase = GamePhase.Day;
+
     private MinigameBase minigame;
     private Player _nearbyPlayer;
     private Player[] _cachedPlayers;
@@ -42,8 +47,29 @@ public class MinigameActivator : MonoBehaviour
         DetectPlayer();
         if (_nearbyPlayer != null && WasInteractPressed())
         {
-            ToggleMinigame();
+            if (CanActivate())
+            {
+                ToggleMinigame();
+            }
+            else
+            {
+                ShowPhaseRestrictionMessage();
+            }
         }
+    }
+
+    private bool CanActivate()
+    {
+        if (!enforcePhaseRestriction) return true;
+        
+        if (GameManager.Instance == null) return true;
+        
+        return GameManager.Instance.CurrentPhase == allowedPhase;
+    }
+
+    private void ShowPhaseRestrictionMessage()
+    {
+        Debug.Log($"[MinigameActivator] Minigames are only available during {allowedPhase} phase!");
     }
 
     private void RefreshPlayerCache()
@@ -107,4 +133,5 @@ public class MinigameActivator : MonoBehaviour
 
     public bool IsPlayerInRange => _nearbyPlayer != null;
     public MinigameBase CurrentMinigame => minigame;
+    public bool IsAvailableInCurrentPhase => CanActivate();
 }

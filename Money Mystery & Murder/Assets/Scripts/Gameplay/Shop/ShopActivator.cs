@@ -11,6 +11,11 @@ public class ShopActivator : MonoBehaviour
     [SerializeField] private float interactRadius = 5f;
     [SerializeField] private Key interactKey = Key.E;
 
+    [Header("Phase Restriction")]
+    [SerializeField] private bool enforcePhaseRestriction = true;
+    [Tooltip("Shops are only available during Evening phase")]
+    [SerializeField] private GamePhase allowedPhase = GamePhase.Evening;
+
     private ShopUI shopUI;
     private Player _nearbyPlayer;
     private Player[] _cachedPlayers;
@@ -45,8 +50,29 @@ public class ShopActivator : MonoBehaviour
         DetectPlayer();
         if (_nearbyPlayer != null && WasInteractPressed())
         {
-            ToggleShop();
+            if (CanActivate())
+            {
+                ToggleShop();
+            }
+            else
+            {
+                ShowPhaseRestrictionMessage();
+            }
         }
+    }
+
+    private bool CanActivate()
+    {
+        if (!enforcePhaseRestriction) return true;
+        
+        if (GameManager.Instance == null) return true;
+        
+        return GameManager.Instance.CurrentPhase == allowedPhase;
+    }
+
+    private void ShowPhaseRestrictionMessage()
+    {
+        Debug.Log($"[ShopActivator] Shops are only available during {allowedPhase} phase!");
     }
 
     private void RefreshPlayerCache()
@@ -103,4 +129,5 @@ public class ShopActivator : MonoBehaviour
 
     public bool IsPlayerInRange => _nearbyPlayer != null;
     public ShopUI CurrentShop => shopUI;
+    public bool IsAvailableInCurrentPhase => CanActivate();
 }

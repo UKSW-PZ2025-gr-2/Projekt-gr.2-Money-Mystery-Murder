@@ -16,11 +16,18 @@ public class WeaponSystem : MonoBehaviour
     
     [Header("Visual References")]
     [SerializeField] private Animator weaponAnimator;
+
+    [Header("Phase Restriction")]
+    [SerializeField] private bool enforcePhaseRestriction = true;
+    [Tooltip("Attacking is only available during Night phase")]
+    [SerializeField] private GamePhase allowedPhase = GamePhase.Night;
     
     private Player owner;
     private float lastAttackTime;
     private int currentAmmo;
     private GameObject weaponVisual;
+    private float lastPhaseWarningTime;
+    private const float PHASE_WARNING_COOLDOWN = 2f;
     
     // Cache for performance
     private static RaycastHit2D[] raycastHits = new RaycastHit2D[10];
@@ -57,7 +64,14 @@ public class WeaponSystem : MonoBehaviour
     public void Attack()
     {
         if (currentWeapon == null) return;
-        if (!CanAttack()) return;
+        if (!CanAttack()) 
+        {
+            if (!IsInAllowedPhase())
+            {
+                ShowPhaseRestrictionWarning();
+            }
+            return;
+        }
         
         lastAttackTime = Time.time;
         
@@ -87,9 +101,33 @@ public class WeaponSystem : MonoBehaviour
     {
         if (currentWeapon == null) return false;
         if (owner != null && owner.IsInMinigameOrShop()) return false;
+        if (!IsInAllowedPhase()) return false;
         if (Time.time - lastAttackTime < currentWeapon.cooldown) return false;
         if (currentWeapon.usesAmmo && currentAmmo <= 0) return false;
         return true;
+    }
+
+    /// <summary>
+    /// Check if current phase allows attacking.
+    /// </summary>
+    private bool IsInAllowedPhase()
+    {
+        if (!enforcePhaseRestriction) return true;
+        
+        if (GameManager.Instance == null) return true;
+        
+        return GameManager.Instance.CurrentPhase == allowedPhase;
+    }
+
+    /// <summary>
+    /// Show a warning message when trying to attack outside allowed phase.
+    /// </summary>
+    private void ShowPhaseRestrictionWarning()
+    {
+        if (Time.time - lastPhaseWarningTime < PHASE_WARNING_COOLDOWN) return;
+        
+        lastPhaseWarningTime = Time.time;
+        Debug.Log($"[WeaponSystem] Attacking is only available during {allowedPhase} phase!");
     }
     
     /// <summary>
