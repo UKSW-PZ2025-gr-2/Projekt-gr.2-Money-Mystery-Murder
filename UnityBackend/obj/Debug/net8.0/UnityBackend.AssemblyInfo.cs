@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("UnityBackend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5c3353ea30ee3ffab644126b66a1ca1e5325d437")]
 [assembly: System.Reflection.AssemblyProductAttribute("UnityBackend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("UnityBackend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

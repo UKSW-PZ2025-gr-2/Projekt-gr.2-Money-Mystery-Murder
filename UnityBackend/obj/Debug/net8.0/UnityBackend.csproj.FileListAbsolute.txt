@@ -98,3 +98,4 @@ C:\Users\Miros\desktop\pz2\Projekt-gr.2-Money-Mystery-Murder-main\UnityBackend\o
 C:\Users\Miros\desktop\pz2\Projekt-gr.2-Money-Mystery-Murder-main\UnityBackend\obj\Debug\net8.0\UnityBackend.pdb
 C:\Users\Miros\desktop\pz2\Projekt-gr.2-Money-Mystery-Murder-main\UnityBackend\obj\Debug\net8.0\UnityBackend.genruntimeconfig.cache
 C:\Users\Miros\desktop\pz2\Projekt-gr.2-Money-Mystery-Murder-main\UnityBackend\obj\Debug\net8.0\ref\UnityBackend.dll
+C:\Users\Miros\desktop\pz2\Projekt-gr.2-Money-Mystery-Murder-main\UnityBackend\obj\Debug\net8.0\UnityBackend.sourcelink.json
