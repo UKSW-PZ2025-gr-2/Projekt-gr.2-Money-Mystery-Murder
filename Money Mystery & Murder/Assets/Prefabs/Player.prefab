@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8404468622511685689}
   - component: {fileID: 2418662272272116099}
-  m_Layer: 2
+  m_Layer: 3
   m_Name: RoleAnnouncer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,9 +68,9 @@ GameObject:
   - component: {fileID: 1640601236835708216}
   - component: {fileID: 615515346492904972}
   - component: {fileID: 9206822204102317998}
-  - component: {fileID: 1484732423478657644}
   - component: {fileID: 1855503652732725708}
-  m_Layer: 2
+  - component: {fileID: 4890004404356937613}
+  m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +87,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.85804, y: 3.36561, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8404468622511685689}
@@ -195,8 +195,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd0c55b1a4777d740a29a2e9c49cc9c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
-  maxHealth: 100
-  currentHealth: 100
+  maxHealth: 9999
+  currentHealth: 9999
   balance: 0
   role: 0
   isAlive: 1
@@ -298,7 +298,7 @@ MonoBehaviour:
   m_NormalMapDistance: 3
   m_NormalMapQuality: 2
   m_UseNormalMap: 0
-  m_ShadowsEnabled: 1
+  m_ShadowsEnabled: 0
   m_ShadowIntensity: 0.75
   m_ShadowSoftness: 0.3
   m_ShadowSoftnessFalloffIntensity: 0.5
@@ -381,7 +381,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!70 &1484732423478657644
+--- !u!114 &1855503652732725708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6998283097264661436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c3f9b95bf0e4b748b1dc7ca43e200ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimator
+--- !u!70 &4890004404356937613
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -416,21 +428,8 @@ CapsuleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.19, y: 0.27}
+  m_Size: {x: 0.95, y: 1.35}
   m_Direction: 0
---- !u!114 &1855503652732725708
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6998283097264661436}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c3f9b95bf0e4b748b1dc7ca43e200ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimator
-  animator: {fileID: 9206822204102317998}
 --- !u!1 &9196976273252184188
 GameObject:
   m_ObjectHideFlags: 0
@@ -441,7 +440,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3108713862820700216}
   - component: {fileID: 8342752285844930708}
-  m_Layer: 2
+  m_Layer: 3
   m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
