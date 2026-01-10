@@ -156,12 +156,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::QuizMinigame
   questionPool: []
   questionsPerGame: 5
+  rewardPerCorrectAnswer: 50
   player: {fileID: 0}
-  offset: {x: 0, y: 1.5, z: 0}
+  offset: {x: 0, y: 0.21, z: 0}
   answerSpacing: 1
   questionColor: {r: 0, g: 0, b: 0, a: 1}
   answerColor: {r: 0, g: 0, b: 0, a: 1}
   questionFontSize: 58
   answerFontSize: 46
   backgroundColor: {r: 0.59748423, g: 0.3363197, b: 0.5965644, a: 1}
-  backgroundSize: {x: 8, y: 6}
+  backgroundSize: {x: 10, y: 8}

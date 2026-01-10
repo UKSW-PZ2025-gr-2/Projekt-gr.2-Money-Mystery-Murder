@@ -16,6 +16,7 @@ public class MafiaQuizMinigame : MinigameBase
     [Header("Quiz Settings")]
     [SerializeField] private List<Question> questionPool = new();
     [SerializeField] private int questionsPerGame = 5;
+    [SerializeField] private int rewardPerCorrectAnswer = 50;
 
     [Header("UI Settings")]
     [SerializeField] private Transform player;
@@ -192,6 +193,10 @@ public class MafiaQuizMinigame : MinigameBase
         if (idx == q.correctIndex)
         {
             _score++;
+            
+            if (ActivatingPlayer != null)
+                ActivatingPlayer.AddBalance(rewardPerCorrectAnswer);
+            
             _currentIndex++;
             if (_currentIndex >= _currentQuestions.Count)
             {
