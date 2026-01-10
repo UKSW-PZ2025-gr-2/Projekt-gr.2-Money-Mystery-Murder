@@ -632,6 +632,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShopPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 7741660512038688117, guid: 6da2a6bb9fb447c4cada7ff42c906309, type: 3}
+      propertyPath: m_Constraint
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741660512038688117, guid: 6da2a6bb9fb447c4cada7ff42c906309, type: 3}
+      propertyPath: m_StartCorner
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2380,11 +2388,11 @@ PrefabInstance:
       objectReference: {fileID: 504297758}
     - target: {fileID: 1780585770356068073, guid: e6f89303dbd05e747afa1900881dab2b, type: 3}
       propertyPath: autoLoadAllAbilities
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1780585770356068073, guid: e6f89303dbd05e747afa1900881dab2b, type: 3}
       propertyPath: shopItems.Array.size
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1780585770356068073, guid: e6f89303dbd05e747afa1900881dab2b, type: 3}
       propertyPath: shopItems.Array.data[2].weapon
@@ -2393,11 +2401,11 @@ PrefabInstance:
     - target: {fileID: 1780585770356068073, guid: e6f89303dbd05e747afa1900881dab2b, type: 3}
       propertyPath: shopItems.Array.data[3].weapon
       value: 
-      objectReference: {fileID: 11400000, guid: b44281cc69f83c845bcf3f0374b05c2f, type: 2}
+      objectReference: {fileID: 11400000, guid: 51b6bb571f5da3a4a8295eafda27bea9, type: 2}
     - target: {fileID: 1780585770356068073, guid: e6f89303dbd05e747afa1900881dab2b, type: 3}
       propertyPath: shopItems.Array.data[4].weapon
       value: 
-      objectReference: {fileID: 11400000, guid: 51b6bb571f5da3a4a8295eafda27bea9, type: 2}
+      objectReference: {fileID: 11400000, guid: ce58ccddf26b83444962ff12da488f09, type: 2}
     - target: {fileID: 1780585770356068073, guid: e6f89303dbd05e747afa1900881dab2b, type: 3}
       propertyPath: shopItems.Array.data[5].weapon
       value: 
