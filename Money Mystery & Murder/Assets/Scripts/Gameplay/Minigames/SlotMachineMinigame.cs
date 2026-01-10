@@ -205,8 +205,8 @@ public class SlotMachineMinigame : MinigameBase
     /// <summary>
     /// Returns whether to allow the player's balance to go negative when paying start cost.
     /// </summary>
-    /// <returns>False (does not allow negative balance).</returns>
-    protected override bool AllowNegativeBalanceOnStart() => false;
+    /// <returns>True (allows negative balance).</returns>
+    protected override bool AllowNegativeBalanceOnStart() => true;
 
     /// <summary>Generates three random weighted symbols for the slot machine.</summary>
     private void GenerateSymbols()
