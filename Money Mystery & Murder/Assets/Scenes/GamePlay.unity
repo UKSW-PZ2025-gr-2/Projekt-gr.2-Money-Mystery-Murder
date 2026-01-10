@@ -1502,7 +1502,7 @@ MonoBehaviour:
   phaseManager: {fileID: 503190232}
   gameEndUI: {fileID: 1614676617}
   gameMusic: {fileID: 8300000, guid: 974a85fe9d662604d8d4dd29289724d2, type: 3}
-  startHour: 6
+  startHour: 4
   startMinute: 0
   timeScale: 1
 --- !u!4 &1374334435
@@ -2266,8 +2266,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GlobalLightingController
   globalLight: {fileID: 619394801}
-  dayLightIntensity: 1
-  eveningLightIntensity: 0.4
+  dayLightIntensity: 0
+  eveningLightIntensity: 0
   nightLightIntensity: 0
   dayColor: {r: 1, g: 1, b: 1, a: 1}
   eveningColor: {r: 1, g: 0.7, b: 0.4, a: 1}
@@ -2766,6 +2766,10 @@ PrefabInstance:
     - target: {fileID: 1501064346198093923, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1640601236835708216, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
+      propertyPath: nightVisionRange
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2418662272272116099, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
       propertyPath: uiText
