@@ -101,6 +101,13 @@ public class SlotMachineMinigame : MinigameBase
     [Tooltip("Golden Knife weapon data awarded on triple 7s jackpot")]
     [SerializeField] private WeaponData goldenKnifeData;
 
+    [Header("UI Settings")]
+    [SerializeField] private float textVerticalOffset = 4f;
+    [SerializeField] private int fontSize = 48;
+    [SerializeField] private Color deductionColor = Color.red;
+    [SerializeField] private Color winColor = Color.green;
+    [SerializeField] private Color jackpotColor = Color.yellow;
+
     /// <summary>Parent GameObject for the dynamically created sprites.</summary>
     private GameObject _spriteRoot;
     
@@ -113,6 +120,12 @@ public class SlotMachineMinigame : MinigameBase
     /// <summary>Elapsed time since game started.</summary>
     private float _elapsed;
 
+    /// <summary>TextMesh for displaying cost deducted.</summary>
+    private TextMesh _deductionText;
+    
+    /// <summary>TextMesh for displaying winnings or jackpot message.</summary>
+    private TextMesh _resultText;
+
     /// <summary>Weighted symbol definitions with weights summing to 100.</summary>
     private static readonly (string symbol, int weight)[] _symbolWeights = new (string, int)[]
     {
@@ -124,6 +137,11 @@ public class SlotMachineMinigame : MinigameBase
         ("7", 1)
     };
 
+    void Awake()
+    {
+        BuildTextUI();
+    }
+
     /// <summary>
     /// Called when the minigame starts. Generates symbols, builds sprites, calculates payout, and credits the <see cref="Player"/>.
     /// On triple 7s jackpot, awards the rare Golden Knife weapon instead of money.
@@ -134,6 +152,7 @@ public class SlotMachineMinigame : MinigameBase
         GenerateSymbols();
         BuildSprites();
         UpdateSprites();
+        ShowDeductionText();
         
         // Check for jackpot (triple 7s) first
         bool isJackpot = _values[0] == "7" && _values[1] == "7" && _values[2] == "7";
@@ -142,6 +161,7 @@ public class SlotMachineMinigame : MinigameBase
             // Award rare Golden Knife weapon
             ActivatingPlayer.AcquireWeapon(goldenKnifeData);
             ActivatingPlayer.EquipWeapon(goldenKnifeData);
+            ShowResultText(payout7, true, true);
             Debug.Log($"[SlotMachineMinigame] JACKPOT! Awarded Golden Knife to {ActivatingPlayer.name}!");
         }
         else
@@ -155,6 +175,11 @@ public class SlotMachineMinigame : MinigameBase
                     ActivatingPlayer.AddBalance(payout);
                     Debug.Log($"[SlotMachineMinigame] Payout: {payout} to {ActivatingPlayer.name}");
                 }
+                ShowResultText(payout, true, false);
+            }
+            else
+            {
+                ShowResultText(0, false, false);
             }
         }
         
@@ -167,6 +192,7 @@ public class SlotMachineMinigame : MinigameBase
     protected override void OnEndGame()
     {
         CleanupSprites();
+        HideTextUI();
         Debug.Log("[SlotMachineMinigame] Ended.");
     }
 
@@ -313,6 +339,88 @@ public class SlotMachineMinigame : MinigameBase
             _spriteRoot = null;
         }
         _spriteRenderers = null;
+    }
+
+    /// <summary>Builds the TextMesh UI components for displaying cost and results.</summary>
+    private void BuildTextUI()
+    {
+        if (_deductionText == null)
+        {
+            GameObject deductObj = new GameObject("DeductionText");
+            deductObj.transform.SetParent(transform, false);
+            _deductionText = deductObj.AddComponent<TextMesh>();
+            _deductionText.fontSize = fontSize;
+            _deductionText.characterSize = 0.1f;
+            _deductionText.color = deductionColor;
+            _deductionText.alignment = TextAlignment.Center;
+            _deductionText.anchor = TextAnchor.MiddleCenter;
+            _deductionText.gameObject.SetActive(false);
+        }
+
+        if (_resultText == null)
+        {
+            GameObject resultObj = new GameObject("ResultText");
+            resultObj.transform.SetParent(transform, false);
+            _resultText = resultObj.AddComponent<TextMesh>();
+            _resultText.fontSize = fontSize;
+            _resultText.characterSize = 0.1f;
+            _resultText.color = winColor;
+            _resultText.alignment = TextAlignment.Center;
+            _resultText.anchor = TextAnchor.MiddleCenter;
+            _resultText.gameObject.SetActive(false);
+        }
+    }
+
+    /// <summary>Shows the cost deduction text above the slot machine.</summary>
+    private void ShowDeductionText()
+    {
+        if (_deductionText != null)
+        {
+            _deductionText.transform.position = transform.position + new Vector3(0, verticalOffset + textVerticalOffset, 0);
+            _deductionText.text = $"-${startCost}";
+            _deductionText.color = deductionColor;
+            _deductionText.gameObject.SetActive(true);
+        }
+    }
+
+    /// <summary>Shows the result text displaying winnings or loss.</summary>
+    /// <param name="amount">The amount won.</param>
+    /// <param name="won">Whether the player won.</param>
+    /// <param name="isJackpot">Whether this was a jackpot win.</param>
+    private void ShowResultText(int amount, bool won, bool isJackpot)
+    {
+        if (_resultText != null)
+        {
+            _resultText.transform.position = transform.position + new Vector3(0, verticalOffset + textVerticalOffset - 0.8f, 0);
+            
+            if (isJackpot)
+            {
+                _resultText.text = $"JACKPOT! +${amount} + GOLDEN KNIFE!";
+                _resultText.color = jackpotColor;
+            }
+            else if (won)
+            {
+                _resultText.text = $"+${amount}";
+                _resultText.color = winColor;
+            }
+            else
+            {
+                _resultText.text = "NO WIN";
+                _resultText.color = Color.gray;
+            }
+            
+            _resultText.gameObject.SetActive(true);
+        }
+    }
+
+    /// <summary>Hides all text UI elements.</summary>
+    private void HideTextUI()
+    {
+        if (_deductionText != null)
+            _deductionText.gameObject.SetActive(false);
+        
+        if (_resultText != null)
+            _resultText.gameObject.SetActive(false);
     }
 
     /// <summary>

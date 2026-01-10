@@ -2641,6 +2641,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4745683802466451585, guid: 3b9e4604b19001f44b46d8226c8c7e84, type: 3}
+      propertyPath: goldenKnifeData
+      value: 
+      objectReference: {fileID: 11400000, guid: b44281cc69f83c845bcf3f0374b05c2f, type: 2}
+    - target: {fileID: 4745683802466451585, guid: 3b9e4604b19001f44b46d8226c8c7e84, type: 3}
+      propertyPath: textVerticalOffset
+      value: 1.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
