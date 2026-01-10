@@ -83,7 +83,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.30341727, g: 0.50980395, b: 0.17647058, a: 1}
+  m_Color: {r: 0, g: 0.10537529, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -106,7 +106,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MinigameActivator
   interactRadius: 2
-  interactKey: 19
 --- !u!114 &8511296938096224802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,8 +138,6 @@ MonoBehaviour:
   payoutOrange: 20
   payoutLemon: 10
   payoutCherry: 5
-  payoutTwoCherries: 2
-  payoutOneCherry: 1
   goldenKnifeData: {fileID: 0}
 --- !u!58 &1680293616050567981
 CircleCollider2D:
