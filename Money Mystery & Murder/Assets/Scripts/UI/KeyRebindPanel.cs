@@ -96,6 +96,9 @@ public class KeyRebindPanel : MonoBehaviour
         // Interaction
         CreateRebindButton("Interakcja", "Interact");
         
+        // Hotbar
+        CreateRebindButton("Przelacz Hotbar", "ToggleHotbar");
+        
         // Blackjack
         CreateRebindButton("Blackjack: Zwieksz zaklad", "BlackjackIncreaseBet");
         CreateRebindButton("Blackjack: Zmniejsz zaklad", "BlackjackDecreaseBet");
@@ -103,7 +106,7 @@ public class KeyRebindPanel : MonoBehaviour
         CreateRebindButton("Blackjack: Hit", "BlackjackHit");
         CreateRebindButton("Blackjack: Stand", "BlackjackStand");
         
-        Debug.Log($"[KeyRebindPanel] Created 12 buttons. Container now has {rebindButtonContainer.childCount} children");
+        Debug.Log($"[KeyRebindPanel] Created 13 buttons. Container now has {rebindButtonContainer.childCount} children");
         
         // Force layout rebuild
         UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(rebindButtonContainer.GetComponent<RectTransform>());

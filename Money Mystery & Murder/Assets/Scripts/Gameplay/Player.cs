@@ -435,6 +435,13 @@ public class Player : MonoBehaviour
         
         ownedWeapons.Add(weapon);
         
+        // Add to hotbar
+        var hotbar = GetComponentInChildren<HotbarManager>();
+        if (hotbar != null)
+        {
+            hotbar.AddWeapon(weapon);
+        }
+        
         // If this is the first weapon, equip it automatically
         if (ownedWeapons.Count == 1 && weaponSystem != null)
         {
@@ -533,6 +540,14 @@ public class Player : MonoBehaviour
         
         learnedAbilities.Add(ability);
         _cooldowns[ability] = 0f;
+        
+        // Add to hotbar
+        var hotbar = GetComponentInChildren<HotbarManager>();
+        if (hotbar != null)
+        {
+            hotbar.AddAbility(ability);
+        }
+        
         return true;
     }
     

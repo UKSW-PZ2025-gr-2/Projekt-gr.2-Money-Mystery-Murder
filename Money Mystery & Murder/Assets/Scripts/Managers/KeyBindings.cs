@@ -29,6 +29,9 @@ public class KeyBindings : MonoBehaviour
     public Key Interact { get; private set; } = Key.E;
     public Key OpenShop { get; private set; } = Key.B;
     
+    // Hotbar keys
+    public Key ToggleHotbar { get; private set; } = Key.Tab;
+    
     // Blackjack keys
     public Key BlackjackIncreaseBet { get; private set; } = Key.L;
     public Key BlackjackDecreaseBet { get; private set; } = Key.J;
@@ -86,6 +89,7 @@ public class KeyBindings : MonoBehaviour
             case "OpenInventory": OpenInventory = newKey; break;
             case "Interact": Interact = newKey; break;
             case "OpenShop": OpenShop = newKey; break;
+            case "ToggleHotbar": ToggleHotbar = newKey; break;
             case "BlackjackIncreaseBet": BlackjackIncreaseBet = newKey; break;
             case "BlackjackDecreaseBet": BlackjackDecreaseBet = newKey; break;
             case "BlackjackStart": BlackjackStart = newKey; break;
@@ -118,6 +122,7 @@ public class KeyBindings : MonoBehaviour
             "OpenInventory" => OpenInventory,
             "Interact" => Interact,
             "OpenShop" => OpenShop,
+            "ToggleHotbar" => ToggleHotbar,
             "BlackjackIncreaseBet" => BlackjackIncreaseBet,
             "BlackjackDecreaseBet" => BlackjackDecreaseBet,
             "BlackjackStart" => BlackjackStart,
@@ -142,6 +147,7 @@ public class KeyBindings : MonoBehaviour
         OpenInventory = Key.I;
         Interact = Key.E;
         OpenShop = Key.B;
+        ToggleHotbar = Key.Tab;
         BlackjackIncreaseBet = Key.L;
         BlackjackDecreaseBet = Key.J;
         BlackjackStart = Key.Space;
@@ -168,6 +174,7 @@ public class KeyBindings : MonoBehaviour
         PlayerPrefs.SetInt("Key_OpenInventory", (int)OpenInventory);
         PlayerPrefs.SetInt("Key_Interact", (int)Interact);
         PlayerPrefs.SetInt("Key_OpenShop", (int)OpenShop);
+        PlayerPrefs.SetInt("Key_ToggleHotbar", (int)ToggleHotbar);
         PlayerPrefs.SetInt("Key_BlackjackIncreaseBet", (int)BlackjackIncreaseBet);
         PlayerPrefs.SetInt("Key_BlackjackDecreaseBet", (int)BlackjackDecreaseBet);
         PlayerPrefs.SetInt("Key_BlackjackStart", (int)BlackjackStart);
@@ -191,6 +198,7 @@ public class KeyBindings : MonoBehaviour
         OpenInventory = (Key)PlayerPrefs.GetInt("Key_OpenInventory", (int)Key.I);
         Interact = (Key)PlayerPrefs.GetInt("Key_Interact", (int)Key.E);
         OpenShop = (Key)PlayerPrefs.GetInt("Key_OpenShop", (int)Key.B);
+        ToggleHotbar = (Key)PlayerPrefs.GetInt("Key_ToggleHotbar", (int)Key.Tab);
         BlackjackIncreaseBet = (Key)PlayerPrefs.GetInt("Key_BlackjackIncreaseBet", (int)Key.L);
         BlackjackDecreaseBet = (Key)PlayerPrefs.GetInt("Key_BlackjackDecreaseBet", (int)Key.J);
         BlackjackStart = (Key)PlayerPrefs.GetInt("Key_BlackjackStart", (int)Key.Space);
