@@ -26,12 +26,15 @@ public class PlayerMovement : MonoBehaviour
     /// <summary>Reference to the <see cref="PlayerAnimator"/> component for controlling animations.</summary>
     private PlayerAnimator _playerAnimator;
     
+    /// <summary>Reference to the sprite renderer for flipping the sprite.</summary>
+    private SpriteRenderer _spriteRenderer;
+    
     /// <summary>Current speed multiplier applied to movement (default 1.0).</summary>
     private float _speedMultiplier = 1f;
     
     /// <summary>Footstep sound timing</summary>
     private float _footstepTimer = 0f;
-    private float _footstepInterval = 0.5f; // Play footstep every 0.5 seconds while moving
+    private float _footstepInterval = 0.5f;
 
     /// <summary>
     /// Initializes the <see cref="Player"/> reference.
@@ -40,6 +43,12 @@ public class PlayerMovement : MonoBehaviour
     {
         _player = GetComponent<Player>();
         _playerAnimator = GetComponent<PlayerAnimator>();
+        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        
+        if (_spriteRenderer == null)
+        {
+            Debug.LogWarning("[PlayerMovement] No SpriteRenderer found on player or children. Sprite flipping will not work.");
+        }
     }
 
     /// <summary>
@@ -61,6 +70,12 @@ public class PlayerMovement : MonoBehaviour
         {
             transform.Translate(moveSpeed * _speedMultiplier * Time.deltaTime * (Vector3)move, Space.World);
             
+            // Flip the sprite based on horizontal movement
+            if (Mathf.Abs(move.x) > 0.01f)
+            {
+                FlipSprite(move.x);
+            }
+            
             // Play footstep sounds
             _footstepTimer += Time.deltaTime;
             if (_footstepTimer >= _footstepInterval)
@@ -72,7 +87,27 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            _footstepTimer = 0f; // Reset timer when not moving
+            _footstepTimer = 0f;
+        }
+    }
+
+    /// <summary>
+    /// Flips the sprite based on horizontal movement direction.
+    /// </summary>
+    /// <param name="horizontalInput">Horizontal movement input (-1 for left, +1 for right).</param>
+    private void FlipSprite(float horizontalInput)
+    {
+        if (_spriteRenderer == null) return;
+        
+        if (horizontalInput > 0)
+        {
+            // Moving right, face right (not flipped)
+            _spriteRenderer.flipX = false;
+        }
+        else if (horizontalInput < 0)
+        {
+            // Moving left, face left (flipped)
+            _spriteRenderer.flipX = true;
         }
     }
 
