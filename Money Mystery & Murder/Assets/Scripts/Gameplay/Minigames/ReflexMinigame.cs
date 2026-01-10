@@ -163,14 +163,6 @@ public class ReflexMinigameHardcoreReusable : MinigameBase
             else _hits--;
         }
 
-        if (_hits <= 0)
-        {
-            _hits = 0;
-            UpdateScore();
-            EndGame();
-            return;
-        }
-
         if (correctHit) RegisterHit();
     }
 
