@@ -152,7 +152,7 @@ public class MafiaQuizMinigame : MinigameBase
     {
         if (index >= _currentQuestions.Count)
         {
-            EndGame(true);
+            ShowEndMessage(true);
             return;
         }
 
@@ -195,18 +195,18 @@ public class MafiaQuizMinigame : MinigameBase
             _currentIndex++;
             if (_currentIndex >= _currentQuestions.Count)
             {
-                EndGame(true);
+                ShowEndMessage(true);
                 return;
             }
             ShowQuestion(_currentIndex);
         }
         else
         {
-            EndGame(false);
+            ShowEndMessage(false);
         }
     }
 
-    private void EndGame(bool win)
+    private void ShowEndMessage(bool win)
     {
         _gameRunning = false;
 
@@ -220,13 +220,15 @@ public class MafiaQuizMinigame : MinigameBase
 
         _background.SetActive(false);
 
-        StartCoroutine(ResetUIAfterDelay(3f));
+        StartCoroutine(EndGameAfterDelay(3f));
     }
 
-    private IEnumerator ResetUIAfterDelay(float delay)
+    private IEnumerator EndGameAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
         ResetUI();
+        // Call base EndGame to restore player movement and shooting
+        base.EndGame();
     }
 
     private void ResetUI()

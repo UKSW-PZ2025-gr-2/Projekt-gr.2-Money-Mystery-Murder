@@ -99,9 +99,9 @@ public class MinigameActivator : MonoBehaviour
     private void ToggleMinigame()
     {
         if (minigame == null) return;
-        if (minigame.IsRunning) 
-            minigame.EndGame(); 
-        else 
+        // Only start the minigame if it's not running
+        // Do not allow ending via interact key - minigames end only on timeout
+        if (!minigame.IsRunning) 
             minigame.StartGame(_nearbyPlayer);
     }
 

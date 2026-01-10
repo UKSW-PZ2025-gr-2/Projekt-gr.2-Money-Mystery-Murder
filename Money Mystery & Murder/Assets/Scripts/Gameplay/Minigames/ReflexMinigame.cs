@@ -35,11 +35,11 @@ public class ReflexMinigameHardcoreReusable : MinigameBase
 
     protected override void OnStartGame()
     {
-        _hits = 3;
+        _hits = 0;
         _currentIndex = -1;
         _isActive = false;
         _gameRunning = true;
-        _timeRemaining = 25f;
+        _timeRemaining = 10f;
 
         if (_indicators.Count == 0) BuildIndicators();
         else
@@ -134,6 +134,8 @@ public class ReflexMinigameHardcoreReusable : MinigameBase
         if (!IsRunning || !_gameRunning) return;
 
         _timeRemaining -= Time.deltaTime;
+        UpdateScore();
+        
         if (_timeRemaining <= 0)
         {
             EndGame();
@@ -164,13 +166,12 @@ public class ReflexMinigameHardcoreReusable : MinigameBase
         if (_hits <= 0)
         {
             _hits = 0;
+            UpdateScore();
             EndGame();
             return;
         }
 
         if (correctHit) RegisterHit();
-
-        UpdateScore();
     }
 
     private void RegisterHit()
@@ -191,7 +192,7 @@ public class ReflexMinigameHardcoreReusable : MinigameBase
     private void UpdateScore()
     {
         if (_scoreText != null)
-            _scoreText.text = $"HITS: {_hits}";
+            _scoreText.text = $"HITS: {_hits} | TIME: {_timeRemaining:F1}s";
     }
 
     protected override void OnEndGame()
