@@ -10,6 +10,7 @@ public class GrenadeProjectile : MonoBehaviour
     public float radius = 2.5f;
     public float fuse = 2.0f;
     public GameObject owner;
+    public Player ownerPlayer;
     public GameObject explosionEffectPrefab;
     
     [Header("Optimization")]
@@ -60,7 +61,7 @@ public class GrenadeProjectile : MonoBehaviour
             
             if (p != null && (owner == null || p.gameObject != owner))
             {
-                p.TakeDamage(damage);
+                p.TakeDamage(damage, ownerPlayer);
             }
         }
 

@@ -176,6 +176,12 @@ public class Player : MonoBehaviour
         AssignRoleIfNeeded();
         ShowRole();
         InitializeWeapon();
+        
+        // Initialize player statistics tracking
+        if (PlayerStatsManager.Instance != null)
+        {
+            PlayerStatsManager.Instance.InitializePlayer(gameObject.name);
+        }
     }
 
     private void AssignRoleIfNeeded()
@@ -284,6 +290,12 @@ public class Player : MonoBehaviour
             AudioManager.Instance.PlayMoney();
         
         balance += amount;
+        
+        // Track money earned in statistics
+        if (PlayerStatsManager.Instance != null)
+        {
+            PlayerStatsManager.Instance.RecordMoneyEarned(gameObject.name, amount);
+        }
     }
 
     public void AddMoney(int amount)
@@ -306,6 +318,11 @@ public class Player : MonoBehaviour
     
     public void TakeDamage(int dmg)
     {
+        TakeDamage(dmg, null);
+    }
+
+    public void TakeDamage(int dmg, Player attacker)
+    {
         if (dmg <= 0) return;
         
         // Play pain sound
@@ -319,15 +336,28 @@ public class Player : MonoBehaviour
         if (currentHealth <= 0)
         {
             currentHealth = 0;
-            Die();
+            Die(attacker);
         }
     }
 
     public void Die()
     {
+        Die(null);
+    }
+
+    public void Die(Player killer)
+    {
         if (!isAlive) return;
         
         isAlive = false;
+        
+        // Track kill statistics
+        if (killer != null && killer != this && PlayerStatsManager.Instance != null)
+        {
+            string killerName = killer.gameObject.name;
+            PlayerStatsManager.Instance.RecordKill(killerName);
+            Debug.Log($"[Player] {killerName} killed {gameObject.name}");
+        }
         
         TriggerDeathAnimation();
         DisableMovement();

@@ -24,6 +24,15 @@ public class RoleManager : MonoBehaviour
     /// <summary>Gets a read-only list of all managed players.</summary>
     public IReadOnlyList<Player> Players => players;
     
+    /// <summary>
+    /// Gets all players as a List.
+    /// </summary>
+    /// <returns>A list of all players.</returns>
+    public List<Player> GetAllPlayers()
+    {
+        return new List<Player>(players);
+    }
+    
     /// <summary>Gets the number of roles remaining in the active pool.</summary>
     public int RemainingRolesInPool => activeRolePool.Count;
 

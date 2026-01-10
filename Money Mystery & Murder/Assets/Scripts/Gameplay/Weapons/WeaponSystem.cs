@@ -168,7 +168,7 @@ public class WeaponSystem : MonoBehaviour
                 if (target != null && target != owner && !damaged.Contains(target))
                 {
                     damaged.Add(target);
-                    target.TakeDamage(currentWeapon.damage);
+                    target.TakeDamage(currentWeapon.damage, owner);
                 }
             }
         }
@@ -192,6 +192,7 @@ public class WeaponSystem : MonoBehaviour
             if (grenadeProjectile != null)
             {
                 grenadeProjectile.owner = owner?.gameObject;
+                grenadeProjectile.ownerPlayer = owner;
                 grenadeProjectile.explosionEffectPrefab = currentWeapon.hitEffectPrefab;
             }
             
@@ -200,6 +201,7 @@ public class WeaponSystem : MonoBehaviour
             if (bulletProjectile != null)
             {
                 bulletProjectile.owner = owner?.gameObject;
+                bulletProjectile.ownerPlayer = owner;
                 bulletProjectile.damage = currentWeapon.damage;
                 bulletProjectile.Launch(direction);
             }
@@ -239,7 +241,7 @@ public class WeaponSystem : MonoBehaviour
 
                 if (target != null && target != owner)
                 {
-                    target.TakeDamage(currentWeapon.damage);
+                    target.TakeDamage(currentWeapon.damage, owner);
                 }
             }
         }

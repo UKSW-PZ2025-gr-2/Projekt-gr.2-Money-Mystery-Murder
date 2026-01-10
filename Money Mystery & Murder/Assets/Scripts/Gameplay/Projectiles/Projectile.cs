@@ -10,6 +10,7 @@ public class Projectile : MonoBehaviour
     public float speed = 20f;
     public float lifetime = 5f;
     public GameObject owner;
+    public Player ownerPlayer;
 
     private Rigidbody2D _rb;
 
@@ -51,7 +52,7 @@ public class Projectile : MonoBehaviour
         if (player != null && (owner == null || player.gameObject != owner))
         {
             Debug.Log($"[Projectile] Damaging player {player.name} for {damage} damage");
-            player.TakeDamage(damage);
+            player.TakeDamage(damage, ownerPlayer);
         }
 
         Destroy(gameObject);

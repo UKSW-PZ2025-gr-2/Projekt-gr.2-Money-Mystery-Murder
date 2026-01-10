@@ -193,6 +193,13 @@ public class GameManager : MonoBehaviour
             gameEndUI.ShowWinner(winningTeam);
         }
         
+        // Save player statistics to database
+        if (PlayerStatsManager.Instance != null && roleManager != null)
+        {
+            var allPlayers = roleManager.GetAllPlayers();
+            PlayerStatsManager.Instance.RecordGameEnd(winningTeam, allPlayers);
+        }
+        
         Debug.Log($"[GameManager] Game ended. Winner: {winningTeam}");
     }
     
