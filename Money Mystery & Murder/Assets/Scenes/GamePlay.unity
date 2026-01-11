@@ -1803,7 +1803,7 @@ MonoBehaviour:
   currentPhase: 2
   dayStartHour: 4
   eveningStartHour: 5
-  nightStartHour: 6
+  nightStartHour: 0
 --- !u!4 &503190233
 Transform:
   m_ObjectHideFlags: 0
@@ -5206,6 +5206,8 @@ MonoBehaviour:
   roleManager: {fileID: 201423029}
   phaseManager: {fileID: 503190232}
   gameEndUI: {fileID: 1614676617}
+  delayBeforeMainMenu: 5
+  mainMenuSceneName: MainMenu
   gameMusic: {fileID: 8300000, guid: 974a85fe9d662604d8d4dd29289724d2, type: 3}
   startHour: 4
   startMinute: 0
@@ -8620,7 +8622,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7927993846431860460, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
       propertyPath: balance
-      value: 9999
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7927993846431860460, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
+      propertyPath: maxHealth
+      value: 999
+      objectReference: {fileID: 0}
+    - target: {fileID: 7927993846431860460, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
+      propertyPath: currentHealth
+      value: 999
       objectReference: {fileID: 0}
     - target: {fileID: 8252789506905311483, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
       propertyPath: m_Color.b

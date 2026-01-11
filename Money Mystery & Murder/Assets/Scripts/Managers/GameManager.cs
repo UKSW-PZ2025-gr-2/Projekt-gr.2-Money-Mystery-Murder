@@ -1,5 +1,7 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 
 
@@ -24,6 +26,12 @@ public class GameManager : MonoBehaviour
     
     /// <summary>Reference to the <see cref="GameEndUI"/> component. Set this in the Unity Inspector.</summary>
     [SerializeField] private GameEndUI gameEndUI;
+    
+    /// <summary>Time in seconds to wait before returning to main menu after game ends. Set this in the Unity Inspector.</summary>
+    [SerializeField] private float delayBeforeMainMenu = 5f;
+    
+    /// <summary>Name of the main menu scene to load after game ends. Set this in the Unity Inspector.</summary>
+    [SerializeField] private string mainMenuSceneName = "MainMenu";
 
     /// <summary>Audio clip for game music. Set this in the Unity Inspector.</summary>
     [Header("Audio")]
@@ -201,6 +209,23 @@ public class GameManager : MonoBehaviour
         }
         
         Debug.Log($"[GameManager] Game ended. Winner: {winningTeam}");
+        
+        // Start coroutine to return to main menu after delay
+        StartCoroutine(ReturnToMainMenuAfterDelay());
+    }
+    
+    /// <summary>
+    /// Coroutine that waits for a specified duration and then loads the main menu scene.
+    /// </summary>
+    /// <returns>Coroutine enumerator.</returns>
+    private IEnumerator ReturnToMainMenuAfterDelay()
+    {
+        Debug.Log($"[GameManager] Returning to main menu in {delayBeforeMainMenu} seconds...");
+        
+        yield return new WaitForSeconds(delayBeforeMainMenu);
+        
+        Debug.Log($"[GameManager] Loading main menu scene: {mainMenuSceneName}");
+        SceneManager.LoadScene(mainMenuSceneName);
     }
     
     /// <summary>Gets whether the game has ended.</summary>
