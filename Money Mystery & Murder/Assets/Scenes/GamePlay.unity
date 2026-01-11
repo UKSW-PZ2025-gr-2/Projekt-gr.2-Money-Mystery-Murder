@@ -1886,6 +1886,34 @@ PrefabInstance:
       propertyPath: m_Name
       value: SlotMachineDEBUG (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8511296938096224802, guid: ca52e8d6bbf9d994fa5e3f6df07858ff, type: 3}
+      propertyPath: bellSprite
+      value: 
+      objectReference: {fileID: 1023545253653907986, guid: 9a2f7f760197e9341ac58a467af3515b, type: 3}
+    - target: {fileID: 8511296938096224802, guid: ca52e8d6bbf9d994fa5e3f6df07858ff, type: 3}
+      propertyPath: plumSprite
+      value: 
+      objectReference: {fileID: -3897201176140910308, guid: 9a2f7f760197e9341ac58a467af3515b, type: 3}
+    - target: {fileID: 8511296938096224802, guid: ca52e8d6bbf9d994fa5e3f6df07858ff, type: 3}
+      propertyPath: lemonSprite
+      value: 
+      objectReference: {fileID: -4471945186555551876, guid: 9a2f7f760197e9341ac58a467af3515b, type: 3}
+    - target: {fileID: 8511296938096224802, guid: ca52e8d6bbf9d994fa5e3f6df07858ff, type: 3}
+      propertyPath: sevenSprite
+      value: 
+      objectReference: {fileID: -5141500428527627396, guid: 9a2f7f760197e9341ac58a467af3515b, type: 3}
+    - target: {fileID: 8511296938096224802, guid: ca52e8d6bbf9d994fa5e3f6df07858ff, type: 3}
+      propertyPath: orangeSprite
+      value: 
+      objectReference: {fileID: -2569926642674136991, guid: 9a2f7f760197e9341ac58a467af3515b, type: 3}
+    - target: {fileID: 8511296938096224802, guid: ca52e8d6bbf9d994fa5e3f6df07858ff, type: 3}
+      propertyPath: questionSprite
+      value: 
+      objectReference: {fileID: 763543803926476522, guid: 9a2f7f760197e9341ac58a467af3515b, type: 3}
+    - target: {fileID: 8511296938096224802, guid: ca52e8d6bbf9d994fa5e3f6df07858ff, type: 3}
+      propertyPath: goldenKnifeData
+      value: 
+      objectReference: {fileID: 11400000, guid: b44281cc69f83c845bcf3f0374b05c2f, type: 2}
     - target: {fileID: 9115451035917903597, guid: ca52e8d6bbf9d994fa5e3f6df07858ff, type: 3}
       propertyPath: interactionTooltip
       value: 
