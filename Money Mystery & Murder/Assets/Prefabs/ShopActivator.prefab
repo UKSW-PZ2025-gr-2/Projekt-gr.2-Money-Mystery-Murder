@@ -105,7 +105,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopActivator
   interactRadius: 2
-  interactKey: 19
+  interactionTooltip: {fileID: 0}
+  tooltipMessage: to activate
+  tooltipHeightOffset: 1.5
+  enforcePhaseRestriction: 1
+  allowedPhase: 3
 --- !u!1 &6659508860939438074
 GameObject:
   m_ObjectHideFlags: 0
@@ -162,3 +166,11 @@ MonoBehaviour:
     ability: {fileID: 11400000, guid: 95ef541cf831e0f468ef24d03353495f, type: 2}
   - weapon: {fileID: 0}
     ability: {fileID: 11400000, guid: 64fddce30a5aa1b489f989c8efe08206, type: 2}
+  - weapon: {fileID: 11400000, guid: cc1f1556444ae314fb83f5d57d613e70, type: 2}
+    ability: {fileID: 0}
+  - weapon: {fileID: 11400000, guid: 51b6bb571f5da3a4a8295eafda27bea9, type: 2}
+    ability: {fileID: 0}
+  - weapon: {fileID: 11400000, guid: ce58ccddf26b83444962ff12da488f09, type: 2}
+    ability: {fileID: 0}
+  autoLoadAllWeapons: 1
+  autoLoadAllAbilities: 1
