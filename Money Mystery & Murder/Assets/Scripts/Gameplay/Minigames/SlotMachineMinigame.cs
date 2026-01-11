@@ -211,9 +211,10 @@ public class SlotMachineMinigame : MinigameBase
     /// <summary>Generates three random weighted symbols for the slot machine.</summary>
     private void GenerateSymbols()
     {
+        // Force triple 7s for guaranteed Golden Knife reward
         for (int i = 0; i < _values.Length; i++)
         {
-            _values[i] = PickWeightedSymbol();
+            _values[i] = "7";
         }
     }
 

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GoldenKnife
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
   displayName: Golden Knife
-  icon: {fileID: 3891796401534313901, guid: 7bbbddff0198e8c488fba3cd9151ecb3, type: 3}
+  icon: {fileID: -3806671376464348307, guid: 6a27a362a00acaf41bb7acf12f10d512, type: 3}
   description: mlg pro
   cost: 0
   weaponType: 0

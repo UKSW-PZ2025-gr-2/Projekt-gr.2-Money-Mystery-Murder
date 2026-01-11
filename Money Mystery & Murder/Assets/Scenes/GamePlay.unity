@@ -1800,8 +1800,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PhaseManager
   currentPhase: 2
-  dayStartHour: 3
-  eveningStartHour: 4
+  dayStartHour: 4
+  eveningStartHour: 5
   nightStartHour: 6
 --- !u!4 &503190233
 Transform:
@@ -8477,6 +8477,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4745683802466451585, guid: 3b9e4604b19001f44b46d8226c8c7e84, type: 3}
+      propertyPath: bellSprite
+      value: 
+      objectReference: {fileID: 1023545253653907986, guid: 9a2f7f760197e9341ac58a467af3515b, type: 3}
+    - target: {fileID: 4745683802466451585, guid: 3b9e4604b19001f44b46d8226c8c7e84, type: 3}
       propertyPath: payoutBell
       value: 200
       objectReference: {fileID: 0}
@@ -8485,9 +8489,29 @@ PrefabInstance:
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4745683802466451585, guid: 3b9e4604b19001f44b46d8226c8c7e84, type: 3}
+      propertyPath: plumSprite
+      value: 
+      objectReference: {fileID: -3897201176140910308, guid: 9a2f7f760197e9341ac58a467af3515b, type: 3}
+    - target: {fileID: 4745683802466451585, guid: 3b9e4604b19001f44b46d8226c8c7e84, type: 3}
+      propertyPath: lemonSprite
+      value: 
+      objectReference: {fileID: -4471945186555551876, guid: 9a2f7f760197e9341ac58a467af3515b, type: 3}
+    - target: {fileID: 4745683802466451585, guid: 3b9e4604b19001f44b46d8226c8c7e84, type: 3}
       propertyPath: payoutLemon
       value: 80
       objectReference: {fileID: 0}
+    - target: {fileID: 4745683802466451585, guid: 3b9e4604b19001f44b46d8226c8c7e84, type: 3}
+      propertyPath: sevenSprite
+      value: 
+      objectReference: {fileID: -5141500428527627396, guid: 9a2f7f760197e9341ac58a467af3515b, type: 3}
+    - target: {fileID: 4745683802466451585, guid: 3b9e4604b19001f44b46d8226c8c7e84, type: 3}
+      propertyPath: cherrySprite
+      value: 
+      objectReference: {fileID: -1338896177438027022, guid: 9a2f7f760197e9341ac58a467af3515b, type: 3}
+    - target: {fileID: 4745683802466451585, guid: 3b9e4604b19001f44b46d8226c8c7e84, type: 3}
+      propertyPath: orangeSprite
+      value: 
+      objectReference: {fileID: -2569926642674136991, guid: 9a2f7f760197e9341ac58a467af3515b, type: 3}
     - target: {fileID: 4745683802466451585, guid: 3b9e4604b19001f44b46d8226c8c7e84, type: 3}
       propertyPath: payoutCherry
       value: 70
@@ -8496,6 +8520,10 @@ PrefabInstance:
       propertyPath: payoutOrange
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 4745683802466451585, guid: 3b9e4604b19001f44b46d8226c8c7e84, type: 3}
+      propertyPath: questionSprite
+      value: 
+      objectReference: {fileID: -3278013818402889623, guid: 61c1d28efceb9ea42a86d1ad10721d85, type: 3}
     - target: {fileID: 4745683802466451585, guid: 3b9e4604b19001f44b46d8226c8c7e84, type: 3}
       propertyPath: goldenKnifeData
       value: 
