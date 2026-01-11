@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Rifle
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
   displayName: Rifle
-  icon: {fileID: 0}
+  icon: {fileID: 8271715202566429118, guid: 7778d1e8309b7e94db6e01847b40fa56, type: 3}
   description: A semi-automatic rifle for medium-range combat.
-  cost: 0
+  cost: 200
   weaponType: 1
   damage: 20
   cooldown: 0.15
@@ -29,4 +29,4 @@ MonoBehaviour:
   weaponPrefab: {fileID: 7789499324823748169, guid: a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d7, type: 3}
   hitEffectPrefab: {fileID: 0}
   attackAnimation: {fileID: 0}
-  attackSound: {fileID: 0}
+  attackSound: {fileID: 8300000, guid: db6b8fdb515a68a45ad2461633e77309, type: 3}

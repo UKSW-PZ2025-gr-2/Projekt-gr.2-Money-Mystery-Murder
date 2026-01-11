@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Grenade
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
   displayName: Grenade
-  icon: {fileID: 0}
+  icon: {fileID: -5434660369741667656, guid: 6a27a362a00acaf41bb7acf12f10d512, type: 3}
   description: Explosive device that deals area damage
-  cost: 0
+  cost: 100
   weaponType: 1
   damage: 70
   cooldown: 2

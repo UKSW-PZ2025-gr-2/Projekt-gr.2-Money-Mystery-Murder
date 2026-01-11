@@ -1800,9 +1800,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PhaseManager
   currentPhase: 2
-  dayStartHour: 4
-  eveningStartHour: 5
-  nightStartHour: 6
+  dayStartHour: 3
+  eveningStartHour: 4
+  nightStartHour: 10
 --- !u!4 &503190233
 Transform:
   m_ObjectHideFlags: 0

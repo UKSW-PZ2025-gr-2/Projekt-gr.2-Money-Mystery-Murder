@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Katana
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
   displayName: Katana
-  icon: {fileID: 0}
+  icon: {fileID: 2877298791648403826, guid: 6a27a362a00acaf41bb7acf12f10d512, type: 3}
   description: A sharp blade for close combat.
-  cost: 0
+  cost: 50
   weaponType: 0
   damage: 35
   cooldown: 0.8
