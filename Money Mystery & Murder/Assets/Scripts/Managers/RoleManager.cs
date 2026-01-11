@@ -1,27 +1,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using System.Collections.Generic;
+using UnityEngine;
+
 public class RoleManager : MonoBehaviour
 {
-    /// <summary>Current number of players in the game. Set this in the Unity Inspector.</summary>
+    /// <summary>
+    /// Current number of players in the game.
+    /// </summary>
     [SerializeField] private int playerCount = 1;
     
-    /// <summary>Debug view of the generated role pool. Set this in the Unity Inspector.</summary>
+    /// <summary>
+    /// Debug view of the generated role pool for inspection in the Unity Inspector.
+    /// </summary>
     [SerializeField] private List<PlayerRole> rolePoolDebugView = new();
     
-    /// <summary>List of all players being managed. Set this in the Unity Inspector.</summary>
+    /// <summary>
+    /// List of all players being managed by this RoleManager.
+    /// </summary>
     [SerializeField] private List<Player> players = new();
 
-    /// <summary>The active role pool that gets depleted as roles are assigned.</summary>
+    /// <summary>
+    /// The active role pool that gets depleted as roles are assigned.
+    /// </summary>
     private List<PlayerRole> activeRolePool = new();
     
-    /// <summary>Whether the role pool has been initialized.</summary>
+    /// <summary>
+    /// Whether the role pool has been initialized.
+    /// </summary>
     private bool isPoolInitialized = false;
 
-    /// <summary>Gets the current player count.</summary>
+    /// <summary>
+    /// Gets the current player count.
+    /// </summary>
     public int PlayerCount => playerCount;
     
-    /// <summary>Gets a read-only list of all managed players.</summary>
+    /// <summary>
+    /// Gets a read-only list of all managed players.
+    /// </summary>
     public IReadOnlyList<Player> Players => players;
     
     /// <summary>
@@ -33,7 +50,9 @@ public class RoleManager : MonoBehaviour
         return new List<Player>(players);
     }
     
-    /// <summary>Gets the number of roles remaining in the active pool.</summary>
+    /// <summary>
+    /// Gets the number of roles remaining in the active pool.
+    /// </summary>
     public int RemainingRolesInPool => activeRolePool.Count;
 
     /// <summary>
@@ -46,10 +65,14 @@ public class RoleManager : MonoBehaviour
         playerCount = count;
     }
 
-    /// <summary>Increments the player count by one.</summary>
+    /// <summary>
+    /// Increments the player count by one.
+    /// </summary>
     public void IncrementPlayerCount() => playerCount++;
     
-    /// <summary>Decrements the player count by one if greater than zero.</summary>
+    /// <summary>
+    /// Decrements the player count by one if greater than zero.
+    /// </summary>
     public void DecrementPlayerCount() 
     { 
         if (playerCount > 0) playerCount--; 
@@ -107,8 +130,8 @@ public class RoleManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Assigns unique roles from the active pool to all <see cref="Player"/> instances in the scene.
-    /// The pool must be initialized first using <see cref="InitializeRolePool"/>.
+    /// Assigns unique roles from the active pool to all Player instances in the scene.
+    /// The pool must be initialized first using InitializeRolePool.
     /// </summary>
     public void AssignRolesToPlayers()
     {
@@ -137,7 +160,7 @@ public class RoleManager : MonoBehaviour
 
     /// <summary>
     /// Assigns roles to a specific list of players from the active pool.
-    /// The pool must be initialized first using <see cref="InitializeRolePool"/>.
+    /// The pool must be initialized first using InitializeRolePool.
     /// </summary>
     /// <param name="playerList">The list of players to assign roles to.</param>
     public void AssignRoles(List<Player> playerList)
@@ -169,7 +192,7 @@ public class RoleManager : MonoBehaviour
     /// Takes and removes a role from the active pool.
     /// If the pool is empty, returns Civilian as a fallback.
     /// </summary>
-    /// <returns>A <see cref="PlayerRole"/> from the pool.</returns>
+    /// <returns>A PlayerRole from the pool.</returns>
     private PlayerRole TakeRoleFromPool()
     {
         if (activeRolePool.Count == 0)
@@ -187,7 +210,7 @@ public class RoleManager : MonoBehaviour
     /// Picks a random role from the role pool based on the current player count.
     /// This method takes a role from the active pool and does not return it.
     /// </summary>
-    /// <returns>A random <see cref="PlayerRole"/>.</returns>
+    /// <returns>A random PlayerRole.</returns>
     public PlayerRole PickRandomRoleFromPool()
     {
         if (!isPoolInitialized)
@@ -236,7 +259,7 @@ public class RoleManager : MonoBehaviour
     /// Builds a role pool with balanced distribution (25% Murderer, 1 Detective if >= 6 players, rest Civilian).
     /// </summary>
     /// <param name="totalPlayers">Total number of players.</param>
-    /// <returns>A list of <see cref="PlayerRole"/> representing the role pool.</returns>
+    /// <returns>A list of PlayerRole representing the role pool.</returns>
     public List<PlayerRole> BuildRolePool(int totalPlayers)
     {
         var result = new List<PlayerRole>(totalPlayers);
@@ -267,7 +290,7 @@ public class RoleManager : MonoBehaviour
     /// <summary>
     /// Gets the team name for a given role.
     /// </summary>
-    /// <param name="role">The <see cref="PlayerRole"/> to get the team for.</param>
+    /// <param name="role">The PlayerRole to get the team for.</param>
     /// <returns>The team name as a string.</returns>
     public string GetRoleTeam(PlayerRole role)
     {

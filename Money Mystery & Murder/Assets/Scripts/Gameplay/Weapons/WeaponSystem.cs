@@ -4,40 +4,90 @@ using UnityEngine;
 /// <summary>
 /// Unified weapon system that handles all weapon logic based on WeaponData.
 /// Replaces the old WeaponController, MeleeWeapon, Knife, and GoldenKnife classes.
+/// Supports both melee and ranged weapons with hit detection, cooldowns, and phase restrictions.
 /// </summary>
 public class WeaponSystem : MonoBehaviour
 {
     [Header("Current Weapon")]
+    /// <summary>
+    /// The currently equipped weapon data.
+    /// </summary>
     [SerializeField] private WeaponData currentWeapon;
     
     [Header("Hit Detection")]
+    /// <summary>
+    /// Layer mask for hit detection. Set to 'Player' layer for optimal performance.
+    /// </summary>
     [SerializeField, Tooltip("Set to 'Player' layer for optimal performance")]
     private LayerMask hitLayers;
     
     [Header("Visual References")]
+    /// <summary>
+    /// Animator component for weapon animations.
+    /// </summary>
     [SerializeField] private Animator weaponAnimator;
 
     [Header("Phase Restriction")]
+    /// <summary>
+    /// Whether to enforce phase restrictions on attacking (e.g., only allow attacks during Night phase).
+    /// </summary>
     [SerializeField] private bool enforcePhaseRestriction = true;
+    
+    /// <summary>
+    /// The game phase during which attacking is allowed.
+    /// </summary>
     [Tooltip("Attacking is only available during Night phase")]
     [SerializeField] private GamePhase allowedPhase = GamePhase.Night;
     
+    /// <summary>
+    /// The player who owns this weapon system.
+    /// </summary>
     private Player owner;
+    
+    /// <summary>
+    /// The time of the last attack, used for cooldown calculations.
+    /// </summary>
     private float lastAttackTime;
+    
+    /// <summary>
+    /// Current ammunition count for weapons that use ammo.
+    /// </summary>
     private int currentAmmo;
+    
+    /// <summary>
+    /// The instantiated weapon visual GameObject.
+    /// </summary>
     private GameObject weaponVisual;
+    
+    /// <summary>
+    /// The time of the last phase restriction warning to prevent spam.
+    /// </summary>
     private float lastPhaseWarningTime;
+    
+    /// <summary>
+    /// Cooldown duration between phase restriction warnings.
+    /// </summary>
     private const float PHASE_WARNING_COOLDOWN = 2f;
     
-    // Cache for performance
+    /// <summary>
+    /// Cached array for raycast hit detection to reduce allocations.
+    /// </summary>
     private static RaycastHit2D[] raycastHits = new RaycastHit2D[10];
     
+    /// <summary>
+    /// Gets the currently equipped weapon data.
+    /// </summary>
     public WeaponData CurrentWeapon => currentWeapon;
+    
+    /// <summary>
+    /// Gets the current ammunition count.
+    /// </summary>
     public int CurrentAmmo => currentAmmo;
     
     /// <summary>
     /// Initialize the weapon system with the owning player.
     /// </summary>
+    /// <param name="player">The player who owns this weapon system.</param>
     public void Initialize(Player player)
     {
         owner = player;
@@ -45,8 +95,9 @@ public class WeaponSystem : MonoBehaviour
     }
     
     /// <summary>
-    /// Equip a new weapon from data.
+    /// Equip a new weapon from weapon data.
     /// </summary>
+    /// <param name="weapon">The weapon data to equip.</param>
     public void EquipWeapon(WeaponData weapon)
     {
         if (weapon == null) return;
@@ -60,6 +111,7 @@ public class WeaponSystem : MonoBehaviour
     
     /// <summary>
     /// Attempt to perform an attack with the current weapon.
+    /// Checks cooldown, ammunition, and phase restrictions before attacking.
     /// </summary>
     public void Attack()
     {
@@ -96,7 +148,9 @@ public class WeaponSystem : MonoBehaviour
     
     /// <summary>
     /// Check if the weapon can currently attack.
+    /// Considers cooldown, ammunition, phase restrictions, and player state.
     /// </summary>
+    /// <returns>True if the weapon can attack, false otherwise.</returns>
     public bool CanAttack()
     {
         if (currentWeapon == null) return false;
@@ -108,8 +162,9 @@ public class WeaponSystem : MonoBehaviour
     }
 
     /// <summary>
-    /// Check if current phase allows attacking.
+    /// Check if current phase allows attacking based on phase restriction settings.
     /// </summary>
+    /// <returns>True if attacking is allowed in the current phase.</returns>
     private bool IsInAllowedPhase()
     {
         if (!enforcePhaseRestriction) return true;
@@ -120,7 +175,8 @@ public class WeaponSystem : MonoBehaviour
     }
 
     /// <summary>
-    /// Show a warning message when trying to attack outside allowed phase.
+    /// Show a warning message when trying to attack outside the allowed phase.
+    /// Cooldown prevents spam.
     /// </summary>
     private void ShowPhaseRestrictionWarning()
     {
@@ -131,14 +187,18 @@ public class WeaponSystem : MonoBehaviour
     }
     
     /// <summary>
-    /// Get the time remaining until next attack is available.
+    /// Get the time remaining until the next attack is available.
     /// </summary>
+    /// <returns>Remaining cooldown time in seconds.</returns>
     public float GetCooldownRemaining()
     {
         if (currentWeapon == null) return 0f;
         return Mathf.Max(0f, currentWeapon.cooldown - (Time.time - lastAttackTime));
     }
     
+    /// <summary>
+    /// Performs a melee attack using arc-based raycast hit detection.
+    /// </summary>
     private void PerformMeleeAttack()
     {
         Vector3 origin = GetAttackOrigin();
@@ -174,6 +234,9 @@ public class WeaponSystem : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// Performs a ranged attack by spawning projectiles or using raycast hit detection.
+    /// </summary>
     private void PerformRangedAttack()
     {
         Vector3 origin = GetAttackOrigin();
@@ -247,6 +310,11 @@ public class WeaponSystem : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// Generates multiple ray directions for melee attack spread based on weapon settings.
+    /// </summary>
+    /// <param name="forward">The forward direction of the attack.</param>
+    /// <returns>Array of ray directions within the attack arc.</returns>
     private Vector3[] GenerateMeleeRayDirections(Vector3 forward)
     {
         int spreadCount = Mathf.Max(1, currentWeapon.raycastSpread);
@@ -274,11 +342,20 @@ public class WeaponSystem : MonoBehaviour
         return directions;
     }
     
+    /// <summary>
+    /// Gets the origin point for attack raycasts or projectile spawning.
+    /// </summary>
+    /// <returns>The world position where attacks originate.</returns>
     private Vector3 GetAttackOrigin()
     {
         return transform.position;
     }
     
+    /// <summary>
+    /// Attempts to get a Player component from a collider with optimized search order.
+    /// </summary>
+    /// <param name="collider">The collider to search.</param>
+    /// <returns>The Player component if found, null otherwise.</returns>
     private Player GetPlayerFromCollider(Collider2D collider)
     {
         // Optimized: Try direct component first (most common case)
@@ -293,6 +370,11 @@ public class WeaponSystem : MonoBehaviour
         return collider.GetComponentInChildren<Player>();
     }
     
+    /// <summary>
+    /// Spawns a visual hit effect at the attack position.
+    /// </summary>
+    /// <param name="position">World position to spawn the effect.</param>
+    /// <param name="forward">Forward direction for effect orientation.</param>
     private void SpawnHitEffect(Vector3 position, Vector3 forward)
     {
         if (currentWeapon.hitEffectPrefab != null)
@@ -306,6 +388,9 @@ public class WeaponSystem : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// Plays the weapon attack animation if an animator is assigned.
+    /// </summary>
     private void PlayAttackAnimation()
     {
         if (weaponAnimator != null)
@@ -314,6 +399,9 @@ public class WeaponSystem : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// Plays the weapon attack sound effect based on weapon type.
+    /// </summary>
     private void PlayAttackSound()
     {
         // Play weapon-specific sound
@@ -345,7 +433,7 @@ public class WeaponSystem : MonoBehaviour
 
     /// <summary>
     /// Play only visual/audio attack effects without performing hit detection or applying damage.
-    /// Useful for AI that applies damage directly but still wants weapon + player attack visuals.
+    /// Useful for AI that applies damage directly but still wants weapon and player attack visuals.
     /// </summary>
     public void PlayAttackVisuals()
     {
@@ -353,6 +441,9 @@ public class WeaponSystem : MonoBehaviour
         PlayAttackSound();
     }
     
+    /// <summary>
+    /// Updates the weapon visual by destroying the old visual and instantiating the new weapon prefab.
+    /// </summary>
     private void UpdateWeaponVisual()
     {
         if (weaponVisual != null)
