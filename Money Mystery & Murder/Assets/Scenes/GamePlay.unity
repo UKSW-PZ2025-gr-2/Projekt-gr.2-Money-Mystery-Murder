@@ -1939,7 +1939,7 @@ MonoBehaviour:
   currentPhase: 2
   dayStartHour: 4
   eveningStartHour: 5
-  nightStartHour: 0
+  nightStartHour: 6
 --- !u!4 &503190233
 Transform:
   m_ObjectHideFlags: 0
@@ -8172,6 +8172,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 199313671125277847, guid: e6f89303dbd05e747afa1900881dab2b, type: 3}
+      propertyPath: interactionTooltip
+      value: 
+      objectReference: {fileID: 2126097377}
     - target: {fileID: 254538882912402238, guid: e6f89303dbd05e747afa1900881dab2b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -26
