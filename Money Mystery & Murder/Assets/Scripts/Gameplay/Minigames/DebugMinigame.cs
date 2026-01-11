@@ -3,41 +3,81 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 #endif
 
-// Simple debug minigame implementation. Logs start/end events to the Console.
-// Can auto-end after a configurable duration or be manually ended with Escape.
+/// <summary>
+/// Simple debug minigame implementation for testing minigame systems.
+/// Logs start/end events to the Console and can auto-end after a configurable duration.
+/// Can also be manually ended with the Escape key.
+/// </summary>
 public class DebugMinigame : MinigameBase
 {
-    [SerializeField] private float autoEndSeconds = 3f; // <= 0 to disable auto-end
-    [SerializeField] private int rewardBalance = 10; // amount of balance granted on successful end
-    [SerializeField] private int startCost = 1; // amount of balance charged at start
+    /// <summary>
+    /// Duration in seconds before the minigame auto-ends. Set to 0 or less to disable auto-end.
+    /// </summary>
+    [SerializeField] private float autoEndSeconds = 3f;
+    
+    /// <summary>
+    /// Amount of balance granted to the player when the minigame ends successfully.
+    /// </summary>
+    [SerializeField] private int rewardBalance = 10;
+    
+    /// <summary>
+    /// Amount of balance charged when the minigame starts.
+    /// </summary>
+    [SerializeField] private int startCost = 1;
+    
+    /// <summary>
+    /// Elapsed time since the minigame started.
+    /// </summary>
     private float _elapsed;
 
+    /// <summary>
+    /// Called when the minigame starts. Resets the timer and logs the event.
+    /// </summary>
     protected override void OnStartGame()
     {
         _elapsed = 0f;
         Debug.Log($"[DebugMinigame] Started (host={(Host ? Host.name : "null")})");
     }
 
+    /// <summary>
+    /// Called when the minigame ends. Logs the event.
+    /// </summary>
     protected override void OnEndGame()
     {
         Debug.Log("[DebugMinigame] Ended");
     }
 
+    /// <summary>
+    /// Gets the reward balance granted to the player on successful completion.
+    /// </summary>
+    /// <returns>The reward amount.</returns>
     protected override int GetRewardBalance()
     {
-        return rewardBalance; // configurable reward
+        return rewardBalance;
     }
 
+    /// <summary>
+    /// Gets the cost to start the minigame.
+    /// </summary>
+    /// <returns>The start cost.</returns>
     protected override int GetStartCost()
     {
-        return startCost; // configurable start cost
+        return startCost;
     }
 
+    /// <summary>
+    /// Gets whether the minigame allows the player's balance to go negative when paying the start cost.
+    /// </summary>
+    /// <returns>True (debug minigame always allows negative balance).</returns>
     protected override bool AllowNegativeBalanceOnStart()
     {
-        return true; // debug minigame always allows balance to go negative when starting
+        return true;
     }
 
+    /// <summary>
+    /// Unity lifecycle method called once per frame.
+    /// Handles auto-end timer and manual end via Escape key.
+    /// </summary>
     void Update()
     {
         if (!IsRunning) return;
