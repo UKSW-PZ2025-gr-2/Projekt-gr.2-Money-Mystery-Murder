@@ -6,21 +6,46 @@ using System.Collections.Generic;
 /// <summary>
 /// Manages player statistics tracking and synchronization with the backend database.
 /// Tracks kills, money earned, wins, and total games for each player.
+/// Automatically saves statistics to the database at the end of each game.
 /// </summary>
 public class PlayerStatsManager : MonoBehaviour
 {
+    /// <summary>
+    /// Singleton instance of the PlayerStatsManager.
+    /// </summary>
     public static PlayerStatsManager Instance { get; private set; }
 
     [Header("API Configuration")]
+    /// <summary>
+    /// Base URL for the backend API endpoint.
+    /// </summary>
     [SerializeField] private string apiBaseUrl = "http://localhost:5100";
+    
+    /// <summary>
+    /// Whether to enable statistics tracking.
+    /// </summary>
     [SerializeField] private bool enableStatTracking = true;
 
     [Header("Debug")]
+    /// <summary>
+    /// Whether to enable debug logging.
+    /// </summary>
     [SerializeField] private bool debugMode = false;
 
+    /// <summary>
+    /// Dictionary mapping player names to their statistics.
+    /// </summary>
     private Dictionary<string, PlayerStatistics> playerStats = new Dictionary<string, PlayerStatistics>();
+    
+    /// <summary>
+    /// Flag indicating whether statistics are currently being saved to prevent concurrent saves.
+    /// </summary>
     private bool isSavingStats = false;
 
+    /// <summary>
+    /// Unity lifecycle method called when the script instance is being loaded.
+    /// Initializes the singleton instance.
+    /// </summary>
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -35,6 +60,7 @@ public class PlayerStatsManager : MonoBehaviour
     /// <summary>
     /// Initialize statistics for a player at the start of a game.
     /// </summary>
+    /// <param name="playerName">The name of the player to initialize.</param>
     public void InitializePlayer(string playerName)
     {
         if (!enableStatTracking) return;
@@ -49,6 +75,7 @@ public class PlayerStatsManager : MonoBehaviour
     /// <summary>
     /// Record a kill by a player.
     /// </summary>
+    /// <param name="killerName">The name of the player who made the kill.</param>
     public void RecordKill(string killerName)
     {
         if (!enableStatTracking || string.IsNullOrEmpty(killerName)) return;
@@ -61,6 +88,8 @@ public class PlayerStatsManager : MonoBehaviour
     /// <summary>
     /// Record money earned by a player.
     /// </summary>
+    /// <param name="playerName">The name of the player.</param>
+    /// <param name="amount">The amount of money earned.</param>
     public void RecordMoneyEarned(string playerName, long amount)
     {
         if (!enableStatTracking || string.IsNullOrEmpty(playerName) || amount <= 0) return;
@@ -72,7 +101,10 @@ public class PlayerStatsManager : MonoBehaviour
 
     /// <summary>
     /// Mark the game as complete and record the winner.
+    /// Saves all player statistics to the database.
     /// </summary>
+    /// <param name="winningTeam">The name of the winning team.</param>
+    /// <param name="allPlayers">List of all players in the game.</param>
     public void RecordGameEnd(string winningTeam, List<Player> allPlayers)
     {
         if (!enableStatTracking) return;
@@ -107,6 +139,9 @@ public class PlayerStatsManager : MonoBehaviour
     /// <summary>
     /// Determine if a player is on the winning team.
     /// </summary>
+    /// <param name="player">The player to check.</param>
+    /// <param name="winningTeam">The name of the winning team.</param>
+    /// <returns>True if the player is on the winning team, false otherwise.</returns>
     private bool IsPlayerOnWinningTeam(Player player, string winningTeam)
     {
         if (winningTeam.Equals("Innocents", System.StringComparison.OrdinalIgnoreCase))
@@ -123,6 +158,7 @@ public class PlayerStatsManager : MonoBehaviour
     /// <summary>
     /// Save all tracked player statistics to the database.
     /// </summary>
+    /// <returns>IEnumerator for coroutine execution.</returns>
     private IEnumerator SaveAllStatsToDatabase()
     {
         if (isSavingStats)
@@ -146,7 +182,10 @@ public class PlayerStatsManager : MonoBehaviour
 
     /// <summary>
     /// Update or create player statistics in the database.
+    /// First checks if player exists, then updates or creates accordingly.
     /// </summary>
+    /// <param name="stats">The player statistics to save.</param>
+    /// <returns>IEnumerator for coroutine execution.</returns>
     private IEnumerator UpdateOrCreatePlayerStats(PlayerStatistics stats)
     {
         // First, check if player exists by trying to GET by name
@@ -180,6 +219,8 @@ public class PlayerStatsManager : MonoBehaviour
     /// <summary>
     /// Update existing player stats in the database (accumulative).
     /// </summary>
+    /// <param name="stats">The player statistics to update.</param>
+    /// <returns>IEnumerator for coroutine execution.</returns>
     private IEnumerator UpdatePlayerStats(PlayerStatistics stats)
     {
         string url = $"{apiBaseUrl}/players/{UnityWebRequest.EscapeURL(stats.Name)}";
@@ -226,6 +267,8 @@ public class PlayerStatsManager : MonoBehaviour
     /// <summary>
     /// Create a new player record in the database.
     /// </summary>
+    /// <param name="stats">The player statistics to create.</param>
+    /// <returns>IEnumerator for coroutine execution.</returns>
     private IEnumerator CreatePlayerStats(PlayerStatistics stats)
     {
         string url = $"{apiBaseUrl}/players";
@@ -269,6 +312,8 @@ public class PlayerStatsManager : MonoBehaviour
     /// <summary>
     /// Get statistics for a specific player.
     /// </summary>
+    /// <param name="playerName">The name of the player.</param>
+    /// <returns>The player's statistics, or null if not found.</returns>
     public PlayerStatistics GetPlayerStats(string playerName)
     {
         if (playerStats.ContainsKey(playerName))
@@ -287,6 +332,10 @@ public class PlayerStatsManager : MonoBehaviour
         Log("All player statistics reset.");
     }
 
+    /// <summary>
+    /// Log a debug message if debug mode is enabled.
+    /// </summary>
+    /// <param name="message">The message to log.</param>
     private void Log(string message)
     {
         if (debugMode)
@@ -295,22 +344,49 @@ public class PlayerStatsManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Log an error message.
+    /// </summary>
+    /// <param name="message">The error message to log.</param>
     private void LogError(string message)
     {
         Debug.LogError($"[PlayerStatsManager] {message}");
     }
 
     /// <summary>
-    /// Data class to hold player statistics.
+    /// Data class to hold player statistics during a game session.
     /// </summary>
     public class PlayerStatistics
     {
+        /// <summary>
+        /// The player's name.
+        /// </summary>
         public string Name;
+        
+        /// <summary>
+        /// Total number of kills by this player.
+        /// </summary>
         public int Kills;
+        
+        /// <summary>
+        /// Total money accumulated by this player.
+        /// </summary>
         public long Money;
+        
+        /// <summary>
+        /// Number of games won by this player.
+        /// </summary>
         public int Wins;
+        
+        /// <summary>
+        /// Total number of games played by this player.
+        /// </summary>
         public int TotalGames;
 
+        /// <summary>
+        /// Initializes a new instance of PlayerStatistics.
+        /// </summary>
+        /// <param name="name">The player's name.</param>
         public PlayerStatistics(string name)
         {
             Name = name;
@@ -322,15 +398,35 @@ public class PlayerStatsManager : MonoBehaviour
     }
 
     /// <summary>
-    /// DTO matching backend PlayerStats model.
+    /// Data Transfer Object matching the backend PlayerStats model.
+    /// Used for serialization when communicating with the API.
     /// </summary>
     [System.Serializable]
     public class PlayerStatsDTO
     {
+        /// <summary>
+        /// The player's name.
+        /// </summary>
         public string Name;
+        
+        /// <summary>
+        /// Total number of kills.
+        /// </summary>
         public int Kills;
+        
+        /// <summary>
+        /// Total money accumulated.
+        /// </summary>
         public long Money;
+        
+        /// <summary>
+        /// Number of wins.
+        /// </summary>
         public int Wins;
+        
+        /// <summary>
+        /// Total number of games played.
+        /// </summary>
         public int TotalGames;
     }
 }
