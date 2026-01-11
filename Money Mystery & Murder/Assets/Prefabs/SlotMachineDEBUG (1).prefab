@@ -106,6 +106,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MinigameActivator
   interactRadius: 2
+  interactionTooltip: {fileID: 0}
+  tooltipMessage: to activate minigame
+  tooltipHeightOffset: 1.5
+  enforcePhaseRestriction: 1
+  allowedPhase: 2
 --- !u!114 &8511296938096224802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,20 +130,25 @@ MonoBehaviour:
   autoEndSeconds: 3
   sortingLayerName: Default
   sortingOrder: 10
-  cherrySprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  lemonSprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  orangeSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
-  plumSprite: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
-  bellSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  sevenSprite: {fileID: 3891796401534313901, guid: 7bbbddff0198e8c488fba3cd9151ecb3, type: 3}
-  questionSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  cherrySprite: {fileID: -1338896177438027022, guid: 9a2f7f760197e9341ac58a467af3515b, type: 3}
+  lemonSprite: {fileID: -4471945186555551876, guid: 9a2f7f760197e9341ac58a467af3515b, type: 3}
+  orangeSprite: {fileID: -2569926642674136991, guid: 9a2f7f760197e9341ac58a467af3515b, type: 3}
+  plumSprite: {fileID: -3897201176140910308, guid: 9a2f7f760197e9341ac58a467af3515b, type: 3}
+  bellSprite: {fileID: 1023545253653907986, guid: 9a2f7f760197e9341ac58a467af3515b, type: 3}
+  sevenSprite: {fileID: -5141500428527627396, guid: 9a2f7f760197e9341ac58a467af3515b, type: 3}
+  questionSprite: {fileID: 763543803926476522, guid: 9a2f7f760197e9341ac58a467af3515b, type: 3}
   payout7: 500
   payoutBell: 100
   payoutPlum: 50
   payoutOrange: 20
   payoutLemon: 10
   payoutCherry: 5
-  goldenKnifeData: {fileID: 0}
+  goldenKnifeData: {fileID: 11400000, guid: b44281cc69f83c845bcf3f0374b05c2f, type: 2}
+  textVerticalOffset: 4
+  fontSize: 48
+  deductionColor: {r: 1, g: 0, b: 0, a: 1}
+  winColor: {r: 0, g: 1, b: 0, a: 1}
+  jackpotColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!58 &1680293616050567981
 CircleCollider2D:
   m_ObjectHideFlags: 0
