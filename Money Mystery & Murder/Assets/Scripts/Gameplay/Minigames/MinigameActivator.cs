@@ -14,6 +14,23 @@ public class MinigameActivator : MonoBehaviour
     /// </summary>
     [SerializeField] private float interactRadius = 5f;
 
+    [Header("UI")]
+    /// <summary>
+    /// Optional tooltip to display when a player is in range.
+    /// If null, will attempt to find one in the scene.
+    /// </summary>
+    [SerializeField] private InteractionTooltip interactionTooltip;
+    
+    /// <summary>
+    /// The message to display in the tooltip.
+    /// </summary>
+    [SerializeField] private string tooltipMessage = "to activate minigame";
+    
+    /// <summary>
+    /// Height offset above the minigame object where the tooltip appears.
+    /// </summary>
+    [SerializeField] private float tooltipHeightOffset = 1.5f;
+
     [Header("Phase Restriction")]
     /// <summary>
     /// Whether to enforce phase restrictions on minigame activation.
@@ -50,6 +67,11 @@ public class MinigameActivator : MonoBehaviour
     /// Interval in seconds between player cache refreshes.
     /// </summary>
     private const float PLAYER_CACHE_REFRESH_INTERVAL = 0.5f;
+    
+    /// <summary>
+    /// Tracks whether the tooltip was shown in the previous frame.
+    /// </summary>
+    private bool _wasTooltipShown = false;
 
     /// <summary>
     /// Unity lifecycle method called before the first frame update.
@@ -69,6 +91,18 @@ public class MinigameActivator : MonoBehaviour
 
         minigame.Initialize(this);
         RefreshPlayerCache();
+        
+        // Find or create tooltip
+        if (interactionTooltip == null)
+        {
+            interactionTooltip = Object.FindFirstObjectByType<InteractionTooltip>();
+        }
+        
+        if (interactionTooltip != null)
+        {
+            interactionTooltip.SetBaseMessage(tooltipMessage);
+            interactionTooltip.Hide();
+        }
     }
 
     /// <summary>
@@ -85,6 +119,8 @@ public class MinigameActivator : MonoBehaviour
         }
         
         DetectPlayer();
+        UpdateTooltip();
+        
         if (_nearbyPlayer != null && WasInteractPressed())
         {
             if (CanActivate())
@@ -95,6 +131,48 @@ public class MinigameActivator : MonoBehaviour
             {
                 ShowPhaseRestrictionMessage();
             }
+        }
+    }
+
+    /// <summary>
+    /// Updates the tooltip visibility based on player proximity and minigame state.
+    /// </summary>
+    private void UpdateTooltip()
+    {
+        if (interactionTooltip == null) return;
+        
+        bool shouldShow = _nearbyPlayer != null && !minigame.IsRunning && CanActivate();
+        
+        if (shouldShow && !_wasTooltipShown)
+        {
+            // Show tooltip at position above this object
+            Vector3 tooltipWorldPos = transform.position + Vector3.up * tooltipHeightOffset;
+            interactionTooltip.Show(tooltipWorldPos, "Interact");
+            _wasTooltipShown = true;
+        }
+        else if (!shouldShow && _wasTooltipShown)
+        {
+            interactionTooltip.Hide();
+            _wasTooltipShown = false;
+        }
+        else if (shouldShow && _wasTooltipShown)
+        {
+            // Update position if tooltip is shown
+            Vector3 tooltipWorldPos = transform.position + Vector3.up * tooltipHeightOffset;
+            interactionTooltip.SetWorldTarget(tooltipWorldPos);
+        }
+    }
+    
+    /// <summary>
+    /// Unity lifecycle method called when the component is disabled.
+    /// Hides the tooltip when the activator is disabled.
+    /// </summary>
+    void OnDisable()
+    {
+        if (interactionTooltip != null && _wasTooltipShown)
+        {
+            interactionTooltip.Hide();
+            _wasTooltipShown = false;
         }
     }
 
