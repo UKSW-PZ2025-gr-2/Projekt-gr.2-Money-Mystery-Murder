@@ -1750,6 +1750,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: SlotMachineDEBUG (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 8511296938096224802, guid: ca52e8d6bbf9d994fa5e3f6df07858ff, type: 3}
+      propertyPath: spriteScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8511296938096224802, guid: ca52e8d6bbf9d994fa5e3f6df07858ff, type: 3}
+      propertyPath: spriteScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8511296938096224802, guid: ca52e8d6bbf9d994fa5e3f6df07858ff, type: 3}
+      propertyPath: spriteScale.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9115451035917903597, guid: ca52e8d6bbf9d994fa5e3f6df07858ff, type: 3}
       propertyPath: interactionTooltip
       value: 
