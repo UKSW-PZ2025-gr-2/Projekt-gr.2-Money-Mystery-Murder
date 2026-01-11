@@ -13,11 +13,6 @@ public class ShopActivator : MonoBehaviour
     /// The radius within which a player can interact with this shop activator.
     /// </summary>
     [SerializeField] private float interactRadius = 5f;
-    
-    /// <summary>
-    /// The keyboard key used to interact with the shop.
-    /// </summary>
-    [SerializeField] private Key interactKey = Key.E;
 
     [Header("UI")]
     /// <summary>
@@ -245,6 +240,7 @@ public class ShopActivator : MonoBehaviour
 
     /// <summary>
     /// Checks if the interact key was pressed this frame.
+    /// Uses KeyBindings if available, otherwise falls back to E key.
     /// </summary>
     /// <returns>True if the interact key was pressed, false otherwise.</returns>
     private bool WasInteractPressed()
@@ -252,7 +248,14 @@ public class ShopActivator : MonoBehaviour
         var k = Keyboard.current;
         if (k == null) return false;
         
-        return k[interactKey].wasPressedThisFrame;
+        var bindings = KeyBindings.Instance;
+        if (bindings != null)
+        {
+            return k[bindings.OpenShop].wasPressedThisFrame;
+        }
+        
+        // Fallback
+        return k.eKey.wasPressedThisFrame;
     }
 
     /// <summary>

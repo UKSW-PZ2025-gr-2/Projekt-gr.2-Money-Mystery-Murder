@@ -7402,6 +7402,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5034136001791939699, guid: 3df82981a91331c43a1f25b36e23205a, type: 3}
+      propertyPath: tooltipMessage
+      value: to activate
+      objectReference: {fileID: 0}
+    - target: {fileID: 5034136001791939699, guid: 3df82981a91331c43a1f25b36e23205a, type: 3}
       propertyPath: interactionTooltip
       value: 
       objectReference: {fileID: 2126097377}
@@ -8172,6 +8176,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 199313671125277847, guid: e6f89303dbd05e747afa1900881dab2b, type: 3}
+      propertyPath: tooltipMessage
+      value: to activate
+      objectReference: {fileID: 0}
     - target: {fileID: 199313671125277847, guid: e6f89303dbd05e747afa1900881dab2b, type: 3}
       propertyPath: interactionTooltip
       value: 
