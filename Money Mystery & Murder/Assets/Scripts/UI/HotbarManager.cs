@@ -19,6 +19,7 @@ public class HotbarManager : MonoBehaviour
     [SerializeField] private int maxSlots = 9;
     [SerializeField] private float worldSpaceDistance = 2f;
     [SerializeField] private Vector3 worldSpaceOffset = new Vector3(0, -1.5f, 0);
+    [SerializeField] private bool startVisible = true; // Whether hotbar is visible at start
     
     private Player player;
     private bool isHotbarVisible = false;
@@ -37,9 +38,10 @@ public class HotbarManager : MonoBehaviour
             }
         }
         
-        // Hide hotbar by default
+        // Set initial visibility based on startVisible setting
+        isHotbarVisible = startVisible;
         if (hotbarPanel != null)
-            hotbarPanel.SetActive(false);
+            hotbarPanel.SetActive(startVisible);
     }
     
     void Start()
@@ -111,8 +113,10 @@ public class HotbarManager : MonoBehaviour
             ToggleHotbar();
         }
         
-        // Only allow using items if hotbar is visible
-        if (!isHotbarVisible) return;
+        // Allow using items even when hotbar UI is hidden (for quick access)
+        // Skip if player is in minigame or shop
+        if (player != null && player.IsInMinigameOrShop())
+            return;
         
         // Check number keys 1-9
         if (keyboard.digit1Key.wasPressedThisFrame) UseSlot(0);
@@ -189,7 +193,7 @@ public class HotbarManager : MonoBehaviour
                 {
                     weaponSystem.EquipWeapon(slot.WeaponData);
                     
-                    // Start cooldown for this weapon
+                    // Only start cooldown if weapon has a cooldown greater than 0
                     if (slot.WeaponData.cooldown > 0f)
                     {
                         weaponCooldowns[slot.WeaponData] = slot.WeaponData.cooldown;
@@ -242,7 +246,7 @@ public class HotbarManager : MonoBehaviour
         // Update ability cooldowns
         List<Ability> abilitiesToRemove = new List<Ability>();
         
-        foreach (var kvp in abilityCooldowns)
+        foreach (var kvp in abilityCooldowns.ToList()) // Convert to list to avoid modification during enumeration
         {
             float newTime = kvp.Value - Time.deltaTime;
             
@@ -283,7 +287,7 @@ public class HotbarManager : MonoBehaviour
         // Update weapon cooldowns
         List<WeaponData> weaponsToRemove = new List<WeaponData>();
         
-        foreach (var kvp in weaponCooldowns)
+        foreach (var kvp in weaponCooldowns.ToList()) // Convert to list to avoid modification during enumeration
         {
             float newTime = kvp.Value - Time.deltaTime;
             

@@ -236,7 +236,6 @@ public class Player : MonoBehaviour
 
     private void HandleInput()
     {
-        HandleAbilityInput();
         HandleAttackInput();
     }
     
@@ -244,22 +243,6 @@ public class Player : MonoBehaviour
 
     #region Input Handling
     
-    private void HandleAbilityInput()
-    {
-        Keyboard keyboard = Keyboard.current;
-        if (keyboard == null) return;
-    
-        if (keyboard.digit1Key.wasPressedThisFrame) ActivateAbilityByIndex(0);
-        else if (keyboard.digit2Key.wasPressedThisFrame) ActivateAbilityByIndex(1);
-        else if (keyboard.digit3Key.wasPressedThisFrame) ActivateAbilityByIndex(2);
-        else if (keyboard.digit4Key.wasPressedThisFrame) ActivateAbilityByIndex(3);
-        else if (keyboard.digit5Key.wasPressedThisFrame) ActivateAbilityByIndex(4);
-        else if (keyboard.digit6Key.wasPressedThisFrame) ActivateAbilityByIndex(5);
-        else if (keyboard.digit7Key.wasPressedThisFrame) ActivateAbilityByIndex(6);
-        else if (keyboard.digit8Key.wasPressedThisFrame) ActivateAbilityByIndex(7);
-        else if (keyboard.digit9Key.wasPressedThisFrame) ActivateAbilityByIndex(8);
-    }
-
     private void HandleAttackInput()
     {
         bool pressed = false;
