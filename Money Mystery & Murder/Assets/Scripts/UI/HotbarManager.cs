@@ -11,21 +11,66 @@ using System.Linq;
 public class HotbarManager : MonoBehaviour
 {
     [Header("UI References")]
+    /// <summary>
+    /// The main panel GameObject that contains the hotbar UI elements.
+    /// </summary>
     [SerializeField] private GameObject hotbarPanel;
+    
+    /// <summary>
+    /// Array of hotbar slots that can hold weapons or abilities. Default size is 9 slots.
+    /// </summary>
     [SerializeField] private HotbarSlot[] hotbarSlots = new HotbarSlot[9];
+    
+    /// <summary>
+    /// The canvas component used for rendering the hotbar in world space.
+    /// </summary>
     [SerializeField] private Canvas hotbarCanvas;
     
     [Header("Settings")]
+    /// <summary>
+    /// Maximum number of slots available in the hotbar.
+    /// </summary>
     [SerializeField] private int maxSlots = 9;
-    [SerializeField] private float worldSpaceDistance = 2f;
-    [SerializeField] private Vector3 worldSpaceOffset = new Vector3(0, -1.5f, 0);
-    [SerializeField] private bool startVisible = true; // Whether hotbar is visible at start
     
+    /// <summary>
+    /// Distance from the player to display the hotbar in world space.
+    /// </summary>
+    [SerializeField] private float worldSpaceDistance = 2f;
+    
+    /// <summary>
+    /// Offset position relative to the player's transform for the hotbar.
+    /// </summary>
+    [SerializeField] private Vector3 worldSpaceOffset = new Vector3(0, -1.5f, 0);
+    
+    /// <summary>
+    /// Whether the hotbar is visible at start.
+    /// </summary>
+    [SerializeField] private bool startVisible = true;
+    
+    /// <summary>
+    /// Reference to the player who owns this hotbar.
+    /// </summary>
     private Player player;
+    
+    /// <summary>
+    /// Tracks whether the hotbar UI is currently visible.
+    /// </summary>
     private bool isHotbarVisible = false;
+    
+    /// <summary>
+    /// Dictionary tracking remaining cooldown times for abilities.
+    /// </summary>
     private Dictionary<Ability, float> abilityCooldowns = new Dictionary<Ability, float>();
+    
+    /// <summary>
+    /// Dictionary tracking remaining cooldown times for weapons.
+    /// </summary>
     private Dictionary<WeaponData, float> weaponCooldowns = new Dictionary<WeaponData, float>();
     
+    /// <summary>
+    /// Unity lifecycle method called when the script instance is being loaded.
+    /// Initializes hotbar slots and sets initial visibility.
+    /// </summary>
     void Awake()
     {
         
@@ -44,6 +89,10 @@ public class HotbarManager : MonoBehaviour
             hotbarPanel.SetActive(startVisible);
     }
     
+    /// <summary>
+    /// Unity lifecycle method called before the first frame update.
+    /// Finds and assigns the player reference, and configures the canvas for world space rendering.
+    /// </summary>
     void Start()
     {
         // Find player in parent or by tag
@@ -72,6 +121,10 @@ public class HotbarManager : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// Unity lifecycle method called once per frame.
+    /// Handles input processing, cooldown updates, and hotbar positioning.
+    /// </summary>
     void Update()
     {
         HandleInput();
@@ -131,7 +184,7 @@ public class HotbarManager : MonoBehaviour
     }
     
     /// <summary>
-    /// Toggles hotbar visibility.
+    /// Toggles hotbar visibility between shown and hidden states.
     /// </summary>
     public void ToggleHotbar()
     {
@@ -144,7 +197,7 @@ public class HotbarManager : MonoBehaviour
     }
     
     /// <summary>
-    /// Shows the hotbar.
+    /// Shows the hotbar UI.
     /// </summary>
     public void ShowHotbar()
     {
@@ -154,7 +207,7 @@ public class HotbarManager : MonoBehaviour
     }
     
     /// <summary>
-    /// Hides the hotbar.
+    /// Hides the hotbar UI.
     /// </summary>
     public void HideHotbar()
     {
@@ -165,7 +218,9 @@ public class HotbarManager : MonoBehaviour
     
     /// <summary>
     /// Uses the item in the specified slot.
+    /// Handles both weapon equipping and ability activation with cooldown checking.
     /// </summary>
+    /// <param name="slotIndex">The zero-based index of the slot to use (0-8).</param>
     private void UseSlot(int slotIndex)
     {
         if (slotIndex < 0 || slotIndex >= hotbarSlots.Length) return;
@@ -239,7 +294,8 @@ public class HotbarManager : MonoBehaviour
     }
     
     /// <summary>
-    /// Updates ability cooldown timers and UI.
+    /// Updates ability and weapon cooldown timers and refreshes the UI display.
+    /// Removes cooldowns that have completed and clears their UI indicators.
     /// </summary>
     private void UpdateCooldowns()
     {
@@ -329,6 +385,8 @@ public class HotbarManager : MonoBehaviour
     /// <summary>
     /// Gets the hotbar manager for a specific player.
     /// </summary>
+    /// <param name="player">The player whose hotbar manager to retrieve.</param>
+    /// <returns>The HotbarManager component attached to the player, or null if not found.</returns>
     public static HotbarManager GetForPlayer(Player player)
     {
         if (player == null) return null;
@@ -338,6 +396,8 @@ public class HotbarManager : MonoBehaviour
     /// <summary>
     /// Adds a weapon to the first available slot.
     /// </summary>
+    /// <param name="weapon">The weapon data to add to the hotbar.</param>
+    /// <returns>True if the weapon was successfully added, false if it was already in the hotbar or no slots are available.</returns>
     public bool AddWeapon(WeaponData weapon)
     {
         if (weapon == null) return false;
@@ -370,6 +430,8 @@ public class HotbarManager : MonoBehaviour
     /// <summary>
     /// Adds an ability to the first available slot.
     /// </summary>
+    /// <param name="ability">The ability to add to the hotbar.</param>
+    /// <returns>True if the ability was successfully added, false if it was already in the hotbar or no slots are available.</returns>
     public bool AddAbility(Ability ability)
     {
         if (ability == null) return false;
@@ -400,8 +462,9 @@ public class HotbarManager : MonoBehaviour
     }
     
     /// <summary>
-    /// Removes an item from the hotbar.
+    /// Removes a weapon from the hotbar.
     /// </summary>
+    /// <param name="weapon">The weapon to remove from the hotbar.</param>
     public void RemoveItem(WeaponData weapon)
     {
         for (int i = 0; i < hotbarSlots.Length; i++)
@@ -418,6 +481,7 @@ public class HotbarManager : MonoBehaviour
     /// <summary>
     /// Removes an ability from the hotbar.
     /// </summary>
+    /// <param name="ability">The ability to remove from the hotbar.</param>
     public void RemoveItem(Ability ability)
     {
         for (int i = 0; i < hotbarSlots.Length; i++)
@@ -432,7 +496,7 @@ public class HotbarManager : MonoBehaviour
     }
     
     /// <summary>
-    /// Clears all hotbar slots.
+    /// Clears all hotbar slots and resets all cooldowns.
     /// </summary>
     public void ClearHotbar()
     {
