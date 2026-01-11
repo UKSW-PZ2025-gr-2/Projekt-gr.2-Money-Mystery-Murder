@@ -1,24 +1,41 @@
 using UnityEngine;
 
 /// <summary>
-/// Starts a Minigame when a Player enters this object's trigger collider.
+/// Starts a minigame when a Player enters this object's trigger collider.
 /// Optionally ends the minigame when the player exits.
-/// Attach to an object that has a Collider with `isTrigger = true` and a child
-/// GameObject containing a `MinigameBase` (e.g. `QuizMinigame`).
+/// Attach to an object that has a Collider with isTrigger = true and a child
+/// GameObject containing a MinigameBase (e.g. QuizMinigame).
 /// </summary>
 [RequireComponent(typeof(Collider))]
 public class MinigameTriggerActivator : MonoBehaviour
 {
+    /// <summary>
+    /// Whether to end the minigame automatically when the player leaves the trigger.
+    /// </summary>
     [Tooltip("End the minigame automatically when the player leaves the trigger")]
     [SerializeField] private bool endOnExit = true;
+    
+    /// <summary>
+    /// Whether to create a visible semi-transparent cube in Play mode to show the trigger area.
+    /// </summary>
     [Tooltip("Create a visible semi-transparent cube in Play mode to show the trigger area")]
     [SerializeField] private bool showVisualInGame = true;
 
+    /// <summary>
+    /// Color of the runtime visualizer for the trigger area.
+    /// </summary>
     [Tooltip("Color of the runtime visualizer")]
     [SerializeField] private Color visualColor = new Color(0f, 0.5f, 1f, 0.25f);
 
+    /// <summary>
+    /// Reference to the minigame component found in children.
+    /// </summary>
     private MinigameBase _minigame;
 
+    /// <summary>
+    /// Unity lifecycle method called when the script instance is being loaded.
+    /// Finds the minigame component, validates the collider, and creates runtime visualizer if enabled.
+    /// </summary>
     private void Awake()
     {
         _minigame = GetComponentInChildren<MinigameBase>(true);
@@ -42,6 +59,11 @@ public class MinigameTriggerActivator : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Unity physics callback invoked when another collider enters the trigger.
+    /// Starts the minigame if a Player enters and the minigame is not already running.
+    /// </summary>
+    /// <param name="other">The collider that entered the trigger.</param>
     private void OnTriggerEnter(Collider other)
     {
         if (_minigame == null) return;
@@ -62,6 +84,10 @@ public class MinigameTriggerActivator : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Creates a runtime visualizer cube that shows the trigger area in game view.
+    /// </summary>
+    /// <param name="col">The collider to visualize.</param>
     private void CreateRuntimeVisualizer(Collider col)
     {
         var vis = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -86,6 +112,11 @@ public class MinigameTriggerActivator : MonoBehaviour
         if (vcol != null) Destroy(vcol);
     }
 
+    /// <summary>
+    /// Unity physics callback invoked when another collider exits the trigger.
+    /// Currently starts the minigame if not running (appears to be duplicate logic with OnTriggerEnter).
+    /// </summary>
+    /// <param name="other">The collider that exited the trigger.</param>
     private void OnTriggerExit(Collider other)
     {
         if (_minigame == null)
@@ -110,6 +141,11 @@ public class MinigameTriggerActivator : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Unity physics callback invoked while another collider stays within the trigger.
+    /// Fallback mechanism in case OnTriggerEnter is missed by physics setup.
+    /// </summary>
+    /// <param name="other">The collider staying within the trigger.</param>
     private void OnTriggerStay(Collider other)
     {
         // Fallback in case OnTriggerEnter is missed by physics setup.

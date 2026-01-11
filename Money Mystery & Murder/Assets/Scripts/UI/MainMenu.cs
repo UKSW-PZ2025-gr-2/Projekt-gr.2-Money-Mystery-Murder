@@ -1,25 +1,47 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainMenu : MonoBehaviour
+namespace UI
 {
-    public AudioClip menuMusic;
-
-    void Start()
+    /// <summary>
+    /// Manages the main menu UI functionality including scene transitions and music.
+    /// Handles starting the game and navigating to settings.
+    /// </summary>
+    public class MainMenu : MonoBehaviour
     {
-        if (AudioManager.Instance != null && menuMusic != null)
+        /// <summary>
+        /// Audio clip to play as background music in the main menu.
+        /// </summary>
+        public AudioClip menuMusic;
+
+        /// <summary>
+        /// Unity lifecycle method called before the first frame update.
+        /// Starts playing the menu music if available.
+        /// </summary>
+        void Start()
         {
-            AudioManager.Instance.PlayMusic(menuMusic);
+            if (AudioManager.Instance != null && menuMusic != null)
+            {
+                AudioManager.Instance.PlayMusic(menuMusic);
+            }
         }
-    }
 
-    public void StartGame()
-    {
-        SceneManager.LoadScene("GamePlay");
-    }
+        /// <summary>
+        /// Starts the game by loading the gameplay scene.
+        /// Called by UI button click events.
+        /// </summary>
+        public void StartGame()
+        {
+            SceneManager.LoadScene("GamePlay");
+        }
 
-    public void OpenSettings()
-    {
-        SceneManager.LoadScene("SettingsScene");
+        /// <summary>
+        /// Opens the settings menu by loading the settings scene.
+        /// Called by UI button click events.
+        /// </summary>
+        public void OpenSettings()
+        {
+            SceneManager.LoadScene("SettingsScene");
+        }
     }
 }

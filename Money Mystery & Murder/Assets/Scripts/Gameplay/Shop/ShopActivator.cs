@@ -2,26 +2,64 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// Attach to an object to allow a player to interact and open a shop.
+/// Allows players to interact with and open shops when in range.
 /// Automatically finds a ShopUI component on this GameObject or its children.
+/// Supports phase restrictions to limit shop availability to specific game phases (typically Evening).
 /// </summary>
 public class ShopActivator : MonoBehaviour
 {
     [Header("Interaction")]
+    /// <summary>
+    /// The radius within which a player can interact with this shop activator.
+    /// </summary>
     [SerializeField] private float interactRadius = 5f;
+    
+    /// <summary>
+    /// The keyboard key used to interact with the shop.
+    /// </summary>
     [SerializeField] private Key interactKey = Key.E;
 
     [Header("Phase Restriction")]
+    /// <summary>
+    /// Whether to enforce phase restrictions on shop activation.
+    /// </summary>
     [SerializeField] private bool enforcePhaseRestriction = true;
+    
+    /// <summary>
+    /// The game phase during which shops are available.
+    /// </summary>
     [Tooltip("Shops are only available during Evening phase")]
     [SerializeField] private GamePhase allowedPhase = GamePhase.Evening;
 
+    /// <summary>
+    /// Reference to the shop UI component managed by this activator.
+    /// </summary>
     private ShopUI shopUI;
+    
+    /// <summary>
+    /// The player currently within interaction range.
+    /// </summary>
     private Player _nearbyPlayer;
+    
+    /// <summary>
+    /// Cached array of all players in the scene for performance optimization.
+    /// </summary>
     private Player[] _cachedPlayers;
+    
+    /// <summary>
+    /// Timer for refreshing the player cache.
+    /// </summary>
     private float _playerCacheTimer;
+    
+    /// <summary>
+    /// Interval in seconds between player cache refreshes.
+    /// </summary>
     private const float PLAYER_CACHE_REFRESH_INTERVAL = 0.5f;
 
+    /// <summary>
+    /// Unity lifecycle method called before the first frame update.
+    /// Finds and initializes the shop UI component.
+    /// </summary>
     void Start()
     {
         if (shopUI == null)
@@ -38,6 +76,10 @@ public class ShopActivator : MonoBehaviour
         RefreshPlayerCache();
     }
 
+    /// <summary>
+    /// Unity lifecycle method called once per frame.
+    /// Detects nearby players and handles interaction input.
+    /// </summary>
     void Update()
     {
         _playerCacheTimer += Time.deltaTime;
@@ -61,6 +103,10 @@ public class ShopActivator : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Checks if the shop can currently be activated based on phase restrictions.
+    /// </summary>
+    /// <returns>True if the shop can be activated, false otherwise.</returns>
     private bool CanActivate()
     {
         if (!enforcePhaseRestriction) return true;
@@ -70,16 +116,25 @@ public class ShopActivator : MonoBehaviour
         return GameManager.Instance.CurrentPhase == allowedPhase;
     }
 
+    /// <summary>
+    /// Displays a message when the player tries to activate a shop outside the allowed phase.
+    /// </summary>
     private void ShowPhaseRestrictionMessage()
     {
         Debug.Log($"[ShopActivator] Shops are only available during {allowedPhase} phase!");
     }
 
+    /// <summary>
+    /// Refreshes the cached array of all players in the scene.
+    /// </summary>
     private void RefreshPlayerCache()
     {
         _cachedPlayers = Object.FindObjectsByType<Player>(FindObjectsSortMode.None);
     }
 
+    /// <summary>
+    /// Detects the closest alive player within interaction range (excludes bots).
+    /// </summary>
     private void DetectPlayer()
     {
         if (_cachedPlayers == null || _cachedPlayers.Length == 0)
@@ -110,6 +165,10 @@ public class ShopActivator : MonoBehaviour
         _nearbyPlayer = closest;
     }
 
+    /// <summary>
+    /// Checks if the interact key was pressed this frame.
+    /// </summary>
+    /// <returns>True if the interact key was pressed, false otherwise.</returns>
     private bool WasInteractPressed()
     {
         var k = Keyboard.current;
@@ -118,6 +177,9 @@ public class ShopActivator : MonoBehaviour
         return k[interactKey].wasPressedThisFrame;
     }
 
+    /// <summary>
+    /// Toggles the shop UI between open and closed states.
+    /// </summary>
     private void ToggleShop()
     {
         if (shopUI == null) return;
@@ -127,7 +189,18 @@ public class ShopActivator : MonoBehaviour
             shopUI.OpenShop(_nearbyPlayer);
     }
 
+    /// <summary>
+    /// Gets whether a player is currently within interaction range.
+    /// </summary>
     public bool IsPlayerInRange => _nearbyPlayer != null;
+    
+    /// <summary>
+    /// Gets the shop UI component managed by this activator.
+    /// </summary>
     public ShopUI CurrentShop => shopUI;
+    
+    /// <summary>
+    /// Gets whether the shop is available in the current game phase.
+    /// </summary>
     public bool IsAvailableInCurrentPhase => CanActivate();
 }
