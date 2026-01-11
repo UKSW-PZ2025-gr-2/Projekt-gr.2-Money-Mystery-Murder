@@ -8,18 +8,34 @@ using UnityEngine;
 public class LitSpriteSetup : MonoBehaviour
 {
     [Header("Settings")]
+    /// <summary>
+    /// Automatically setup lit material on Start if enabled.
+    /// </summary>
     [SerializeField] [Tooltip("Automatically setup lit material on Start")]
     private bool autoSetupOnStart = true;
     
+    /// <summary>
+    /// Material to use for lighting. Leave empty to find default Sprite-Lit-Default material.
+    /// </summary>
     [SerializeField] [Tooltip("Material to use (leave empty to find default Sprite-Lit-Default)")]
     private Material litMaterial;
     
     [Header("Advanced")]
+    /// <summary>
+    /// Force sprite color to white for proper lighting response. Disabled by default to preserve original colors.
+    /// </summary>
     [SerializeField] [Tooltip("Force sprite color to white for proper lighting")]
-    private bool forceWhiteColor = false; // Wyłączone domyślnie - zachowuje oryginalne kolory
+    private bool forceWhiteColor = false;
     
+    /// <summary>
+    /// Cached SpriteRenderer component.
+    /// </summary>
     private SpriteRenderer _spriteRenderer;
     
+    /// <summary>
+    /// Unity lifecycle method called before the first frame update.
+    /// Automatically configures lit sprite if autoSetupOnStart is enabled.
+    /// </summary>
     void Start()
     {
         if (autoSetupOnStart)
@@ -28,6 +44,10 @@ public class LitSpriteSetup : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// Configures the SpriteRenderer to use a lit material for proper lighting response.
+    /// Can be called manually or from the context menu.
+    /// </summary>
     [ContextMenu("Setup Lit Sprite")]
     public void SetupLitSprite()
     {
@@ -74,6 +94,10 @@ public class LitSpriteSetup : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// Searches for an existing Sprite-Lit material in the project resources.
+    /// </summary>
+    /// <returns>The found lit material, or null if none exists.</returns>
     private Material FindLitMaterial()
     {
         // Try to find existing Sprite-Lit-Default material in Resources or project

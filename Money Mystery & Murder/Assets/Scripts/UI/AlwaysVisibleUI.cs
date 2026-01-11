@@ -8,11 +8,21 @@ using UnityEngine.UI;
 public class AlwaysVisibleUI : MonoBehaviour
 {
     [Header("Settings")]
+    /// <summary>
+    /// Automatically configure canvas on Start to ensure always-visible rendering.
+    /// </summary>
     [SerializeField] [Tooltip("Automatically configure canvas on Start")]
     private bool autoConfigureCanvas = true;
     
+    /// <summary>
+    /// Cached Canvas component for this UI element.
+    /// </summary>
     private Canvas _canvas;
     
+    /// <summary>
+    /// Unity lifecycle method called before the first frame update.
+    /// Configures the canvas if autoConfigureCanvas is enabled.
+    /// </summary>
     void Start()
     {
         if (autoConfigureCanvas)
@@ -21,6 +31,10 @@ public class AlwaysVisibleUI : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// Configures the Canvas component to render in Screen Space Overlay mode
+    /// with high sorting order for always-visible display.
+    /// </summary>
     [ContextMenu("Configure Canvas for Always Visible")]
     public void ConfigureCanvas()
     {
