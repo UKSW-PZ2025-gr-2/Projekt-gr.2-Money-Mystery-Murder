@@ -1800,8 +1800,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PhaseManager
   currentPhase: 2
-  dayStartHour: 4
-  eveningStartHour: 5
+  dayStartHour: 3
+  eveningStartHour: 4
   nightStartHour: 6
 --- !u!4 &503190233
 Transform:
@@ -8477,6 +8477,26 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4745683802466451585, guid: 3b9e4604b19001f44b46d8226c8c7e84, type: 3}
+      propertyPath: payoutBell
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 4745683802466451585, guid: 3b9e4604b19001f44b46d8226c8c7e84, type: 3}
+      propertyPath: payoutPlum
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4745683802466451585, guid: 3b9e4604b19001f44b46d8226c8c7e84, type: 3}
+      propertyPath: payoutLemon
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 4745683802466451585, guid: 3b9e4604b19001f44b46d8226c8c7e84, type: 3}
+      propertyPath: payoutCherry
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 4745683802466451585, guid: 3b9e4604b19001f44b46d8226c8c7e84, type: 3}
+      propertyPath: payoutOrange
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4745683802466451585, guid: 3b9e4604b19001f44b46d8226c8c7e84, type: 3}
       propertyPath: goldenKnifeData
       value: 
       objectReference: {fileID: 11400000, guid: b44281cc69f83c845bcf3f0374b05c2f, type: 2}
@@ -8568,6 +8588,10 @@ PrefabInstance:
     - target: {fileID: 6998283097264661436, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7927993846431860460, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
+      propertyPath: balance
+      value: 9999
       objectReference: {fileID: 0}
     - target: {fileID: 8252789506905311483, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
       propertyPath: m_Color.b
