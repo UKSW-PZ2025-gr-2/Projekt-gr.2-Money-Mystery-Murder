@@ -12,121 +12,188 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class SlotMachineMinigame : MinigameBase
 {
+    [Header("Slot Machine Settings")]
     /// <summary>
     /// Fixed cost to play the slot machine.
-    /// Set this in the Unity Inspector.
     /// </summary>
-    [Header("Slot Machine Settings")]
     [SerializeField] private int startCost = 10;
     
     /// <summary>
     /// Horizontal spacing between slot display sprites in world units.
-    /// Set this in the Unity Inspector.
     /// </summary>
     [SerializeField] private float spacing = 1.5f;
     
     /// <summary>
     /// Vertical offset from the slot machine position for the sprites.
-    /// Set this in the Unity Inspector.
     /// </summary>
     [SerializeField] private float verticalOffset = 2f;
     
     /// <summary>
     /// Scale for the sprite renderers.
-    /// Set this in the Unity Inspector.
     /// </summary>
     [SerializeField] private Vector3 spriteScale = new Vector3(5f, 5f, 5f);
     
     /// <summary>
     /// Auto-end duration in seconds after game starts.
-    /// Set this in the Unity Inspector.
     /// </summary>
     [SerializeField] private float autoEndSeconds = 3f;
 
     /// <summary>
     /// Sorting layer name for the slot sprites.
-    /// Set this in the Unity Inspector.
     /// </summary>
     [SerializeField] private string sortingLayerName = "Default";
     
     /// <summary>
     /// Sorting order for the slot sprites.
-    /// Set this in the Unity Inspector.
     /// </summary>
     [SerializeField] private int sortingOrder = 10;
 
     [Header("Symbol Sprites")]
+    /// <summary>
+    /// Sprite for CHERRY symbol.
+    /// </summary>
     [Tooltip("Sprite for CHERRY symbol")]
     [SerializeField] private Sprite cherrySprite;
     
+    /// <summary>
+    /// Sprite for LEMON symbol.
+    /// </summary>
     [Tooltip("Sprite for LEMON symbol")]
     [SerializeField] private Sprite lemonSprite;
     
+    /// <summary>
+    /// Sprite for ORANGE symbol.
+    /// </summary>
     [Tooltip("Sprite for ORANGE symbol")]
     [SerializeField] private Sprite orangeSprite;
     
+    /// <summary>
+    /// Sprite for PLUM symbol.
+    /// </summary>
     [Tooltip("Sprite for PLUM symbol")]
     [SerializeField] private Sprite plumSprite;
     
+    /// <summary>
+    /// Sprite for BELL symbol.
+    /// </summary>
     [Tooltip("Sprite for BELL symbol")]
     [SerializeField] private Sprite bellSprite;
     
+    /// <summary>
+    /// Sprite for 7 symbol.
+    /// </summary>
     [Tooltip("Sprite for 7 symbol")]
     [SerializeField] private Sprite sevenSprite;
     
+    /// <summary>
+    /// Sprite for unknown/placeholder symbol.
+    /// </summary>
     [Tooltip("Sprite for unknown/placeholder symbol")]
     [SerializeField] private Sprite questionSprite;
 
     [Header("Payout Settings")]
+    /// <summary>
+    /// Payout for three 7 symbols (jackpot).
+    /// </summary>
     [Tooltip("Payout for three 7 symbols (jackpot)")]
     [SerializeField] private int payout7 = 500;
     
+    /// <summary>
+    /// Payout for three BELL symbols.
+    /// </summary>
     [Tooltip("Payout for three BELL symbols")]
     [SerializeField] private int payoutBell = 100;
     
+    /// <summary>
+    /// Payout for three PLUM symbols.
+    /// </summary>
     [Tooltip("Payout for three PLUM symbols")]
     [SerializeField] private int payoutPlum = 50;
     
+    /// <summary>
+    /// Payout for three ORANGE symbols.
+    /// </summary>
     [Tooltip("Payout for three ORANGE symbols")]
     [SerializeField] private int payoutOrange = 20;
     
+    /// <summary>
+    /// Payout for three LEMON symbols.
+    /// </summary>
     [Tooltip("Payout for three LEMON symbols")]
     [SerializeField] private int payoutLemon = 10;
     
+    /// <summary>
+    /// Payout for three CHERRY symbols.
+    /// </summary>
     [Tooltip("Payout for three CHERRY symbols")]
     [SerializeField] private int payoutCherry = 5;
 
-    /// <summary>Prefab for the Golden Knife weapon awarded on jackpot.</summary>
     [Header("Rare Rewards")]
+    /// <summary>
+    /// Golden Knife weapon data awarded on triple 7s jackpot.
+    /// </summary>
     [Tooltip("Golden Knife weapon data awarded on triple 7s jackpot")]
     [SerializeField] private WeaponData goldenKnifeData;
 
     [Header("UI Settings")]
+    /// <summary>
+    /// Vertical offset for text display above the slot machine.
+    /// </summary>
     [SerializeField] private float textVerticalOffset = 4f;
+    
+    /// <summary>
+    /// Font size for text displays.
+    /// </summary>
     [SerializeField] private int fontSize = 48;
+    
+    /// <summary>
+    /// Color for cost deduction text.
+    /// </summary>
     [SerializeField] private Color deductionColor = Color.red;
+    
+    /// <summary>
+    /// Color for win result text.
+    /// </summary>
     [SerializeField] private Color winColor = Color.green;
+    
+    /// <summary>
+    /// Color for jackpot result text.
+    /// </summary>
     [SerializeField] private Color jackpotColor = Color.yellow;
 
-    /// <summary>Parent GameObject for the dynamically created sprites.</summary>
+    /// <summary>
+    /// Parent GameObject for the dynamically created sprites.
+    /// </summary>
     private GameObject _spriteRoot;
     
-    /// <summary>Array of SpriteRenderer components displaying the slot symbols.</summary>
+    /// <summary>
+    /// Array of SpriteRenderer components displaying the slot symbols.
+    /// </summary>
     private SpriteRenderer[] _spriteRenderers;
     
-    /// <summary>Array storing the generated symbol strings.</summary>
+    /// <summary>
+    /// Array storing the generated symbol strings.
+    /// </summary>
     private string[] _values = new string[3];
     
-    /// <summary>Elapsed time since game started.</summary>
+    /// <summary>
+    /// Elapsed time since game started.
+    /// </summary>
     private float _elapsed;
 
-    /// <summary>TextMesh for displaying cost deducted.</summary>
+    /// <summary>
+    /// TextMesh for displaying cost deducted.
+    /// </summary>
     private TextMesh _deductionText;
     
-    /// <summary>TextMesh for displaying winnings or jackpot message.</summary>
+    /// <summary>
+    /// TextMesh for displaying winnings or jackpot message.
+    /// </summary>
     private TextMesh _resultText;
 
-    /// <summary>Weighted symbol definitions with weights summing to 100.</summary>
+    /// <summary>
+    /// Weighted symbol definitions with weights summing to 100.
+    /// </summary>
     private static readonly (string symbol, int weight)[] _symbolWeights = new (string, int)[]
     {
         ("CHERRY", 40),
@@ -137,13 +204,17 @@ public class SlotMachineMinigame : MinigameBase
         ("7", 1)
     };
 
+    /// <summary>
+    /// Unity lifecycle method called when the script instance is being loaded.
+    /// Builds the text UI components.
+    /// </summary>
     void Awake()
     {
         BuildTextUI();
     }
 
     /// <summary>
-    /// Called when the minigame starts. Generates symbols, builds sprites, calculates payout, and credits the <see cref="Player"/>.
+    /// Called when the minigame starts. Generates symbols, builds sprites, calculates payout, and credits the Player.
     /// On triple 7s jackpot, awards the rare Golden Knife weapon instead of money.
     /// </summary>
     protected override void OnStartGame()
@@ -208,7 +279,10 @@ public class SlotMachineMinigame : MinigameBase
     /// <returns>True (allows negative balance).</returns>
     protected override bool AllowNegativeBalanceOnStart() => true;
 
-    /// <summary>Generates three random weighted symbols for the slot machine.</summary>
+    /// <summary>
+    /// Generates three random weighted symbols for the slot machine.
+    /// Has a 10% chance to force triple 7s for jackpot.
+    /// </summary>
     private void GenerateSymbols()
     {
         // 10% chance for jackpot (triple 7s)
@@ -282,7 +356,9 @@ public class SlotMachineMinigame : MinigameBase
         return 0;
     }
 
-    /// <summary>Builds the sprite GameObjects and SpriteRenderer components for displaying slot symbols in world space.</summary>
+    /// <summary>
+    /// Builds the sprite GameObjects and SpriteRenderer components for displaying slot symbols in world space.
+    /// </summary>
     private void BuildSprites()
     {
         CleanupSprites();
@@ -312,7 +388,9 @@ public class SlotMachineMinigame : MinigameBase
         }
     }
 
-    /// <summary>Updates the sprite renderers with the current symbol sprites.</summary>
+    /// <summary>
+    /// Updates the sprite renderers with the current symbol sprites.
+    /// </summary>
     private void UpdateSprites()
     {
         if (_spriteRenderers == null) return;
@@ -344,7 +422,9 @@ public class SlotMachineMinigame : MinigameBase
         };
     }
 
-    /// <summary>Destroys the sprite root GameObject and clears references.</summary>
+    /// <summary>
+    /// Destroys the sprite root GameObject and clears references.
+    /// </summary>
     private void CleanupSprites()
     {
         if (_spriteRoot != null)
@@ -355,7 +435,9 @@ public class SlotMachineMinigame : MinigameBase
         _spriteRenderers = null;
     }
 
-    /// <summary>Builds the TextMesh UI components for displaying cost and results.</summary>
+    /// <summary>
+    /// Builds the TextMesh UI components for displaying cost and results.
+    /// </summary>
     private void BuildTextUI()
     {
         if (_deductionText == null)
@@ -385,7 +467,9 @@ public class SlotMachineMinigame : MinigameBase
         }
     }
 
-    /// <summary>Shows the cost deduction text above the slot machine.</summary>
+    /// <summary>
+    /// Shows the cost deduction text above the slot machine.
+    /// </summary>
     private void ShowDeductionText()
     {
         if (_deductionText != null)
@@ -397,7 +481,9 @@ public class SlotMachineMinigame : MinigameBase
         }
     }
 
-    /// <summary>Shows the result text displaying winnings or loss.</summary>
+    /// <summary>
+    /// Shows the result text displaying winnings or loss.
+    /// </summary>
     /// <param name="amount">The amount won.</param>
     /// <param name="won">Whether the player won.</param>
     /// <param name="isJackpot">Whether this was a jackpot win.</param>
@@ -427,7 +513,9 @@ public class SlotMachineMinigame : MinigameBase
         }
     }
 
-    /// <summary>Hides all text UI elements.</summary>
+    /// <summary>
+    /// Hides all text UI elements.
+    /// </summary>
     private void HideTextUI()
     {
         if (_deductionText != null)
@@ -438,6 +526,7 @@ public class SlotMachineMinigame : MinigameBase
     }
 
     /// <summary>
+    /// Unity lifecycle method called once per frame.
     /// Updates the minigame timer and handles Escape key to end the game.
     /// </summary>
     void Update()
