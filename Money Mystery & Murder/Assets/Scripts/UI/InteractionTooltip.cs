@@ -45,6 +45,11 @@ public class InteractionTooltip : MonoBehaviour
     /// The RectTransform of this tooltip.
     /// </summary>
     private RectTransform _rectTransform;
+    
+    /// <summary>
+    /// The last action name used when showing the tooltip.
+    /// </summary>
+    private string _lastActionName = "Interact";
 
     /// <summary>
     /// Unity lifecycle method called on initialization.
@@ -81,6 +86,7 @@ public class InteractionTooltip : MonoBehaviour
     /// <param name="actionName">The name of the action (e.g., "Interact").</param>
     public void Show(string actionName = "Interact")
     {
+        _lastActionName = actionName;
         gameObject.SetActive(true);
         UpdateText(actionName);
     }
@@ -92,6 +98,7 @@ public class InteractionTooltip : MonoBehaviour
     /// <param name="actionName">The name of the action (e.g., "Interact").</param>
     public void Show(Vector3 worldPosition, string actionName = "Interact")
     {
+        _lastActionName = actionName;
         _worldTarget = worldPosition;
         Show(actionName);
     }
@@ -198,7 +205,7 @@ public class InteractionTooltip : MonoBehaviour
         baseMessage = message;
         if (gameObject.activeSelf)
         {
-            UpdateText("Interact");
+            UpdateText(_lastActionName);
         }
     }
 }

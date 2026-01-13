@@ -34,7 +34,12 @@ public class ShopUI : MonoBehaviour
     public void Initialize(MonoBehaviour host)
     {
         Host = host;
-        if (shopPanel != null)
+        
+        if (shopPanel == null)
+        {
+            Debug.LogError($"[ShopUI] shopPanel is not assigned on '{gameObject.name}'! Shop UI will not be visible.");
+        }
+        else
         {
             shopPanel.SetActive(false);
         }
@@ -53,14 +58,29 @@ public class ShopUI : MonoBehaviour
     /// </summary>
     public void OpenShop(Player player)
     {
-        if (_isOpen || player == null) return;
+        if (_isOpen)
+        {
+            Debug.LogWarning($"[ShopUI] Shop is already open on '{gameObject.name}'");
+            return;
+        }
+        
+        if (player == null)
+        {
+            Debug.LogError($"[ShopUI] Cannot open shop on '{gameObject.name}' - player is null");
+            return;
+        }
 
         _currentPlayer = player;
         _isOpen = true;
 
         if (shopPanel != null)
         {
+            Debug.Log($"[ShopUI] Activating shop panel on '{gameObject.name}' for player '{player.name}'");
             shopPanel.SetActive(true);
+        }
+        else
+        {
+            Debug.LogError($"[ShopUI] shopPanel is null on '{gameObject.name}' - cannot display shop UI!");
         }
 
         DisablePlayerMovement();

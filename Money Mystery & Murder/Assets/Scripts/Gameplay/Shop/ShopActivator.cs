@@ -145,6 +145,8 @@ public class ShopActivator : MonoBehaviour
         
         if (shouldShow && !_wasTooltipShown)
         {
+            // Update base message before showing to ensure correct text
+            interactionTooltip.SetBaseMessage(tooltipMessage);
             // Show tooltip at position above this object
             Vector3 tooltipWorldPos = transform.position + Vector3.up * tooltipHeightOffset;
             interactionTooltip.Show(tooltipWorldPos, "OpenShop");
@@ -263,11 +265,22 @@ public class ShopActivator : MonoBehaviour
     /// </summary>
     private void ToggleShop()
     {
-        if (shopUI == null) return;
-        if (shopUI.IsOpen) 
-            shopUI.CloseShop(); 
-        else 
+        if (shopUI == null)
+        {
+            Debug.LogError($"[ShopActivator] shopUI is null on '{name}'");
+            return;
+        }
+        
+        if (shopUI.IsOpen)
+        {
+            Debug.Log($"[ShopActivator] Closing shop on '{name}'");
+            shopUI.CloseShop();
+        }
+        else
+        {
+            Debug.Log($"[ShopActivator] Opening shop on '{name}' for player: {(_nearbyPlayer != null ? _nearbyPlayer.name : "null")}");
             shopUI.OpenShop(_nearbyPlayer);
+        }
     }
 
     /// <summary>
