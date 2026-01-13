@@ -166,17 +166,16 @@ public class GameManager : MonoBehaviour
         if (roleManager == null || _gameEnded) return;
 
         bool murderersAlive = roleManager.CountAlivePlayersByRole(PlayerRole.Murderer) > 0;
-        bool innocentsAlive = roleManager.CountAlivePlayersByRole(PlayerRole.Civilian) > 0 
-                           || roleManager.CountAlivePlayersByRole(PlayerRole.Detective) > 0;
+        bool civiliansAlive = roleManager.CountAlivePlayersByRole(PlayerRole.Civilian) > 0;
 
-        if (!murderersAlive && innocentsAlive)
+        if (!murderersAlive && civiliansAlive)
         {
             Debug.Log("[GameManager] Innocents win! All murderers eliminated.");
             EndGame("Innocents");
         }
-        else if (!innocentsAlive && murderersAlive)
+        else if (!civiliansAlive && murderersAlive)
         {
-            Debug.Log("[GameManager] Murderers win! All innocents eliminated.");
+            Debug.Log("[GameManager] Murderers win! All civilians eliminated.");
             EndGame("Murderers");
         }
     }
