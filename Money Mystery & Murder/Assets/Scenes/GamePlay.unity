@@ -764,6 +764,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: e8415ed33b1f11445b3e843d2ec04a80, type: 2}
+    - target: {fileID: 1773026990334076160, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4096844502546695080, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -1340,6 +1344,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: e8415ed33b1f11445b3e843d2ec04a80, type: 2}
+    - target: {fileID: 1773026990334076160, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4096844502546695080, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -3168,6 +3176,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: e8415ed33b1f11445b3e843d2ec04a80, type: 2}
+    - target: {fileID: 1773026990334076160, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4096844502546695080, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -5260,6 +5272,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: e8415ed33b1f11445b3e843d2ec04a80, type: 2}
+    - target: {fileID: 1773026990334076160, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4096844502546695080, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -7374,6 +7390,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: e8415ed33b1f11445b3e843d2ec04a80, type: 2}
+    - target: {fileID: 1773026990334076160, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4096844502546695080, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -9215,6 +9235,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: e8415ed33b1f11445b3e843d2ec04a80, type: 2}
+    - target: {fileID: 1773026990334076160, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4096844502546695080, guid: 604b7311d14546f42add157105f6d5f4, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -9461,6 +9485,10 @@ PrefabInstance:
       propertyPath: uiText
       value: 
       objectReference: {fileID: 1380757377}
+    - target: {fileID: 5163089199499607803, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6455024986214768891, guid: 20a68af348ce01d4ebbd46695d846dd8, type: 3}
       propertyPath: roleText
       value: 
