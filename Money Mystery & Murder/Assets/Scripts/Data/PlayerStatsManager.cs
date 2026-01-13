@@ -73,6 +73,16 @@ public class PlayerStatsManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Check if a player is a bot.
+    /// </summary>
+    /// <param name="player">The player to check.</param>
+    /// <returns>True if the player is a bot, false otherwise.</returns>
+    private bool IsBot(Player player)
+    {
+        return player is Bot;
+    }
+
+    /// <summary>
     /// Record a kill by a player.
     /// </summary>
     /// <param name="killerName">The name of the player who made the kill.</param>
@@ -112,6 +122,13 @@ public class PlayerStatsManager : MonoBehaviour
         foreach (var player in allPlayers)
         {
             if (player == null) continue;
+
+            // Skip bots - don't track their stats
+            if (IsBot(player))
+            {
+                Log($"Skipping bot: {player.gameObject.name}");
+                continue;
+            }
 
             string playerName = player.gameObject.name;
             InitializePlayer(playerName);
@@ -228,6 +245,7 @@ public class PlayerStatsManager : MonoBehaviour
         // Create DTO with delta values (to be added to existing stats)
         var playerData = new PlayerStatsDTO
         {
+            Id = 1,
             Name = stats.Name,
             Kills = stats.Kills,
             Money = stats.Money,
@@ -279,6 +297,7 @@ public class PlayerStatsManager : MonoBehaviour
         // Create DTO matching backend model
         var playerData = new PlayerStatsDTO
         {
+            Id = 1,
             Name = stats.Name,
             Kills = stats.Kills,
             Money = stats.Money,
@@ -404,6 +423,11 @@ public class PlayerStatsManager : MonoBehaviour
     [System.Serializable]
     public class PlayerStatsDTO
     {
+        /// <summary>
+        /// The player's ID (hardcoded to 1).
+        /// </summary>
+        public int Id;
+        
         /// <summary>
         /// The player's name.
         /// </summary>
