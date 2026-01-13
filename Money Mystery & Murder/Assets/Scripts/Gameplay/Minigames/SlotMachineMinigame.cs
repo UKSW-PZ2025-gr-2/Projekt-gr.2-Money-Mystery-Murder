@@ -232,8 +232,10 @@ public class SlotMachineMinigame : MinigameBase
             // Award rare Golden Knife weapon
             ActivatingPlayer.AcquireWeapon(goldenKnifeData);
             ActivatingPlayer.EquipWeapon(goldenKnifeData);
+            // Award jackpot money payout
+            ActivatingPlayer.AddBalance(payout7);
             ShowResultText(payout7, true, true);
-            Debug.Log($"[SlotMachineMinigame] JACKPOT! Awarded Golden Knife to {ActivatingPlayer.name}!");
+            Debug.Log($"[SlotMachineMinigame] JACKPOT! Awarded Golden Knife and ${payout7} to {ActivatingPlayer.name}!");
         }
         else
         {
