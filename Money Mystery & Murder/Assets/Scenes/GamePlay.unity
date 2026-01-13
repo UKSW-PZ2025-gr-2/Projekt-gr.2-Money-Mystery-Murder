@@ -2177,8 +2177,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PhaseManager
   currentPhase: 2
   dayStartHour: 4
-  eveningStartHour: 5
-  nightStartHour: 6
+  eveningStartHour: 6
+  nightStartHour: 7
 --- !u!4 &503190233
 Transform:
   m_ObjectHideFlags: 0
