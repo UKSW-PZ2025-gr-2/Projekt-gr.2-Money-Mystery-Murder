@@ -26,6 +26,8 @@ public class Bot : Player
     private float _nextAttackTime;
     private PlayerMovement _movement;
     private PlayerAnimator _playerAnimator;
+    private Vector3 _startingPosition;
+    private const float MAX_ROAMING_DISTANCE = 7f;
     
     // Cache for performance - shared across all bots
     private static Collider2D[] nearbyColliders = new Collider2D[20];
@@ -64,6 +66,7 @@ public class Bot : Player
             Debug.LogWarning($"[Bot] {gameObject.name} has no weapon to equip (possibleWeapons and knifeWeapon are null)");
         }
 
+        _startingPosition = transform.position;
         _moveDirection = Random.insideUnitCircle.normalized;
         _nextChangeTime = Time.time + changeDirectionTime;
         _nextAttackTime = Time.time + attackCooldown;
@@ -121,6 +124,17 @@ public class Bot : Player
         bool isMoving = _moveDirection.sqrMagnitude > 0.01f;
         if (isMoving)
         {
+            Vector3 intendedPosition = transform.position + (_moveDirection * moveSpeed * Time.deltaTime);
+            float distanceFromStart = Vector3.Distance(intendedPosition, _startingPosition);
+            
+            // Check if bot would exceed the 7m boundary
+            if (distanceFromStart > MAX_ROAMING_DISTANCE)
+            {
+                // Redirect bot back towards starting position
+                _moveDirection = (_startingPosition - transform.position).normalized;
+                _nextChangeTime = Time.time + changeDirectionTime;
+            }
+            
             transform.Translate(_moveDirection * moveSpeed * Time.deltaTime, Space.World);
         }
 
