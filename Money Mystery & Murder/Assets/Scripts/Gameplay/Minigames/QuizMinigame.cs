@@ -206,8 +206,17 @@ namespace Mafia
                 _background.transform.SetParent(transform, false);
                 _background.transform.localScale = new Vector3(backgroundSize.x, backgroundSize.y, 1);
                 var renderer = _background.GetComponent<MeshRenderer>();
-                renderer.material = new Material(Shader.Find("Unlit/Color"));
-                renderer.material.color = backgroundColor;
+                var shader = Shader.Find("UI/Default") ?? Shader.Find("Sprites/Default") ?? Shader.Find("Unlit/Transparent");
+                if (shader != null)
+                {
+                    renderer.material = new Material(shader);
+                    renderer.material.color = backgroundColor;
+                }
+                else
+                {
+                    Debug.LogWarning("QuizMinigame: Could not find suitable shader for background. Using default material.");
+                    renderer.material.color = backgroundColor;
+                }
                 _background.SetActive(false);
             }
 
