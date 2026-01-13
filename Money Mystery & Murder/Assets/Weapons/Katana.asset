@@ -26,7 +26,7 @@ MonoBehaviour:
   maxAmmo: 0
   projectileSpeed: 20
   projectilePrefab: {fileID: 0}
-  weaponPrefab: {fileID: 0}
-  hitEffectPrefab: {fileID: 0}
+  weaponPrefab: {fileID: 7789499324823748169, guid: 3ce7ab51df4afdb43abd3cfe7b455fa3, type: 3}
+  hitEffectPrefab: {fileID: 8372142008013406761, guid: e9cf8dc28c30bff439fb103501d44764, type: 3}
   attackAnimation: {fileID: 0}
   attackSound: {fileID: 0}
