@@ -75,17 +75,23 @@ public class ShopActivator : MonoBehaviour
 
     /// <summary>
     /// Unity lifecycle method called before the first frame update.
-    /// Finds and initializes the shop UI component.
+    /// Finds the shared shop UI component in the scene.
     /// </summary>
     void Start()
     {
         if (shopUI == null)
         {
-            shopUI = GetComponentInChildren<ShopUI>(true);
+            // Use the singleton instance instead of looking for a child component
+            shopUI = ShopUI.Instance;
             if (shopUI == null)
             {
-                Debug.LogWarning($"[ShopActivator] No ShopUI found on '{name}' or its children.");
-                return;
+                // Fallback: try to find it in the scene
+                shopUI = Object.FindFirstObjectByType<ShopUI>();
+                if (shopUI == null)
+                {
+                    Debug.LogWarning($"[ShopActivator] No ShopUI found in the scene. Make sure a ShopUI exists.");
+                    return;
+                }
             }
         }
 

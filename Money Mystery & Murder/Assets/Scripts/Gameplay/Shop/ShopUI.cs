@@ -8,11 +8,15 @@ using UnityEditor;
 /// <summary>
 /// Main UI controller for the shop panel. Displays a grid of purchasable items
 /// (weapons and abilities) and manages the shop state.
+/// This is a singleton - only one ShopUI should exist in the scene, shared by all ShopActivators.
 /// </summary>
 public class ShopUI : MonoBehaviour
 {
+    private static ShopUI _instance;
+    public static ShopUI Instance => _instance;
+
     [Header("UI References")]
-    [SerializeField] private GameObject shopPanel;
+    [SerializeField] public GameObject shopPanel;
     [SerializeField] private Transform itemGridContainer;
     [SerializeField] private GameObject shopItemPrefab;
     
@@ -27,6 +31,25 @@ public class ShopUI : MonoBehaviour
 
     public bool IsOpen => _isOpen;
     public MonoBehaviour Host { get; private set; }
+
+    void Awake()
+    {
+        if (_instance != null && _instance != this)
+        {
+            Debug.LogWarning($"[ShopUI] Multiple ShopUI instances detected! Destroying duplicate on '{gameObject.name}'. Only one ShopUI should exist in the scene.");
+            Destroy(gameObject);
+            return;
+        }
+        _instance = this;
+    }
+
+    void OnDestroy()
+    {
+        if (_instance == this)
+        {
+            _instance = null;
+        }
+    }
 
     /// <summary>
     /// Called by ShopActivator to initialize the shop.
